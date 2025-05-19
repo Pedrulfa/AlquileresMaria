@@ -8,11 +8,15 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 function App() {
   return (
     <Router>
-      <nav>
-        {/* Links para navegar sin recargar la página */}
-        <Link to="/">Inicio</Link> | 
-        <Link to="/iniciar-sesion">Iniciar sesión</Link> | 
-        <Link to="/registrarse">Registrarse</Link> 
+      <nav className="navbar">
+        <div className="nav-left">
+            <Link to="/">Inicio</Link>
+        </div>
+
+        <div className="nav-right">
+            <Link to="/iniciar-sesion">Iniciar sesión</Link>
+            <Link to="/registrarse">Registrarse</Link>
+        </div>
       </nav>
 
       {/* Definición de las rutas */}
