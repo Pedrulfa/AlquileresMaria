@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';  // ya no BrowserRouter
+
 import Home from './Pages/Home/Home.js';
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
@@ -8,31 +9,52 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 import QR from './Pages/Pagar/QR/QR.js';
 import Tarjeta from './Pages/Pagar/Tarjeta/Tarjeta.js';
 
-function App() {
-  return (
-    <Router>
-      <nav className="navbar">
-        <div className="nav-left">
-            <Link to="/">Inicio</Link>
-            <Link to="/tarjeta">Tarjeta</Link> {/* Esta para ver como queda el pagar qr y tarjeta */}
-            <Link to="/qr">QR</Link>
-        </div>
+import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
+import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
+import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 
-        <div className="nav-right">
+
+
+function App() {
+  const location = useLocation();
+
+const ocultarNavbarEn = ['/admin', '/empleado', '/cliente'];
+
+  // Aquí revisa que coincida con la ruta completa (incluyendo el "/")
+  const mostrarNavbar = !ocultarNavbarEn.includes(location.pathname);
+
+  return (
+    <>
+      {mostrarNavbar && (
+        <nav className="navbar">
+          <div className="nav-left">
+            <Link to="/">Inicio</Link>
+            <Link to="/tarjeta">Tarjeta</Link>
+            <Link to="/qr">QR</Link>
+          </div>
+          <div className="nav-right">
             <Link to="/iniciar-sesion">Iniciar sesión</Link>
             <Link to="/registrarse">Registrarse</Link>
-        </div>
-      </nav>
+            <Link to="/admin">admin</Link>
+            <Link to="/cliente">cliente</Link>
+            <Link to="/empleado">empleado</Link>
+          </div>
+        </nav>
+      )}
 
-      {/* Definición de las rutas */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/registrarse" element={<Registrarse />} />
         <Route path="/tarjeta" element={<Tarjeta />} />
         <Route path="/qr" element={<QR />} />
+
+        {/* Rutas que no tienen el navbar */}
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/empleado" element={<Empleado />} />
+        <Route path="/cliente" element={<Cliente />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

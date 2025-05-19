@@ -42,8 +42,8 @@ const AlquilerForm = ({ onSubmit }) => {
                     }}
                 >
                     {mostrarCiudadDevolucion
-                    ? "Ocultar Sucursal de devolución"
-                    : "Agregar Sucursal de devolución"}
+                    ? "Ocultar sucursal de devolución"
+                    : "Agregar sucursal de devolución"}
                 </button>
                 </div>
 
