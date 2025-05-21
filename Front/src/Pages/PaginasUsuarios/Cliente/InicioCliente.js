@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ListadoVehiculos from '../../Home/listado';
-
 
 
 function Inicio() {
@@ -17,16 +15,18 @@ function Inicio() {
     <div>
       {/* NAVBAR */}
       <nav className="navbar">
-        <div className="nav-left">
-          <h2>Bienvenido, Cliente</h2>
-        </div>
+          <div className="nav-left">
+            <a href="/cliente">Inicio</a>
+          </div>
         <div className="nav-right">
           <button onClick={cerrarSesion}>Cerrar sesión</button>
         </div>
       </nav>
+      <h2>Bienvenido, Cliente</h2> {/*Se podria mostrar el nombre del cliente*/}
 
+      {/* CUERPO CON LISTADO */}
       <main className="contenido">
-            <h2>Listado de vehiculos</h2>
+        <h3>Lista de autos </h3>
       </main>
     </div>
   );

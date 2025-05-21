@@ -15,17 +15,18 @@ function Inicio() {
     <div>
       {/* NAVBAR */}
       <nav className="navbar">
-        <div className="nav-left">
-          <h2>Bienvenido, Empleado</h2>
-        </div>
+          <div className="nav-left">
+            <a href="/empleado">Inicio</a>
+          </div>
         <div className="nav-right">
           <button onClick={cerrarSesion}>Cerrar sesión</button>
         </div>
       </nav>
+      <h2>Bienvenido, Empleado</h2> {/*Se podria mostrar el nombre del empleado*/}
 
+      {/* CUERPO CON LISTADO */}
       <main className="contenido">
-            <h2>Listado de alquileres</h2>
-            ListadoVehiculos;
+        <h3>Alquileres </h3>
       </main>
     </div>
   );

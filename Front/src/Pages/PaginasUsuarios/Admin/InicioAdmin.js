@@ -15,13 +15,14 @@ function Inicio() {
     <div>
       {/* NAVBAR */}
       <nav className="navbar">
-        <div className="nav-left">
-          <h2>Bienvenido, Administrador</h2>
-        </div>
+          <div className="nav-left">
+            <a href="/admin">Inicio</a>
+          </div>
         <div className="nav-right">
           <button onClick={cerrarSesion}>Cerrar sesión</button>
         </div>
       </nav>
+      <h2>Bienvenida, Maria</h2> 
 
       {/* CUERPO CON LISTADO */}
       <main className="contenido">

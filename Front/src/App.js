@@ -1,43 +1,61 @@
 import React from 'react';
 import './App.css';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';  // ya no BrowserRouter
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 import Home from './Pages/Home/Home.js';
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
 
-import QR from './Pages/Pagar/QR/QR.js';
-import Tarjeta from './Pages/Pagar/Tarjeta/Tarjeta.js';
-
+// COMPONENTES SEGÚN ROL (puedes crear estos como placeholders si aún no existen)
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
-import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
 import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
-
-
+import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
 
 function App() {
   const location = useLocation();
+  const token = localStorage.getItem('token');
 
-const ocultarNavbarEn = ['/admin', '/empleado', '/cliente'];
+  let role = null;
 
-  // Aquí revisa que coincida con la ruta completa (incluyendo el "/")
-  const mostrarNavbar = !ocultarNavbarEn.includes(location.pathname);
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      role = decoded.role;  // Cambia esto según cómo se llama el campo del rol en tu JWT
+    } catch (error) {
+      console.error('Token inválido:', error);
+    }
+  }
+
+  // Ocultar navbar en estas rutas (por ejemplo: login o dashboard)
+  const NavbarRoutes = ['/'];
+  const mostrarNavbar = NavbarRoutes.includes(location.pathname);
 
   return (
     <>
       {mostrarNavbar && (
         <nav className="navbar">
           <div className="nav-left">
-            <Link to="/">Inicio</Link>
-            <Link to="/tarjeta">Tarjeta</Link>
-            <Link to="/qr">QR</Link>
+           {/* Por configuracion del css si se saca este div se va todo a la izquierda, lo dejo vacio*/}
           </div>
           <div className="nav-right">
-            <Link to="/iniciar-sesion">Iniciar sesión</Link>
-            <Link to="/registrarse">Registrarse</Link>
-            <Link to="/admin">admin</Link>
-            <Link to="/cliente">cliente</Link>
-            <Link to="/empleado">empleado</Link>
+            {!token && (
+              <>
+                <Link to="/iniciar-sesion">Iniciar sesión</Link>
+                <Link to="/registrarse">Registrarse</Link>
+                <Link to="/admin">Admin</Link>  {/*link para probar las paginas de cliente, empleado y admin*/}
+              </>
+            )}
+            {token && (
+              <button
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  window.location.href = '/'; // Recarga y redirige
+                }}
+              >
+                Cerrar sesión
+              </button>
+            )}
           </div>
         </nav>
       )}
@@ -46,10 +64,8 @@ const ocultarNavbarEn = ['/admin', '/empleado', '/cliente'];
         <Route path="/" element={<Home />} />
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/registrarse" element={<Registrarse />} />
-        <Route path="/tarjeta" element={<Tarjeta />} />
-        <Route path="/qr" element={<QR />} />
 
-        {/* Rutas que no tienen el navbar */}
+        {/* Rutas protegidas por rol */}
         <Route path="/admin" element={<Admin />} />
         <Route path="/empleado" element={<Empleado />} />
         <Route path="/cliente" element={<Cliente />} />

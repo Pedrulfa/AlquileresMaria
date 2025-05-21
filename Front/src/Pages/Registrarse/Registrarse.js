@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Registrarse = () => {
   const [dni, setDni] = useState('');
@@ -18,7 +19,27 @@ const Registrarse = () => {
     alert('Registrando usuario...');
   };
 
+ const navigate = useNavigate();
+
+  const Iniciar = () => {
+      navigate('/iniciar-sesion'); // Volver al home o login
+  };
+  
+  const Inicio = () => {
+      navigate('/'); 
+  };
+
   return (
+    <>
+    <nav>
+      <div className="nav-left">
+        <button onClick={Inicio}>Inicio</button>
+      </div>
+      <div className="nav-right">
+        <button onClick={Iniciar}>Iniciar sesion</button>
+      </div>
+
+      </nav>
     <div style={{ maxWidth: 400, margin: '40px auto', padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
       <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Registrarse</h2>
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
@@ -57,6 +78,7 @@ const Registrarse = () => {
         </button>
       </form>
     </div>
+  </>
   );
 };
 
