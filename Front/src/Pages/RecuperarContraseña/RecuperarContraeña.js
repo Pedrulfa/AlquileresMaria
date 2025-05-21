@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const RecuperarContrasena = () => {
   const [email, setEmail] = useState('');
-  const navigate = useNavigate();
 
   const handleConfirmar = (e) => {
     e.preventDefault();

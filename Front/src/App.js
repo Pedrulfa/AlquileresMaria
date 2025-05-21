@@ -43,7 +43,9 @@ function App() {
               <>
                 <Link to="/iniciar-sesion">Iniciar sesión</Link>
                 <Link to="/registrarse">Registrarse</Link>
-                <Link to="/admin">Admin</Link>  {/*link para probar las paginas de cliente, empleado y admin*/}
+                <Link to="/admin">Admin</Link>  
+                <Link to="/empleado">Empleado</Link> 
+                <Link to="/cliente">Cliente</Link> 
               </>
             )}
             {token && (

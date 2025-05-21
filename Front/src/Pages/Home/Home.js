@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AlquilerForm from "./formulario";
 import ListadoVehiculos from "./listado";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Home() {
 
