@@ -23,7 +23,7 @@ const AlquilerForm = ({ onSubmit }) => {
   };
 
   return (
-   <div className="d-flex justify-content-center form-center bg-dark">
+   <div className="d-flex justify-content-center form-center-inicio bg-dark">
         <div className="container" style={{ maxWidth: "1600px" }}>
             <div>
                 <h1> Empieza tu nuevo alquiler</h1>
