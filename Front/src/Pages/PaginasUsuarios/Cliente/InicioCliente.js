@@ -15,13 +15,6 @@ function Inicio() {
     navigate('/reservas');
   };
 
-  const irAVehiculos = () => {
-    navigate('/reservas');
-  };
-
-  const irACargarVehiculo = () => {
-    navigate('/reservas');
-  };
 
   const cerrarSesion = () => {
     localStorage.removeItem('rol');
@@ -73,21 +66,6 @@ function Inicio() {
               }}>
               👤 Mi Perfil
               </button>
-              <button onClick={irAVehiculos}
-                style={{
-                    padding: '12px 20px',
-                    width: '100%',
-                    background: 'transparent',
-                    border: 'none',
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    borderBottom: '1px solid #333',
-                    fontSize: '14px',
-                }}>
-                ???????
-              </button>
               <button onClick={visualizarReservas}
                 style={{
                   padding: '12px 20px',
@@ -103,21 +81,6 @@ function Inicio() {
               }}>
               🟦 Ver mis reservas
               </button>
-              <button onClick={irACargarVehiculo}
-                style={{
-                    padding: '12px 20px',
-                    width: '100%',
-                    background: 'transparent',
-                    border: 'none',
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    color: 'white',
-                    fontWeight: 'bold',
-                    borderBottom: '1px solid #333',
-                    fontSize: '14px',
-                }}>
-              ????
-            </button>
             <button onClick={cerrarSesion}
                 style={{
                   padding: '12px 20px',
@@ -140,10 +103,8 @@ function Inicio() {
 
       {/* RUTAS */}
       <Routes>
-        <Route path="/regEmpleado" element={<Reservas />} />
         <Route path="/vehiculos" element={<Reservas />} />
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/cargarVehiculo" element={<Reservas/>} />
       </Routes>
 
       {/* CONTENIDO PRINCIPAL */}
