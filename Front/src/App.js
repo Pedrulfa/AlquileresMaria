@@ -9,8 +9,15 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 
 // COMPONENTES SEGÚN ROL (puedes crear estos como placeholders si aún no existen)
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
+
 import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
+
 import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
+import Perfil from './Pages/MiPerfil/MiPerfil.js';
+import Reservas from './Pages/VisualizarReservas/VisualizarReservas.js';
+import RegEmpleado from './Pages/RegistrarEmpleado/RegistrarEmpleado.js';
+import Vehiculos from './Pages/VisualizarVehiculoAdmin/VisualizarVehiculoAdmin.js';
+
 
 function App() {
   const location = useLocation();
@@ -41,11 +48,11 @@ function App() {
           <div className="nav-right">
             {!token && (
               <>
-                <Link to="/iniciar-sesion">Iniciar sesión</Link>
-                <Link to="/registrarse">Registrarse</Link>
-                <Link to="/admin">Admin</Link>  
-                <Link to="/empleado">Empleado</Link> 
-                <Link to="/cliente">Cliente</Link> 
+                <Link to="/iniciar-sesion" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Iniciar sesión</Link>
+                <Link to="/registrarse" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Registrarse</Link>
+                <Link to="/admin" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Admin</Link>  
+                <Link to="/empleado" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Empleado</Link> 
+                <Link to="/cliente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Cliente</Link> 
               </>
             )}
             {token && (
@@ -71,6 +78,14 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/empleado" element={<Empleado />} />
         <Route path="/cliente" element={<Cliente />} />
+
+        {/*Pongo todas las rutas acá porque sino no me funciona el navigate*/}
+        <Route path="/vehiculos" element={<Reservas />} />
+        <Route path="/perfil" element={<Perfil />} />
+
+        {/*Admin*/}
+        <Route path="/regEmpleado" element={<RegEmpleado />} />
+        <Route path="/vehiculosAdmin" element={<Vehiculos />} />
       </Routes>
     </>
   );

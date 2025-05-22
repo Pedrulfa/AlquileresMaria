@@ -9,16 +9,9 @@ const IniciarSesion = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Detección de admin
-    if (email === 'admin@admin.com') {
-      alert('Bienvenido administrador');
-      // Aquí podrías redirigir, cambiar navbar, etc.
-    } else {
-      alert('Iniciando sesión como usuario');
-    }
   };
   const navigate = useNavigate();
+  
   const Registrarse = () => {
       navigate('/registrarse'); // Volver al home o login
   };
@@ -31,10 +24,10 @@ const IniciarSesion = () => {
     <>
       <nav>
         <div className="nav-left">
-          <button onClick={Inicio}>Inicio</button>
+          <button onClick={Inicio} style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Inicio</button>
         </div>
         <div className="nav-right">
-          <button onClick={Registrarse}>Registrarse</button>
+          <button onClick={Registrarse} style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Registrarse</button>
         </div>
 
       </nav>
