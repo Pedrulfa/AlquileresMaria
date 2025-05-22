@@ -11,7 +11,7 @@ const [autos, setAutos] = useState([]);
 // Funcion para pedir a la api todos los autos del sistema
 const cargarTodosAutos = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/autos");
+      const response = await fetch("http://localhost:8080/autos/listar");
       if (!response.ok) throw new Error("Error al obtener autos");
       const autos = await response.json();
       setAutos(autos);
@@ -30,8 +30,8 @@ const handleFormSubmit = (data) => {
     const datosIniciales = {
     inicio: data.fechaInicio,
     fin: data.fechaFin,
-    entregaEnSucursalId: data.ciudad,
-    devolucionEnSucursalId: data.ciudadDevolucion,
+    sucursalEntrega: data.sucursalEntrega,
+    sucursalDevolucion: data.sucursalDevolucion,
   };
 
   localStorage.setItem("alquiler", JSON.stringify(datosIniciales));

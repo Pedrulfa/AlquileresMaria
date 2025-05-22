@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import './formInicio.css';
 
 const AlquilerForm = ({ onSubmit }) => {
-  const [ciudad, setCiudad] = useState("");
-  const [ciudadDevolucion, setCiudadDevolucion] = useState("");
+  const [sucursalEntrega, setSucursalEntrega] = useState({ id: "", nombre: "" });
+  const [sucursalDevolucion, setSucursalDevolucion] = useState({ id: "", nombre: "" });
   const [mostrarCiudadDevolucion, setMostrarCiudadDevolucion] = useState(false);
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
@@ -11,11 +11,23 @@ const AlquilerForm = ({ onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({
-      ciudad,
-      ciudadDevolucion: mostrarCiudadDevolucion ? ciudadDevolucion : ciudad,
+      sucursalEntrega,
+      sucursalDevolucion: mostrarCiudadDevolucion ? sucursalDevolucion : sucursalEntrega,
       fechaInicio,
       fechaFin,
     });
+  };
+
+  const handleSucursalEntregaChange = (e) => {
+    const id = e.target.value;
+    const nombre = e.target.options[e.target.selectedIndex].text;
+  setSucursalEntrega({ id, nombre });
+  };
+
+  const handleSucursalDevolucionChange = (e) => {
+    const id = e.target.value;
+    const nombre = e.target.options[e.target.selectedIndex].text;
+    setSucursalDevolucion({ id, nombre });
   };
 
   return (
@@ -32,7 +44,7 @@ const AlquilerForm = ({ onSubmit }) => {
                     className="btn btn-outline-secondary"
                     onClick={() =>{ 
                         if (mostrarCiudadDevolucion){
-                            setCiudadDevolucion("");
+                            setSucursalDevolucion("");
                         }
                     setMostrarCiudadDevolucion(!mostrarCiudadDevolucion)
                     }}
@@ -48,17 +60,16 @@ const AlquilerForm = ({ onSubmit }) => {
                     <label className="form-label fw-bold text-dark">Sucursal de Entrega</label>
                     <select
                         className="form-control input-grande"
-                        value={ciudad}
-                        onChange={(e) => setCiudad(e.target.value)}
+                        value={sucursalEntrega.id}
+                        onChange={handleSucursalEntregaChange}
                         required
-                    >
-                        {/* Aca tendria que llegarme las sucursales del sistema */}
+                        >
                         <option value="">Seleccione una ciudad</option>
                         <option value="1">Montevideo</option>
                         <option value="2">Buenos Aires</option>
                         <option value="3">Santiago</option>
                         <option value="4">Lima</option>
-                    </select>
+                        </select>
                     </div>
 
                 {mostrarCiudadDevolucion && (
@@ -66,17 +77,16 @@ const AlquilerForm = ({ onSubmit }) => {
                     <label className="form-label fw-bold text-dark">Sucursal de Devolución</label>
                     <select
                         className="form-control input-grande"
-                        value={ciudadDevolucion}
-                        onChange={(e) => setCiudadDevolucion(e.target.value)}
+                        value={sucursalDevolucion.id}
+                        onChange={handleSucursalDevolucionChange}
                         required
                         >
-                        {/* Aca tendria que llegarme las sucursales del sistema */}
                         <option value="">Seleccione una ciudad</option>
                         <option value="1">Montevideo</option>
                         <option value="2">Buenos Aires</option>
                         <option value="3">Santiago</option>
                         <option value="4">Lima</option>
-                    </select>
+                        </select>
                 </div>
                 )}
 

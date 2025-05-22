@@ -138,17 +138,18 @@ useEffect(() => {
 setAutosDisponibles(autos)
 }, []);
 
-const handleSubmit = (auto_id) =>{
+const handleSubmit = (auto) =>{
   const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
-  alquilerActual.autoId = auto_id;
+  alquilerActual.auto = auto;
   localStorage.setItem("alquiler", JSON.stringify(alquilerActual));
+  console.log(auto)
 }
 
 
 return(
       <>
         <div>  
-            <DatosAlquiler datos={localStorage.getItem("alquiler")} />
+            <DatosAlquiler datos={JSON.parse(localStorage.getItem("alquiler"))} />
         </div>
         <div className="container-fluid bg-dark text-light py-4">
           <VehiculosDisponibles vehiculos={autosDisponibles} onSubmit={handleSubmit}/>
