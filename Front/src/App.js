@@ -3,7 +3,9 @@ import './App.css';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-import Home from './Pages/Home/Home.js';
+import Home from './Pages/RealizarReserva/Home/Home.js';
+import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
+
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
 
@@ -70,7 +72,10 @@ function App() {
       )}
 
       <Routes>
+        {/* Rutas para hacer una reserva */}
         <Route path="/" element={<Home />} />
+        <Route path="/seleccionar-auto" element={<SeleccionarAuto />} />
+
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/registrarse" element={<Registrarse />} />
 

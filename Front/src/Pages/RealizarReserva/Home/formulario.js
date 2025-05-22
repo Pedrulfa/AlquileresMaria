@@ -6,19 +6,15 @@ const AlquilerForm = ({ onSubmit }) => {
   const [ciudadDevolucion, setCiudadDevolucion] = useState("");
   const [mostrarCiudadDevolucion, setMostrarCiudadDevolucion] = useState(false);
   const [fechaInicio, setFechaInicio] = useState("");
-  const [horaInicio, setHoraInicio] = useState("09:00");
   const [fechaFin, setFechaFin] = useState("");
-  const [horaFin, setHoraFin] = useState("18:00");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({
       ciudad,
-      ciudadDevolucion: mostrarCiudadDevolucion ? ciudadDevolucion : null,
+      ciudadDevolucion: mostrarCiudadDevolucion ? ciudadDevolucion : ciudad,
       fechaInicio,
-      horaInicio,
       fechaFin,
-      horaFin,
     });
   };
 
@@ -58,10 +54,10 @@ const AlquilerForm = ({ onSubmit }) => {
                     >
                         {/* Aca tendria que llegarme las sucursales del sistema */}
                         <option value="">Seleccione una ciudad</option>
-                        <option value="Montevideo">Montevideo</option>
-                        <option value="Buenos Aires">Buenos Aires</option>
-                        <option value="Santiago">Santiago</option>
-                        <option value="Lima">Lima</option>
+                        <option value="1">Montevideo</option>
+                        <option value="2">Buenos Aires</option>
+                        <option value="3">Santiago</option>
+                        <option value="4">Lima</option>
                     </select>
                     </div>
 
@@ -76,10 +72,10 @@ const AlquilerForm = ({ onSubmit }) => {
                         >
                         {/* Aca tendria que llegarme las sucursales del sistema */}
                         <option value="">Seleccione una ciudad</option>
-                        <option value="Montevideo">Montevideo</option>
-                        <option value="Buenos Aires">Buenos Aires</option>
-                        <option value="Santiago">Santiago</option>
-                        <option value="Lima">Lima</option>
+                        <option value="1">Montevideo</option>
+                        <option value="2">Buenos Aires</option>
+                        <option value="3">Santiago</option>
+                        <option value="4">Lima</option>
                     </select>
                 </div>
                 )}
@@ -95,19 +91,6 @@ const AlquilerForm = ({ onSubmit }) => {
                     required
                 />
                 </div>
-
-                {/* Hora de recogida */}
-                <div className="col col-custom-1.5">
-                <label className="form-label fw-bold text-dark">Hora de Entrega</label>
-                <input
-                    type="time"
-                    className="form-control input-grande"
-                    value={horaInicio}
-                    onChange={(e) => setHoraInicio(e.target.value)}
-                    required
-                />
-                </div>
-
                 {/* Fecha de devolución */}
                 <div className="col col-custom-1.5">
                 <label className="form-label fw-bold text-dark">Fecha de devolución</label>
@@ -119,19 +102,6 @@ const AlquilerForm = ({ onSubmit }) => {
                     required
                 />
                 </div>
-
-                {/* Hora de devolución, que ahora está en la misma fila */}
-                <div className="col col-custom-1.5">
-                <label className="form-label fw-bold text-dark">Hora de devolucion</label>
-                <input
-                    type="time"
-                    className="form-control input-grande"
-                    value={horaFin}
-                    onChange={(e) => setHoraFin(e.target.value)}
-                    required
-                />
-                </div>
-
                 {/* Botón Continuar */}
                 <div className="col col-custom-1.5 d-flex align-items-end input-grande">
                     <button type="submit"
