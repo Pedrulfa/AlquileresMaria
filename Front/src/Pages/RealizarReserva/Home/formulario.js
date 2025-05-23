@@ -10,13 +10,33 @@ const AlquilerForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0); // ignorar la hora
+
+    const inicio = new Date(fechaInicio);
+    const fin = new Date(fechaFin);
+
+    // Validaciones
+    if (fin <= inicio) {
+        alert("La fecha de devolución debe ser posterior a la fecha de entrega.");
+        return;
+    }
+
+    const diferenciaDias = (fin - inicio) / (1000 * 60 * 60 * 24);
+    if (diferenciaDias > 15) {
+        alert("El período de alquiler no puede ser mayor a 15 días.");
+        return;
+    }
+
+    // Si todo está bien, continuar
     onSubmit({
-      sucursalEntrega,
-      sucursalDevolucion: mostrarCiudadDevolucion ? sucursalDevolucion : sucursalEntrega,
-      fechaInicio,
-      fechaFin,
+        sucursalEntrega,
+        sucursalDevolucion: mostrarCiudadDevolucion ? sucursalDevolucion : sucursalEntrega,
+        fechaInicio,
+        fechaFin,
     });
-  };
+    };
 
   const handleSucursalEntregaChange = (e) => {
     const id = e.target.value;
@@ -99,6 +119,7 @@ const AlquilerForm = ({ onSubmit }) => {
                     value={fechaInicio}
                     onChange={(e) => setFechaInicio(e.target.value)}
                     required
+                    min={new Date().toISOString().split("T")[0]}
                 />
                 </div>
                 {/* Fecha de devolución */}
