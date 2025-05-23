@@ -23,7 +23,100 @@ const cargarTodosAutos = async () => {
 
 // Cargar todos los autos al inicio, porque no hay formulario
 useEffect(() => {
-  cargarTodosAutos();
+  //cargarTodosAutos();
+  const autos = [
+  {
+    id: 1,
+    marca: "Toyota",
+    patente: "ABC123",
+    categoria: "Sedán",
+    capacidad: 5,
+    precio: 15000,
+    imagen: null,
+  },
+  {
+    id: 2,
+    marca: "Ford",
+    patente: "DEF456",
+    categoria: "SUV",
+    capacidad: 7,
+    precio: 20000,
+    imagen: null,
+  },
+  {
+    id: 3,
+    marca: "Chevrolet",
+    patente: "GHI789",
+    categoria: "Hatchback",
+    capacidad: 5,
+    precio: 13000,
+    imagen: null,
+  },
+  {
+    id: 4,
+    marca: "Volkswagen",
+    patente: "JKL012",
+    categoria: "Sedán",
+    capacidad: 5,
+    precio: 14000,
+    imagen: null,
+  },
+  {
+    id: 5,
+    marca: "Honda",
+    patente: "MNO345",
+    categoria: "SUV",
+    capacidad: 5,
+    precio: 18000,
+    imagen: null,
+  },
+  {
+    id: 6,
+    marca: "Nissan",
+    patente: "PQR678",
+    categoria: "Camioneta",
+    capacidad: 2,
+    precio: 17000,
+    imagen: null,
+  },
+  {
+    id: 7,
+    marca: "Fiat",
+    patente: "STU901",
+    categoria: "Compacto",
+    capacidad: 4,
+    precio: 12000,
+    imagen: null,
+  },
+  {
+    id: 8,
+    marca: "Renault",
+    patente: "VWX234",
+    categoria: "Sedán",
+    capacidad: 5,
+    precio: 13500,
+    imagen: null
+  },
+  {
+    id: 9,
+    marca: "Peugeot",
+    patente: "YZA567",
+    categoria: "SUV",
+    capacidad: 5,
+    precio: 19000,
+    imagen: null,
+  },
+  {
+    id: 10,
+    marca: "Kia",
+    patente: "BCD890",
+    categoria: "Hatchback",
+    capacidad: 5,
+    precio: 16000,
+    imagen: "https://via.placeholder.com/300x200?text=Fiat",
+  },
+  ]
+setAutos(autos)
 }, []);
 
 const handleFormSubmit = (data) => {
