@@ -20,7 +20,7 @@ const FiltrarAutos = async () => {
 
     setFormData(data); // Si esto lo necesitas para mostrar en la UI
 
-    const response = await fetch("http://localhost:8080/api/alquileres/disponibles", {
+    const response = await fetch("http://localhost:8080/alquileres/disponibles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
