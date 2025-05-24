@@ -5,13 +5,13 @@ import { jwtDecode } from 'jwt-decode';
 
 import Home from './Pages/RealizarReserva/Home/Home.js';
 import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
+import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/ConsultarDisponibilidad/ConsultarDisponibilidad.js';
 
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
 
 // COMPONENTES SEGÚN ROL (puedes crear estos como placeholders si aún no existen)
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
-
 import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 
 import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
@@ -75,6 +75,7 @@ function App() {
         {/* Rutas para hacer una reserva */}
         <Route path="/" element={<Home />} />
         <Route path="/seleccionar-auto" element={<SeleccionarAuto />} />
+        <Route path="/consultar-disponibilidad" element={<ConsultarDisponibilidad />} />
 
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/registrarse" element={<Registrarse />} />

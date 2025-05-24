@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import AlquilerForm from "./formulario";
-import ListadoVehiculos from "./listado";
+import AlquilerForm from "./Bienvenida/formulario";
+import ListadoVehiculos from "./ConsultarDisponibilidad/listado";
+import HeroSection from "./Bienvenida/HeroSection";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Home.css'
 
 export default function Home() {
 
@@ -133,16 +135,14 @@ const handleFormSubmit = (data) => {
 };
 
 
-  return (
-    <div className="container-fluid bg-dark text-light py-4">
-      <div> 
-        <h1 className="text-center"> Bienvenido a Alquileres Maria</h1>
-        </div>
-      <div className="container-fluid bg-dark text-light py-4">
-        <AlquilerForm onSubmit={handleFormSubmit} />
-      </div>
-      <div className="container mt-4">        
-        <ListadoVehiculos vehiculos={autos} /> 
+    return (
+    <div className="container-fluid bg-black text-light px-0">
+      {/* 👇 Este reemplaza tu encabezado + formulario */}
+      <HeroSection onSubmit={handleFormSubmit} />
+
+      {/* Listado de autos */}
+      <div className="container mt-5 pt-5">
+        <ListadoVehiculos vehiculos={autos} />
       </div>
     </div>
   );
