@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import Reservas from '../../VisualizarReservas/VisualizarReservas.js';
+import Reservas from './VisualizarReservas/VisualizarReservas.js';
+import Home from './Home/Home.js';
 
 function Inicio() {
   const [mostrarMenu, setMostrarMenu] = useState(false);
@@ -50,11 +51,10 @@ function Inicio() {
         </div>
       </nav>
 
-      <h2 style={{ padding: 20 }}>Bienvenido</h2>
+      {vistaActual === 'inicio' && <Home/>}
 
       {/* CONTENIDO DINÁMICO */}
-      <main style={{ padding: 20 }}>
-        {vistaActual === 'inicio' && <p>Mostrar autos</p>}
+      <main style={{ padding: 10 }}>
         {vistaActual === 'perfil' && <p>Perfil</p>}
         {vistaActual === 'reservas' && <p><Reservas/></p>}
       </main>

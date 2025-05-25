@@ -1,0 +1,39 @@
+.hero-section {
+  background-color: #000000;
+  min-height: 70vh;
+  padding-top: 3rem;
+  position: relative;
+}
+
+.text-start {
+  margin-top: -400px;  /* Antes tenía 50px */
+}
+
+
+
+.resaltado {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+.auto-img {
+  max-width: 130%;
+  height: auto;
+  border-radius: 2rem;
+}
+
+.form-overlay {
+  position: absolute; /* Lo sacamos del flujo normal para superponer */
+  top: 63%;  /* Ajustá según dónde quieras que aparezca */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* Para que esté sobre el resto */
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%; /* o el tamaño que prefieras */
+  max-width: 1500px;
+  color: rgb(255, 0, 0);
+  background-color: transparent !important; /* Elimina el fondo negro */
+  box-shadow: none !important;             /* Elimina cualquier sombra */
+}
+

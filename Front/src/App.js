@@ -16,9 +16,7 @@ import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 
 import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
 import Perfil from './Pages/MiPerfil/MiPerfil.js';
-import Reservas from './Pages/VisualizarReservas/VisualizarReservas.js';
 import RegEmpleado from './Pages/RegistrarEmpleado/RegistrarEmpleado.js';
-import Vehiculos from './Pages/VisualizarVehiculoAdmin/VisualizarVehiculoAdmin.js';
 
 
 function App() {
@@ -86,12 +84,10 @@ function App() {
         <Route path="/cliente" element={<Cliente />} />
 
         {/*Pongo todas las rutas acá porque sino no me funciona el navigate*/}
-        <Route path="/vehiculos" element={<Reservas />} />
         <Route path="/perfil" element={<Perfil />} />
 
         {/*Admin*/}
         <Route path="/regEmpleado" element={<RegEmpleado />} />
-        <Route path="/vehiculosAdmin" element={<Vehiculos />} />
       </Routes>
     </>
   );
