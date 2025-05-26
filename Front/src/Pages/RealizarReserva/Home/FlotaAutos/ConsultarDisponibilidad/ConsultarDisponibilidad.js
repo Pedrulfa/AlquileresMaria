@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Button } from 'react-bootstrap';
-import AlquilerForm from '../Bienvenida/formulario';
+import AlquilerForm from '../../Bienvenida/formulario';
 
 function ConsultarDisponibilidad() {
   const [disponible, setDisponible] = useState(null);

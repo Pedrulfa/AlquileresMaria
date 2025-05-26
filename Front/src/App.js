@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 
 import Home from './Pages/RealizarReserva/Home/Home.js';
 import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
-import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/ConsultarDisponibilidad/ConsultarDisponibilidad.js';
+import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/FlotaAutos/ConsultarDisponibilidad/ConsultarDisponibilidad.js';
 
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';

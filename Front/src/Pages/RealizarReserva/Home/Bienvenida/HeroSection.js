@@ -23,7 +23,7 @@ export default function HeroSection({ onSubmit }) {
         </div>
 
         {/* Formulario */}
-        <div className="form-overlay">
+        <div className="form-overlay-home">
             <AlquilerForm onSubmit={onSubmit} />
         </div>
       </div>
