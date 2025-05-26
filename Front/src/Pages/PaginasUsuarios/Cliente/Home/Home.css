@@ -1,0 +1,20 @@
+body {
+  background-color: #000;
+  color: #fff;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.card input,
+.card select {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+.card input::placeholder,
+.card select {
+  color: #ccc;
+}

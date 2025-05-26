@@ -1,0 +1,12 @@
+.border-end-black {
+  border-right: 2px solid black;
+}
+.card-datos{
+  border-radius: 20px;
+  max-width: 1500px;
+  margin: 50px auto;
+}
+
+.light-dark {
+  background-color: #f8f9fa;
+}

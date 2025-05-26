@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CargarVehiculo from '../../CargarVehiculo/CargarVehiculo';
+import ListadoVehiculos from './listadoTotalDeAutos/VisualizarAutos.js';
+import ListadoSucursales from './listadoSucursales/sucursales.js';
+
 
 function Inicio() {
   const [mostrarMenu, setMostrarMenu] = useState(false);
@@ -78,12 +81,12 @@ function Inicio() {
       </nav>
 
       <h2 style={{ padding: 20 }}>Bienvenida, Maria</h2>
+       {vistaActual === 'vehiculos' && <p><ListadoVehiculos/></p>}
+         {vistaActual === 'inicio' && <p><ListadoSucursales/></p>}
 
       {/* CONTENIDO DINÁMICO */}
       <main style={{ padding: 20 }}>
-        {vistaActual === 'inicio' && <p>Acá van las sucursales</p>}
         {vistaActual === 'perfil' && <p>Vista del perfil del usuario.</p>}
-        {vistaActual === 'vehiculos' && <p>Acá va el listado de vehiculos de Admin</p>}
         {vistaActual === 'regEmpleado' && <p>Acá va el registro del empleado</p>}
         {vistaActual === 'carVehiculo' && <p><CargarVehiculo/></p>}
       </main>

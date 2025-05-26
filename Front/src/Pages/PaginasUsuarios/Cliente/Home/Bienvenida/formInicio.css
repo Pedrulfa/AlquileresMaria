@@ -1,0 +1,42 @@
+.input-compacto {
+  height: 2.5rem !important;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.col-custom-1-5 {
+  flex: 0 0 auto;
+  width: 12.5% !important; /* 1.5 de 12 columnas = 12.5% */
+}
+
+.form-center-inicio {
+  margin-top: 50px;
+}
+
+.btn-lg-custom {
+  font-size: 1.40rem;
+}
+
+.bg-rojo-personalizado {
+  background-color: #ff0000; /* Rojo Bootstrap un poco más oscuro */
+  color: rgb(255, 255, 255);
+}
+
+.form-label {
+  margin-bottom: 0rem; /* default es 0.5rem */
+  font-size: 1rem;
+}
+
+.texto-clickeable {
+  display: inline-block;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0rem 0rem;
+  font-size: 0.95rem;
+  margin-top: 0rem;
+}
+
+.texto-clickeable:hover {
+  color: #e0e0e0;
+}

@@ -1,0 +1,33 @@
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1); /* para que el ícono sea blanco si el fondo es oscuro */
+}
+
+.carousel,
+.carousel-item,
+.carousel-inner {
+  width: 100%;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%; /* achica el área de clic */
+  background: rgba(0, 0, 0, 0.3); /* fondo semitransparente para que se vea menos */
+}
+
+.carousel-control-prev {
+  left: -70px; /* lo saca del contenido */
+}
+
+.carousel-control-next {
+  right: -70px; /* lo saca del contenido */
+}
+
+@media (max-width: 768px) {
+  .carousel-control-prev,
+  .carousel-control-next {
+    left: 0;
+    right: 0;
+    width: 10%;
+  }
+}
