@@ -16,11 +16,11 @@
 }
 
 .carousel-control-prev {
-  left: -70px; /* lo saca del contenido */
+  left: -85px; /* lo saca del contenido */
 }
 
 .carousel-control-next {
-  right: -70px; /* lo saca del contenido */
+  right: -85px; /* lo saca del contenido */
 }
 
 @media (max-width: 768px) {

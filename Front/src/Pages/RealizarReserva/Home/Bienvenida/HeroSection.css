@@ -17,14 +17,14 @@
 }
 
 .auto-img {
-  max-width: 130%;
+  max-width: 115%;
   height: auto;
   border-radius: 2rem;
 }
 
 .form-overlay {
   position: absolute; /* Lo sacamos del flujo normal para superponer */
-  top: 63%;  /* Ajustá según dónde quieras que aparezca */
+  top: 60%;  /* Ajustá según dónde quieras que aparezca */
   left: 50%;
   transform: translateX(-50%);
   z-index: 10; /* Para que esté sobre el resto */

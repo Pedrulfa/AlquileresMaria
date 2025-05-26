@@ -8,7 +8,7 @@ function ListadoVehiculos({ vehiculos }) {
   const navigate = useNavigate();  // Hook para navegar
   if (!vehiculos || vehiculos.length === 0) return <p>No hay vehículos disponibles.</p>;
 
-  // Función para dividir el array en grupos de 5
+  // Función para dividir el array en grupos de 3
   const chunkArray = (array, chunkSize) => {
     const chunks = [];
     for (let i = 0; i < array.length; i += chunkSize) {
@@ -17,7 +17,7 @@ function ListadoVehiculos({ vehiculos }) {
     return chunks;
   };
 
-  const grupos = chunkArray(vehiculos, 5);
+  const grupos = chunkArray(vehiculos, 3);
 
   const handleCardClick = (auto) => {
     setAutoSeleccionado(auto);
@@ -37,21 +37,6 @@ function ListadoVehiculos({ vehiculos }) {
   return (
     <>
       <div id="carouselExampleIndicators" className="carousel slide" data-bs-ride="carousel">
-        {/* Indicadores */}
-        <div className="carousel-indicators">
-          {grupos.map((_, index) => (
-            <button
-              key={index}
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide-to={index}
-              className={index === 0 ? "active" : ""}
-              aria-current={index === 0 ? "true" : undefined}
-              aria-label={`Slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
         {/* Slides */}
         <div className="carousel-inner">
           {grupos.map((grupo, index) => (
@@ -62,10 +47,10 @@ function ListadoVehiculos({ vehiculos }) {
                     key={auto.id}
                     className="card"
                       style={{
-                            width: "19%",     // Más ancha que antes (de 19% a 22%)
+                            width: "30%",     // Más ancha que antes (de 19% a 22%)
                             minWidth: "200px",
-                            minHeight: "275px", // Más alta que antes
-                            fontSize: "1rem",   // Aumenta el tamaño base del texto
+                            minHeight: "500px", // Más alta que antes
+                            fontSize: "2rem",   // Aumenta el tamaño base del texto
                             cursor: 'pointer',
                           }}onClick={() => handleCardClick(auto)}
                   >
@@ -74,12 +59,17 @@ function ListadoVehiculos({ vehiculos }) {
                         src={auto.imagen}
                         className="card-img-top"
                         alt={`Imagen de ${auto.marca}`}
-                        style={{ height: "150px", objectFit: "cover" }}
+                        style={{
+                          height: "300px",
+                          objectFit: "cover", // para que no se deforme
+                          borderTopLeftRadius: "0.75rem",  // igual que el border-radius de la card
+                          borderTopRightRadius: "0.75rem",
+                        }}
                       />
                     ) : (
                       <div
                         style={{
-                          height: "150px",
+                          height: "300px",
                           backgroundColor: "#ccc",
                           display: "flex",
                           justifyContent: "center",
@@ -90,17 +80,17 @@ function ListadoVehiculos({ vehiculos }) {
                         Sin imagen disponible
                       </div>
                     )}
-                    <div className="card-body p-2">
-                      <h5 className="card-title mb-1">
-                        {auto.marca} - {auto.patente}
+                    <div className="card-body p-4">
+                      <h5 className="card-title mb-4 fs-2">
+                        {auto.marca}
                       </h5>
-                      <p className="card-text mb-0 fs-6" style={{ fontSize: "1rem" }}>
+                      <p className="card-text mb-2 fs-6 fs-5">
                         Categoría: {auto.categoria}
                       </p>
-                      <p className="card-text mb-0 fs-6" style={{ fontSize: "1rem" }}>
+                      <p className="card-text mb-2 fs-6 fs-5" >
                         Capacidad: {auto.capacidad} personas
                       </p>
-                      <p className="card-text fs-6" style={{ fontSize: "1rem" }}>
+                      <p className="card-text mb-2 fs-6 fs-5">
                         Precio: ${auto.precio}
                       </p>
                     </div>
