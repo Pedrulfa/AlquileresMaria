@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CargarVehiculo from '../../CargarVehiculo/CargarVehiculo';
+import CargarVehiculo from './CargarVehiculo/CargarVehiculo';
 import ListadoVehiculos from './listadoTotalDeAutos/VisualizarAutos.js';
 import ListadoSucursales from './listadoSucursales/sucursales.js';
 

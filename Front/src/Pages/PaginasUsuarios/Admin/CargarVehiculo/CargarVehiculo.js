@@ -9,13 +9,14 @@ function CargarVehiculo() {
   const [marca, setMarca] = useState('');
   const [estado, setEstado] = useState('');
   const [tipoReembolso, setTipoReembolso] = useState('');
+  const [foto, setFoto] = useState(null);
 
   const validarPatente = (pat) => {
     const regex = /^[A-Za-z]{3}\d{3}$/;
     return regex.test(pat);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => { 
     e.preventDefault();
 
     if (!validarPatente(patente)) {
@@ -57,17 +58,55 @@ function CargarVehiculo() {
       alert('Debe ingresar el tipo de reembolso');
       return;
     }
+    
+    if (!foto) {
+      alert('Debe seleccionar una foto del vehículo');
+      return;
+    }
 
-    alert('Vehículo cargado con éxito');
+    // Preparar datos con FormData
+    const formData = new FormData();
+    formData.append('patente', patente);
+    formData.append('categoria', categoria);
+    formData.append('capacidad', capacidad);
+    formData.append('precioPorDia', precioPorDia);
+    formData.append('modelo', modelo);
+    formData.append('marca', marca);
+    formData.append('estado', estado);
+    formData.append('tipoReembolso', tipoReembolso);
+    formData.append('foto', foto); // archivo
 
-    setPatente('');
-    setCategoria('');
-    setCapacidad('');
-    setPrecioPorDia('');
-    setModelo('');
-    setMarca('');
-    setEstado('');
-    setTipoReembolso('');
+    try {
+      const response = await fetch('http://localhost:8080/auto/crear', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          // No agregues Content-Type, fetch lo configura automáticamente para FormData
+          // 'Authorization': 'Bearer <tu_token>', // si usás auth
+        }
+      });
+
+      if (response.ok) {
+        alert('Vehículo cargado con éxito');
+        // limpiar formulario
+        setPatente('');
+        setCategoria('');
+        setCapacidad('');
+        setPrecioPorDia('');
+        setModelo('');
+        setMarca('');
+        setEstado('');
+        setTipoReembolso('');
+        setFoto(null);
+        e.target.reset(); // limpia el input file
+      } else {
+        const errorData = await response.json();
+        alert(`Error al cargar: ${errorData.message || 'Error desconocido'}`);
+      }
+    } catch (error) {
+      alert('Error al conectar con el servidor');
+      console.error(error);
+    }
   };
 
   return (
@@ -166,6 +205,17 @@ function CargarVehiculo() {
             required
             placeholder="Ej: Completo, Parcial"
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+          />
+        </label>
+
+        <label style={{ fontWeight: 'bold' }}>
+          Foto del vehículo:
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setFoto(e.target.files[0])}
+            style={{ marginTop: 5 }}
+            required
           />
         </label>
 
