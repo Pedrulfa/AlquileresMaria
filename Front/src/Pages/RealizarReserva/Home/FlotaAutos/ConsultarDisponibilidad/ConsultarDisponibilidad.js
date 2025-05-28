@@ -47,14 +47,24 @@ function ConsultarDisponibilidad() {
 
   const handleAlquilerSubmit = (formulario) => {
     console.log("Formulario enviado:", formulario);
-    setDatosFormulario(formulario);
+
+    const adaptado = {
+    sucursalEntrega: formulario.sucursalEntrega,
+    sucursalDevolucion: formulario.sucursalDevolucion,
+    inicio: formulario.fechaInicio,
+    fin: formulario.fechaFin,
+    };
+    setDatosFormulario(adaptado);
+
     verificarDisponibilidad(
       auto.id,
-      formulario.sucursalEntrega.id,
-      formulario.fechaInicio,
-      formulario.fechaFin
+      adaptado.sucursalEntrega.id,
+      adaptado.inicio,
+      adaptado.fin
     );
   };
+
+  
 
   const guardarAlquiler = () => {
     const datos = {
@@ -62,7 +72,8 @@ function ConsultarDisponibilidad() {
       auto: auto
     };
     localStorage.setItem("alquiler", JSON.stringify(datos));
-    navigate("/agregar-conductores"); // O la siguiente vista de tu flujo
+    console.log(datosFormulario)
+    navigate("/seleccionar-conductor"); // O la siguiente vista de tu flujo
   };
 
   return (

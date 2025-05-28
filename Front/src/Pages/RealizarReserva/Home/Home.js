@@ -16,6 +16,8 @@ export default function Home() {
     categoria: ''
   });
 
+  localStorage.removeItem("alquiler");
+
   const aplicarFiltro = () => {
     const resultado = autos.filter(auto => {
       const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
