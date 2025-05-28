@@ -2,6 +2,7 @@ import './datosAlquiler.css'
 
 function DatosAlquiler ({ datos }){
 
+    console.log(datos)
 return (
     <>
         <div className="card card-datos light-dark p-3">

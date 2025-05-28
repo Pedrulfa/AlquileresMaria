@@ -5,7 +5,9 @@ import { jwtDecode } from 'jwt-decode';
 
 import Home from './Pages/RealizarReserva/Home/Home.js';
 import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
+import SeleccionarConductor from './Pages/RealizarReserva/SeleccionarConductor/SeleccionarConductor.js';
 import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/FlotaAutos/ConsultarDisponibilidad/ConsultarDisponibilidad.js';
+
 
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
@@ -77,6 +79,7 @@ function App() {
         {/* Rutas para hacer una reserva */}
         <Route path="/" element={<Home />} />
         <Route path="/seleccionar-auto" element={<SeleccionarAuto />} />
+        <Route path="/seleccionar-conductor" element={<SeleccionarConductor />} />
         <Route path="/consultar-disponibilidad" element={<ConsultarDisponibilidad />} />
 
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />

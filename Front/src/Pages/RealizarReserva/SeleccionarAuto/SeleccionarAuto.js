@@ -142,6 +142,7 @@ const handleSubmit = (auto) =>{
   const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
   alquilerActual.auto = auto;
   localStorage.setItem("alquiler", JSON.stringify(alquilerActual));
+  window.location.href = "/seleccionar-conductor";
   console.log(auto)
 }
 
