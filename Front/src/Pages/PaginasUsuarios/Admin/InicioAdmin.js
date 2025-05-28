@@ -12,7 +12,7 @@ function Inicio() {
 
  
   const cerrarSesion = () => {
-    localStorage.removeItem('rol');
+    localStorage.removeItem('token');
     navigate("/");
   };
 

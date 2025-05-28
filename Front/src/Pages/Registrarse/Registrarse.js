@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const Registrarse = () => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
-  const [email, setEmail] = useState('');
+  const [mail, setMail] = useState('');
   const [dni, setDni] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const Registrarse = () => {
     const cliente = {
       nombre: nombre,
       apellido: apellido,
-      email: email,
+      mail: mail,
       dni: dni,
       password: password,
     };
@@ -98,8 +98,8 @@ const Registrarse = () => {
             Correo electrónico:
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={mail}
+              onChange={(e) => setMail(e.target.value)}
               required
               style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
             />

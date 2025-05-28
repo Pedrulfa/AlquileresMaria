@@ -10,13 +10,17 @@ import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/FlotaAutos/Con
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
 
-// COMPONENTES SEGÚN ROL (puedes crear estos como placeholders si aún no existen)
+// COMPONENTES SEGÚN ROL 
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
+import Autenticarse from './Pages/PaginasUsuarios/Admin/Autenticarse/Autenticarse.js';
+import RegEmpleado from './Pages/RegistrarEmpleado/RegistrarEmpleado.js';
+
 import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 
 import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
 import Perfil from './Pages/MiPerfil/MiPerfil.js';
-import RegEmpleado from './Pages/RegistrarEmpleado/RegistrarEmpleado.js';
+import PagarExcedente from './Pages/PaginasUsuarios/Cliente/PagarExcedente/PagarExcedente.js';
+
 
 
 function App() {
@@ -51,7 +55,7 @@ function App() {
                 <Link to="/iniciar-sesion" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Iniciar sesión</Link>
                 <Link to="/registrarse" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Registrarse</Link>
                 <Link to="/admin" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Admin</Link>  
-                <Link to="/empleado" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Empleado</Link> 
+                <Link to="/pagarExcedente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Empleado</Link> 
                 <Link to="/cliente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Cliente</Link> 
               </>
             )}
@@ -80,14 +84,17 @@ function App() {
 
         {/* Rutas protegidas por rol */}
         <Route path="/admin" element={<Admin />} />
+        <Route path="/regEmpleado" element={<RegEmpleado />} />
+        <Route path="/autenticarse" element={<Autenticarse />} />
+        
         <Route path="/empleado" element={<Empleado />} />
+
+
         <Route path="/cliente" element={<Cliente />} />
+        <Route path="/pagarExcedente" element={<PagarExcedente />} />
 
         {/*Pongo todas las rutas acá porque sino no me funciona el navigate*/}
         <Route path="/perfil" element={<Perfil />} />
-
-        {/*Admin*/}
-        <Route path="/regEmpleado" element={<RegEmpleado />} />
       </Routes>
     </>
   );
