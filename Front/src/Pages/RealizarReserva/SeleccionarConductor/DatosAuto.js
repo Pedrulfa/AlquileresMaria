@@ -2,7 +2,7 @@ export default function ResumenAutoAlquiler({ auto, alquiler }) {
 
   return (
     <div className="card shadow p-4" style={{ maxWidth: '600px', margin: '0 auto' }}>
-      <h5 className="card-title">{auto?.marca}</h5>
+      <h5 className="card-title">{auto?.marca} -  {auto?.modelo}</h5>
       <p className="text-muted">
         Categoría {auto?.categoria}
       </p>
@@ -18,17 +18,17 @@ export default function ResumenAutoAlquiler({ auto, alquiler }) {
       )}
       <p> Patente: {auto.patente}</p>
       <p> Capacidad: {auto.capacidad} personas</p>
-      <p> Precio: ${auto.precio}/dia</p>
+      <p> Precio: ${auto.precioPorDia}/dia</p>
 
       <button onClick={() => window.location.href = "/seleccionar-auto"}> Cambiar auto</button>
 
       <hr />
 
       <h6 className="text-primary">Entrega</h6>
-      <p>{alquiler?.sucursalEntrega.nombre} - {alquiler?.inicio}</p>
+      <p>{alquiler?.sucursalEntrega} - {alquiler?.inicio}</p>
 
       <h6 className="text-primary">Devolución</h6>
-      <p>{alquiler?.sucursalDevolucion.nombre} - {alquiler?.fin}</p>
+      <p>{alquiler?.sucursalDevolucion} - {alquiler?.fin}</p>
 
       <hr />
 

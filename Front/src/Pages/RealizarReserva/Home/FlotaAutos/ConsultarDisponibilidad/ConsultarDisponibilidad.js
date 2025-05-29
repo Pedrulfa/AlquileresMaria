@@ -91,11 +91,10 @@ function ConsultarDisponibilidad() {
             />
           )}
           <div className="card-body">
-            <h5 className="card-title">{auto.marca} - {auto.patente}</h5>
+            <h5 className="card-title">{auto.marca} - {auto.modelo}</h5>
             <p className="card-text"><strong>Categoría:</strong> {auto.categoria}</p>
             <p className="card-text"><strong>Capacidad:</strong> {auto.capacidad} personas</p>
-            <p className="card-text"><strong>Precio:</strong> ${auto.precio}</p>
-            <p className="card-text"><strong>Descripción:</strong> {auto.descripcion || "No disponible"}</p>
+            <p className="card-text"><strong>Precio:</strong> ${auto.precioPorDia}</p>
           </div>
         </div>
       </div>

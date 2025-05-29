@@ -44,132 +44,42 @@ export default function SeleccionarAuto() {
 
 const FiltrarAutos = async () => {
   try {
-    const storedData = localStorage.getItem("alquiler");
+    const storedData = JSON.parse(localStorage.getItem("alquiler"));
     if (!storedData) {
       throw new Error("No hay datos en el localStorage");
     }
 
-    const data = JSON.parse(storedData); // 👈 Parseás el string a objeto
+    const sucursal = storedData?.sucursalEntrega
+    const inicio = storedData?.inicio;
+    const final = storedData?.fin;
 
-    setFormData(data); // Si esto lo necesitas para mostrar en la UI
+    console.log(sucursal);
+    console.log(inicio);
+    console.log(final);
 
-    const response = await fetch("http://localhost:8080/alquileres/disponibles", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // 👈 ahora esto es un objeto JS convertido a JSON válido
-    });
+    setFormData(storedData);
+
+    const url = `http://localhost:8080/auto/listar?nombreSucursal=${encodeURIComponent(sucursal)}&fechaDesde=${encodeURIComponent(inicio)}&fechaHasta=${encodeURIComponent(final)}&estadoAuto=DISPONIBLE&estadoAuto=EN_MANTENIMIENTO&estadoAuto=ALQUILADO`;
+
+    console.log("URL generada:", url);
+    const response = await fetch(url); // método GET
 
     if (!response.ok) {
-      throw new Error("Error al enviar el formulario");
+      throw new Error("Error al obtener autos disponibles");
     }
 
     const autos = await response.json();
     setAutosDisponibles(autos);
+    setAutosFiltrados(autos);
   } catch (error) {
     console.error("Error al enviar:", error);
-    alert("Ocurrió un error al enviar el formulario ❌");
+    alert("Ocurrió un error al buscar autos disponibles ❌");
   }
 };
 
 // Cargar todos los autos al inicio, porque no hay formulario
 useEffect(() => {
-  //FiltrarAutos();
-  const autos = [
-  {
-    id: 1,
-    marca: "Toyota",
-    patente: "ABC123",
-    categoria: "Sedán",
-    capacidad: 5,
-    precio: 15000,
-    imagen: null,
-  },
-  {
-    id: 2,
-    marca: "Ford",
-    patente: "DEF456",
-    categoria: "SUV",
-    capacidad: 7,
-    precio: 20000,
-    imagen: null,
-  },
-  {
-    id: 3,
-    marca: "Chevrolet",
-    patente: "GHI789",
-    categoria: "Hatchback",
-    capacidad: 5,
-    precio: 13000,
-    imagen: null,
-  },
-  {
-    id: 4,
-    marca: "Volkswagen",
-    patente: "JKL012",
-    categoria: "Sedán",
-    capacidad: 5,
-    precio: 14000,
-    imagen: null,
-  },
-  {
-    id: 5,
-    marca: "Honda",
-    patente: "MNO345",
-    categoria: "SUV",
-    capacidad: 5,
-    precio: 18000,
-    imagen: null,
-  },
-  {
-    id: 6,
-    marca: "Nissan",
-    patente: "PQR678",
-    categoria: "Camioneta",
-    capacidad: 2,
-    precio: 17000,
-    imagen: null,
-  },
-  {
-    id: 7,
-    marca: "Fiat",
-    patente: "STU901",
-    categoria: "Compacto",
-    capacidad: 4,
-    precio: 12000,
-    imagen: null,
-  },
-  {
-    id: 8,
-    marca: "Renault",
-    patente: "VWX234",
-    categoria: "Sedán",
-    capacidad: 5,
-    precio: 13500,
-    imagen: null
-  },
-  {
-    id: 9,
-    marca: "Peugeot",
-    patente: "YZA567",
-    categoria: "SUV",
-    capacidad: 5,
-    precio: 19000,
-    imagen: null,
-  },
-  {
-    id: 10,
-    marca: "Kia",
-    patente: "BCD890",
-    categoria: "Hatchback",
-    capacidad: 5,
-    precio: 16000,
-    imagen: "https://via.placeholder.com/300x200?text=Fiat",
-  },
-  ]
-  setAutosDisponibles(autos)
-  setAutosFiltrados(autos);
+  FiltrarAutos();
   }, []);
 
   const handleSubmit = (auto) =>{

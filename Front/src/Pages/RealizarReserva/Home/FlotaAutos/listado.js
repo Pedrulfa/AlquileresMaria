@@ -82,7 +82,7 @@ function ListadoVehiculos({ vehiculos }) {
                     )}
                     <div className="card-body p-4">
                       <h5 className="card-title mb-4 fs-2">
-                        {auto.marca}
+                        {auto.marca} - {auto.modelo}
                       </h5>
                       <p className="card-text mb-2 fs-6 fs-5">
                         Categoría: {auto.categoria}
@@ -91,7 +91,7 @@ function ListadoVehiculos({ vehiculos }) {
                         Capacidad: {auto.capacidad} personas
                       </p>
                       <p className="card-text mb-2 fs-6 fs-5">
-                        Precio: ${auto.precio}
+                        Precio: ${auto.precioPorDia}
                       </p>
                     </div>
                   </div>

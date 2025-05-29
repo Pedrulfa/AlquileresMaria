@@ -36,7 +36,7 @@ export default function SeleccionarConductor() {
 
     const calcularPrecio = () => {
         const dias = alquilerActual?.dias
-        const precio = dias * alquilerActual?.auto.precio
+        const precio = dias * alquilerActual?.auto.precioPorDia
         return precio;
     }
 

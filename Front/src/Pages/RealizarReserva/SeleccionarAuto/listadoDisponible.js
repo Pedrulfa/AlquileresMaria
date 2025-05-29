@@ -24,7 +24,7 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
                     <p>Categoría: {auto.categoria}</p>
                     <p>Capacidad: {auto.capacidad} personas</p>
                     <div className="precio-boton">
-                        <p className="card-text mb-0">Precio: ${auto.precio} / dia</p>
+                        <p className="card-text mb-0">Precio: ${auto.precioPorDia} / dia</p>
                         <button
                             className="btn btn-seleccionar"
                             onClick={(e) => {

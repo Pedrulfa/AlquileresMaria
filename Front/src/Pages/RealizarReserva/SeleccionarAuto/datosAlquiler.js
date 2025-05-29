@@ -7,20 +7,20 @@ return (
     <>
         <div className="card card-datos light-dark p-3">
             <div className="d-flex flex-wrap  gap-4">
-                {datos?.sucursalEntrega?.id === datos?.sucursalDevolucion?.id ? (
+                {datos?.sucursalEntrega === datos?.sucursalDevolucion ? (
                 <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Entrega</p>
-                    <p>{datos?.sucursalEntrega?.nombre}</p>
+                    <p>{datos?.sucursalEntrega}</p>
                 </div>
                 ) : (
                 <>
                     <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Entrega</p>
-                    <p>{datos?.sucursalEntrega?.nombre}</p>
+                    <p>{datos?.sucursalEntrega}</p>
                     </div>
                     <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Devolución</p>
-                    <p>{datos?.sucursalDevolucion?.nombre}</p>
+                    <p>{datos?.sucursalDevolucion}</p>
                     </div>
                 </>
                 )}
