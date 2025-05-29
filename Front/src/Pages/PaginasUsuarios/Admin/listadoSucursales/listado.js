@@ -9,47 +9,32 @@ function SucursalesDisponibles({ sucursales, onSelect }) {
     <>
       <div className="sucursales-grid">
         {sucursales.map((sucursal) => (
-          <div
-            key={sucursal.id}
-            className="sucursal-card"
-            onClick={() => setSucursalModal(sucursal)}
-            style={{ cursor: 'pointer' }}
-          >
+          <div key={sucursal.id} className="sucursal-card">
             {sucursal.imagen ? (
               <img src={sucursal.imagen} alt="Sucursal" className="sucursal-img" />
             ) : (
               <div className="sucursal-img sin-imagen">Sin imagen</div>
             )}
             <div className="sucursal-body">
-              <h5>{sucursal.nombre}</h5>
-                <p>Localidad: {sucursal.localidad}</p>
-                <p>Dirección: {sucursal.direccion}</p>
-                <p>Teléfono: {sucursal.telefono}</p>
+              <p>Localidad: {sucursal.localidad}</p>
+              <p>Dirección: {sucursal.direccion}</p>
+              <p>Teléfono: {sucursal.telefono}</p>
               <div className="boton-seleccionar-container">
                 <button
                   className="btn btn-seleccionar"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelect(sucursal, "/vehiculos");
-                  }}
+                  onClick={() => onSelect(sucursal, "/vehiculos")}
                 >
                   Vehiculos
                 </button>
                 <button
                   className="btn btn-seleccionar"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelect(sucursal, "/empleados");
-                  }}
+                  onClick={() => onSelect(sucursal, "/empleados")}
                 >
                   Empleados
                 </button>
                 <button
                   className="btn btn-seleccionar"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onSelect(sucursal, "/estadisticas");
-                  }}
+                  onClick={() => onSelect(sucursal, "/estadisticas")}
                 >
                   Estadisticas
                 </button>
