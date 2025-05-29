@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AlquilerForm from "./Bienvenida/formulario";
 import ListadoVehiculos from "./FlotaAutos/listado";
 import HeroSection from "./Bienvenida/HeroSection";
+import Filtrado from "./FlotaAutos/filtrado";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
 import autoImage from "./Bienvenida/static/auto.jpg"; // Imagen temporal para todos los autos
@@ -10,11 +11,15 @@ export default function Home() {
   const [formData, setFormData] = useState(null);
   const [autos, setAutos] = useState([]);
   const [autosFiltrados, setAutosFiltrados] = useState([]);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [filtro, setFiltro] = useState({
     marca: '',
     capacidad: '',
-    categoria: ''
+    categoria: '',
+    precioMin: '10000',
+    precioMax: '25000'
   });
+
 
   localStorage.removeItem("alquiler");
 
@@ -23,10 +28,23 @@ export default function Home() {
       const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
       const coincideCapacidad = filtro.capacidad === '' || auto.capacidad === parseInt(filtro.capacidad);
       const coincideCategoria = filtro.categoria === '' || auto.categoria.toLowerCase().includes(filtro.categoria.toLowerCase());
-      return coincideMarca && coincideCapacidad && coincideCategoria;
+      const coincidePrecio = auto.precio >= filtro.precioMin && auto.precio <= filtro.precioMax;
+      return coincideMarca && coincideCapacidad && coincideCategoria && coincidePrecio;
     });
     setAutosFiltrados(resultado);
   };
+
+  const quitarFiltro = () =>{
+    setFiltro({
+    marca: '',
+    capacidad: '',
+    categoria: '',
+    precioMin: 10000,
+    precioMax: 25000
+    });
+    setAutosFiltrados(autos); // muestra todos los autos
+  };
+  
 
   // Cargar autos de forma local (temporal)
   useEffect(() => {
@@ -64,45 +82,19 @@ export default function Home() {
       <div>
         <h1 className="mi-titulo text-center mt-5">Nuestra flota</h1>
       </div>
-
-      {/* 🎯 Sección de filtros */}
-      <div className="container mt-4">
-        <div className="row g-3 align-items-end">
-          <div className="col-md-3">
-            <label className="form-label">Marca</label>
-            <input
-              type="text"
-              className="form-control"
-              value={filtro.marca}
-              onChange={(e) => setFiltro({ ...filtro, marca: e.target.value })}
-            />
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">Capacidad</label>
-            <input
-              type="number"
-              className="form-control"
-              value={filtro.capacidad}
-              onChange={(e) => setFiltro({ ...filtro, capacidad: e.target.value })}
-            />
-          </div>
-          <div className="col-md-3">
-            <label className="form-label">Categoría</label>
-            <input
-              type="text"
-              className="form-control"
-              value={filtro.categoria}
-              onChange={(e) => setFiltro({ ...filtro, categoria: e.target.value })}
-            />
-          </div>
-          <div className="col-md-3">
-            <button className="btn btn-primary w-100" onClick={aplicarFiltro}>
-              Filtrar
-            </button>
-          </div>
-        </div>
+      <div className="text-center my-4">
+        <button
+          className="btn btn-outline-light"
+          onClick={() => setMostrarFiltros(!mostrarFiltros)}
+        >
+          {mostrarFiltros ? 'Ocultar filtros' : 'Filtrar 🔍'}
+        </button>
       </div>
-
+      <div>
+        {mostrarFiltros && (
+        <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro}/>
+        )}
+      </div>
       {/* 🔽 Listado filtrado */}
       <div className="container mt-5">
         <ListadoVehiculos vehiculos={autosFiltrados} />

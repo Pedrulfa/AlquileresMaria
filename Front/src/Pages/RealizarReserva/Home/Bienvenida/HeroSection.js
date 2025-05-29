@@ -14,7 +14,7 @@ export default function HeroSection({ onSubmit }) {
             <h1 className="display-4 fw-bold">
               Tu <span className="resaltado">tiempo</span> es <span className="resaltado">valioso</span>.
             </h1>
-            <p className="lead">Alquilá un auto y recibilo en la puerta de tu casa.</p>
+            <p className="lead">Alquilá un auto y hace que tus vacaciones duren mas</p>
           </div>
           {/* Imagen */}
           <div className="col-md-6 text-center">

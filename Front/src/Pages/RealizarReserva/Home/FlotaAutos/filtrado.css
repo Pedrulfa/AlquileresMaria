@@ -1,0 +1,45 @@
+.range-slider {
+  height: 55px;
+  position: relative;
+  margin-top: -3px; /* Ajuste fino opcional */
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  appearance: none;
+  background: transparent;
+  height: 40px;
+  top: 0;
+}
+
+.slider::-webkit-slider-thumb {
+  pointer-events: auto;
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: none;
+  margin-top: -6px;
+}
+
+.slider::-moz-range-thumb {
+  pointer-events: auto;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: none;
+}
+
+.slider-min {
+  z-index: 3;
+}
+.slider-max {
+  z-index: 4;
+}
+

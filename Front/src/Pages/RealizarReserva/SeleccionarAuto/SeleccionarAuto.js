@@ -1,13 +1,46 @@
 // Esto deberia enviar los datos guardados en el formulario al bakcend y devuelve una lista con los autos disponibles (a chekear)
 import VehiculosDisponibles from "./listadoDisponible"
 import DatosAlquiler from "./datosAlquiler"
+import Filtrado from "../Home/FlotaAutos/filtrado";
 
 import React, { useEffect, useState } from "react";
 
 export default function SeleccionarAuto() {
 
-const [autosDisponibles, setAutosDisponibles] = useState([]);
-const [formData, setFormData] = useState({});
+  const [autosDisponibles, setAutosDisponibles] = useState([]);
+  const [formData, setFormData] = useState({});
+  const [autosFiltrados, setAutosFiltrados] = useState([]);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
+
+ const [filtro, setFiltro] = useState({
+    marca: '',
+    capacidad: '',
+    categoria: '',
+    precioMin: 10000,
+    precioMax: 25000
+  });
+
+  const quitarFiltro = () =>{
+    setFiltro({
+    marca: '',
+    capacidad: '',
+    categoria: '',
+    precioMin: 10000,
+    precioMax: 25000
+    });
+    setAutosFiltrados(autosDisponibles); // muestra todos los autos
+  };
+
+  const aplicarFiltro = () => {
+    const resultado = autosDisponibles.filter(auto => {
+      const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
+      const coincideCapacidad = filtro.capacidad === '' || auto.capacidad === parseInt(filtro.capacidad);
+      const coincideCategoria = filtro.categoria === '' || auto.categoria.toLowerCase().includes(filtro.categoria.toLowerCase());
+      const coincidePrecio = auto.precio >= filtro.precioMin && auto.precio <= filtro.precioMax;
+      return coincideMarca && coincideCapacidad && coincideCategoria && coincidePrecio;
+    });
+    setAutosFiltrados(resultado);
+  };
 
 const FiltrarAutos = async () => {
   try {
@@ -42,7 +75,7 @@ const FiltrarAutos = async () => {
 
 // Cargar todos los autos al inicio, porque no hay formulario
 useEffect(() => {
-  //cargarTodosAutos();
+  //FiltrarAutos();
   const autos = [
   {
     id: 1,
@@ -135,26 +168,40 @@ useEffect(() => {
     imagen: "https://via.placeholder.com/300x200?text=Fiat",
   },
   ]
-setAutosDisponibles(autos)
-}, []);
+  setAutosDisponibles(autos)
+  setAutosFiltrados(autos);
+  }, []);
 
-const handleSubmit = (auto) =>{
-  const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
-  alquilerActual.auto = auto;
-  localStorage.setItem("alquiler", JSON.stringify(alquilerActual));
-  window.location.href = "/seleccionar-conductor";
-  console.log(auto)
-}
+  const handleSubmit = (auto) =>{
+    const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
+    alquilerActual.auto = auto;
+    localStorage.setItem("alquiler", JSON.stringify(alquilerActual));
+    window.location.href = "/seleccionar-conductor";
+    console.log(auto)
+  }
 
 
-return(
-      <>
-        <div>  
-            <DatosAlquiler datos={JSON.parse(localStorage.getItem("alquiler"))} />
-        </div>
-        <div className="container-fluid bg-dark text-light py-4">
-          <VehiculosDisponibles vehiculos={autosDisponibles} onSubmit={handleSubmit}/>
-        </div>
-      </>
-)
+  return(
+        <>
+          <div>  
+              <DatosAlquiler datos={JSON.parse(localStorage.getItem("alquiler"))} />
+          </div>
+          <div className="text-center my-4">
+            <button
+              className="btn btn-outline-light"
+              onClick={() => setMostrarFiltros(!mostrarFiltros)}
+            >
+              {mostrarFiltros ? 'Ocultar filtros' : 'Filtrar 🔍'}
+            </button>
+          </div>
+          <div>
+            {mostrarFiltros && (
+            <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro}/>
+            )}
+          </div>
+          <div className="container-fluid bg-dark text-light py-4">
+            <VehiculosDisponibles vehiculos={autosFiltrados} onSubmit={handleSubmit}/>
+          </div>
+        </>
+  )
 }
