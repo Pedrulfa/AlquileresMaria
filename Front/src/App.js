@@ -15,7 +15,7 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 // COMPONENTES SEGÚN ROL 
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
 import Autenticarse from './Pages/PaginasUsuarios/Admin/Autenticarse/Autenticarse.js';
-import RegEmpleado from './Pages/RegistrarEmpleado/RegistrarEmpleado.js';
+import RegEmpleado from './Pages/PaginasUsuarios//Admin/RegistrarEmpleado/RegistrarEmpleado.js';
 
 import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 
@@ -77,7 +77,7 @@ function App() {
 
       <Routes>
         {/* Rutas para hacer una reserva */}
-        <Route path="/" element={<Home />} />
+        <Route path="/j" element={<Home />} />
         <Route path="/seleccionar-auto" element={<SeleccionarAuto />} />
         <Route path="/seleccionar-conductor" element={<SeleccionarConductor />} />
         <Route path="/consultar-disponibilidad" element={<ConsultarDisponibilidad />} />

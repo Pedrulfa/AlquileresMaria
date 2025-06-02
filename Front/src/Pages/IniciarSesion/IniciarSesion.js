@@ -58,6 +58,9 @@ const IniciarSesion = () => {
               navigate('/pagarExcedente', { state: { excedente: tieneExcedente } });
             } 
             else {
+              /*if(variable a checkear){
+                navigate(/ingresarConductor);
+              }*/
               navigate('/cliente');
             }
           } 
