@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import Reservas from './VisualizarReservas/VisualizarReservas.js';
-import Home from './Home/Home.js';
+import RealizarReserva from '../../RealizarReserva/Home/Home.js';
+import { useNavigate } from 'react-router-dom';
 
 function Inicio() {
   const [mostrarMenu, setMostrarMenu] = useState(false);
   const [vistaActual, setVistaActual] = useState('inicio');
 
+  const navigate = useNavigate();
+
   const cerrarSesion = () => {
-    localStorage.removeItem('rol');
-    // Podés redirigir o cerrar la sesión directamente
-    window.location.href = '/'; // o usar navigate si estás usando rutas
+    localStorage.clear();
+    console.log("Cerrando sesion")
+    navigate('/'); 
   };
 
   return (
@@ -51,7 +54,7 @@ function Inicio() {
         </div>
       </nav>
 
-      {vistaActual === 'inicio' && <Home/>}
+      {vistaActual === 'inicio' && <RealizarReserva/>}
 
       {/* CONTENIDO DINÁMICO */}
       <main style={{ padding: 10 }}>

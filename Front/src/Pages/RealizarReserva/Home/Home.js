@@ -44,24 +44,37 @@ export default function Home() {
     });
     setAutosFiltrados(autos); // muestra todos los autos
   };
-  
 
-  // Cargar autos de forma local (temporal)
+  const sucursalesMap = new Map();
+    autos.forEach(auto => {
+      const sucursal = auto.sucursal;
+      sucursalesMap.set(sucursal.id, sucursal); // Usa el ID como clave para evitar duplicados
+    });
+
+
+  const sucursalesUnicas = Array.from(sucursalesMap.values());
+
+  console.log(sucursalesUnicas)
+  
+// deberia listar los autos que estan disponibles nomas
   useEffect(() => {
-    const autos = [
-      { id: 1, marca: "Toyota", patente: "ABC123", categoria: "Sedán", capacidad: 5, precio: 15000, imagen: autoImage },
-      { id: 2, marca: "Ford", patente: "DEF456", categoria: "SUV", capacidad: 7, precio: 20000, imagen: autoImage },
-      { id: 3, marca: "Chevrolet", patente: "GHI789", categoria: "Hatchback", capacidad: 5, precio: 13000, imagen: autoImage },
-      { id: 4, marca: "Volkswagen", patente: "JKL012", categoria: "Sedán", capacidad: 5, precio: 14000, imagen: autoImage },
-      { id: 5, marca: "Honda", patente: "MNO345", categoria: "SUV", capacidad: 5, precio: 18000, imagen: autoImage },
-      { id: 6, marca: "Nissan", patente: "PQR678", categoria: "Camioneta", capacidad: 2, precio: 17000, imagen: autoImage },
-      { id: 7, marca: "Fiat", patente: "STU901", categoria: "Compacto", capacidad: 4, precio: 12000, imagen: autoImage },
-      { id: 8, marca: "Renault", patente: "VWX234", categoria: "Sedán", capacidad: 5, precio: 13500, imagen: autoImage },
-      { id: 9, marca: "Peugeot", patente: "YZA567", categoria: "SUV", capacidad: 5, precio: 19000, imagen: autoImage },
-      { id: 10, marca: "Kia", patente: "BCD890", categoria: "Hatchback", capacidad: 5, precio: 16000, imagen: autoImage },
-    ];
-    setAutos(autos);
-    setAutosFiltrados(autos);
+    const obtenerAutos = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/auto/listar?estadoAuto=DISPONIBLE&estadoAuto=EN_MANTENIMIENTO&estadoAuto=ALQUILADO");
+
+        if (!response.ok) {
+          throw new Error("Error al obtener los autos");
+        }
+
+        const data = await response.json();
+        setAutos(data);
+        setAutosFiltrados(data);
+      } catch (error) {
+        console.error("Error al cargar autos:", error);
+      }
+    };
+
+    obtenerAutos();
   }, []);
 
   const handleFormSubmit = (data) => {
@@ -77,7 +90,7 @@ export default function Home() {
 
   return (
     <div className="container-fluid bg-black text-light px-0">
-      <HeroSection onSubmit={handleFormSubmit} />
+      <HeroSection sucursales={sucursalesUnicas} onSubmit={handleFormSubmit} />
 
       <div>
         <h1 className="mi-titulo text-center mt-5">Nuestra flota</h1>

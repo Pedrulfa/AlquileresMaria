@@ -3,7 +3,7 @@ import "./HeroSection.css";
 import AlquilerForm from "./formulario";
 import autoImage from "./static/auto.jpg"; // Asegurate de tener una imagen aquí
 
-export default function HeroSection({ onSubmit }) {
+export default function HeroSection({sucursales, onSubmit }) {
   return (
     <div className="hero-section text-light position-relative"> {/* posición relativa para el contenedor */}
       <div className="container">
@@ -24,7 +24,7 @@ export default function HeroSection({ onSubmit }) {
 
         {/* Formulario */}
         <div className="form-overlay-home">
-            <AlquilerForm onSubmit={onSubmit} />
+            <AlquilerForm sucursales={sucursales} onSubmit={onSubmit} />
         </div>
       </div>
     </div>

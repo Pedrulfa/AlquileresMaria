@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './formInicio.css';
 
-const AlquilerForm = ({ onSubmit }) => {
+const AlquilerForm = ({ sucursales, onSubmit }) => {
   const [sucursalEntrega, setSucursalEntrega] = useState({ id: "", nombre: "" });
   const [sucursalDevolucion, setSucursalDevolucion] = useState({ id: "", nombre: "" });
   const [mostrarCiudadDevolucion, setMostrarCiudadDevolucion] = useState(false);
@@ -55,37 +55,40 @@ const AlquilerForm = ({ onSubmit }) => {
         <div className="container" style={{ maxWidth: "1600px" }}>
             <form onSubmit={handleSubmit} className="bg-rojo-personalizado p-3 rounded shadow mb-4">
             <div className="row g-3 align-items-end">
-                {/* Ciudad de Recogida y Ciudad de Devolución con mismo ancho */}
-               <div className={`col-md-${mostrarCiudadDevolucion ? 2 : 3}`}>
-                    <label className="form-label fw-bold text-light">Sucursal de Entrega</label>
-                    <select
-                        className="form-control input-compacto"
-                        value={sucursalEntrega.id}
-                        onChange={handleSucursalEntregaChange}
-                        required
-                        >
-                        <option value="">Seleccione una ciudad</option>
-                        <option value="1">Montevideo</option>
-                        <option value="2">Buenos Aires</option>
-                        <option value="3">Santiago</option>
-                        <option value="4">Lima</option>
-                        </select>
-                    </div>
+               {/* Sucursal de Entrega */}
+                <div className={`col-md-${mostrarCiudadDevolucion ? 2 : 3}`}>
+                <label className="form-label fw-bold text-light">Sucursal de Entrega</label>
+                <select
+                    className="form-control input-compacto"
+                    value={sucursalEntrega}
+                    onChange={(e) => setSucursalEntrega(e.target.value)}
+                    required
+                    >
+                    <option value="">Seleccione una ciudad</option>
+                    {sucursales.map((sucursal, index) => (
+                        <option key={index} value={sucursal}>
+                        {sucursal}
+                        </option>
+                    ))}
+                    </select>
+                </div>
 
+                {/* Sucursal de Devolución */}
                 {mostrarCiudadDevolucion && (
                 <div className="col-md-2">
-                    <label className="form-label fw-bold ttext-light">Sucursal de Devolución</label>
+                    <label className="form-label fw-bold text-light">Sucursal de Devolución</label>
                     <select
                         className="form-control input-compacto"
-                        value={sucursalDevolucion.id}
-                        onChange={handleSucursalDevolucionChange}
+                        value={sucursalEntrega}
+                        onChange={(e) => setSucursalEntrega(e.target.value)}
                         required
                         >
                         <option value="">Seleccione una ciudad</option>
-                        <option value="1">Montevideo</option>
-                        <option value="2">Buenos Aires</option>
-                        <option value="3">Santiago</option>
-                        <option value="4">Lima</option>
+                        {sucursales.map((sucursal, index) => (
+                            <option key={index} value={sucursal}>
+                            {sucursal}
+                            </option>
+                        ))}
                         </select>
                 </div>
                 )}

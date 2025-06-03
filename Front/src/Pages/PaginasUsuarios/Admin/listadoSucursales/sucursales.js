@@ -7,7 +7,7 @@ export default function VerAutos() {
   useEffect(() => {
     const obtenerSucursales = async () => {
       try {
-        const response = await fetch("http://localhost:8080/sucursal/listar");
+        const response = await fetch("http://localhost:8080/admin/sucursal/listar");
         if (response.ok) {
           const data = await response.json();
           setSucursales(data);

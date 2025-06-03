@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 
-import Home from './Pages/RealizarReserva/Home/Home.js';
+import Home from './Pages/Home/Home.js'
 import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
 import SeleccionarConductor from './Pages/RealizarReserva/SeleccionarConductor/SeleccionarConductor.js';
 import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/FlotaAutos/ConsultarDisponibilidad/ConsultarDisponibilidad.js';
@@ -15,7 +14,7 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 // COMPONENTES SEGÚN ROL 
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
 import Autenticarse from './Pages/PaginasUsuarios/Admin/Autenticarse/Autenticarse.js';
-import RegEmpleado from './Pages/PaginasUsuarios//Admin/RegistrarEmpleado/RegistrarEmpleado.js';
+import RegEmpleado from './Pages/PaginasUsuarios/Admin/RegistrarEmpleado/RegistrarEmpleado.js';
 
 import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 
@@ -27,20 +26,7 @@ import PagarExcedente from './Pages/PaginasUsuarios/Cliente/PagarExcedente/Pagar
 
 function App() {
   const location = useLocation();
-  const token = localStorage.getItem('token');
 
-  let role = null;
-
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      role = decoded.role;  // Cambia esto según cómo se llama el campo del rol en tu JWT
-    } catch (error) {
-      console.error('Token inválido:', error);
-    }
-  }
-
-  // Ocultar navbar en estas rutas (por ejemplo: login o dashboard)
   const NavbarRoutes = ['/'];
   const mostrarNavbar = NavbarRoutes.includes(location.pathname);
 
@@ -52,32 +38,18 @@ function App() {
            {/* Por configuracion del css si se saca este div se va todo a la izquierda, lo dejo vacio*/}
           </div>
           <div className="nav-right">
-            {!token && (
-              <>
                 <Link to="/iniciar-sesion" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Iniciar sesión</Link>
                 <Link to="/registrarse" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Registrarse</Link>
                 <Link to="/admin" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Admin</Link>  
                 <Link to="/pagarExcedente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Empleado</Link> 
                 <Link to="/cliente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Cliente</Link> 
-              </>
-            )}
-            {token && (
-              <button
-                onClick={() => {
-                  localStorage.removeItem('token');
-                  window.location.href = '/'; // Recarga y redirige
-                }}
-              >
-                Cerrar sesión
-              </button>
-            )}
           </div>
         </nav>
       )}
 
       <Routes>
         {/* Rutas para hacer una reserva */}
-        <Route path="/j" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/seleccionar-auto" element={<SeleccionarAuto />} />
         <Route path="/seleccionar-conductor" element={<SeleccionarConductor />} />
         <Route path="/consultar-disponibilidad" element={<ConsultarDisponibilidad />} />
@@ -87,7 +59,7 @@ function App() {
 
         {/* Rutas protegidas por rol */}
         <Route path="/admin" element={<Admin />} />
-        <Route path="/regEmpleado" element={<RegEmpleado />} />
+        <Route path="/regEmpleado" element={<RegEmpleado />} />*
         <Route path="/autenticarse" element={<Autenticarse />} />
         
         <Route path="/empleado" element={<Empleado />} />

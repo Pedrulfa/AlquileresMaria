@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import RecuperarContraseña from '../RecuperarContraseña/RecuperarContraeña.js';
-import { Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 
 const IniciarSesion = () => {
@@ -13,12 +13,12 @@ const IniciarSesion = () => {
     e.preventDefault();
 
     const credentials = {
-      email: email,
+      mail: email,
       password: password,
     };
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch('http://localhost:8080/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,54 +28,57 @@ const IniciarSesion = () => {
 
       if (response.ok) {
         const data = await response.json();
-        const token = data.token;
+        console.log("Respuesta del backend:", data); 
 
-        // Guardar token
-        localStorage.setItem('token', token);
+        // Extraer el token correctamente
+        const token = typeof data.accessToken === 'string'
+          ? data.accessToken
+          : data.accessToken?.value;
 
-        // Decodificar token
-        const decoded = jwtDecode(token);
-        const rol = decoded.role; // Cambia esto según el nombre real del campo en el token
-        const userId = decoded.id; // Tomar id del cliente
+        if (typeof token === 'string' && token.trim() !== '') {
+          localStorage.setItem('token', token);
 
-        // Redirigir según el rol
-        switch (rol) {
-          case 'admin':
-            navigate('/autenticarse');
-            break;
+          const decoded = jwtDecode(token);
+          const rol = decoded.roles;
+          const userId = decoded.id;
 
-          case 'cliente':
-             // Consultar si tiene excedente
-          const excedenteResponse = await fetch(`http://localhost:8080/checkOut/notificacion/multa`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          if (excedenteResponse.ok) {
-            const tieneExcedente = await excedenteResponse.json(); // numero
+          switch (rol) {
+            case 'ADMIN':
+              navigate('/autenticarse');
+              break;
 
-            if (tieneExcedente > 0) {
-              navigate('/pagarExcedente', { state: { excedente: tieneExcedente } });
-            } 
-            else {
-              /*if(variable a checkear){
-                navigate(/ingresarConductor);
-              }*/
+            case 'CLIENT':
+              const excedenteResponse = await fetch(`http://localhost:8080/checkOut/notificacion/multa`, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              if (excedenteResponse.ok) {
+                const tieneExcedente = await excedenteResponse.json();
+
+                if (tieneExcedente > 0) {
+                  navigate('/pagarExcedente', { state: { excedente: tieneExcedente } });
+                } else {
+                  // Aquí podés agregar condiciones futuras
+                  navigate('/cliente');
+                }
+              } else {
+                alert('Error al pedir el excedente');
+              }
+              
               navigate('/cliente');
-            }
-          } 
-          else {
-            alert('Error al pedir el excedente');
+              break;
+
+            case 'EMPLEADO':
+              navigate('/empleado');
+              break;
+
+            default:
+              alert('Rol desconocido');
+              break;
           }
-          break;
-
-          case 'empleado':
-
-            navigate('/empleado');
-            break;
-          default:
-            alert('Rol desconocido');  /*Para testear el como llega el rol*/
-            break;
+        } else {
+          alert('Token inválido recibido del servidor.');
         }
       } else {
         const errorText = await response.text();
@@ -87,75 +90,51 @@ const IniciarSesion = () => {
     }
   };
 
-  const Registrarse = () => {
-    navigate('/registrarse');
-  };
-
-  const Inicio = () => {
-    navigate('/');
-  };
+  const Registrarse = () => navigate('/registrarse');
+  const Inicio = () => navigate('/');
 
   return (
     <>
       <nav>
         <div className="nav-left">
-          <button onClick={Inicio} style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer' }}>Inicio</button>
+          <button onClick={Inicio} style={botonEstilo}>Inicio</button>
         </div>
         <div className="nav-right">
-          <button onClick={Registrarse} style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer' }}>Registrarse</button>
+          <button onClick={Registrarse} style={botonEstilo}>Registrarse</button>
         </div>
       </nav>
 
-      <div style={{ maxWidth: 400, margin: '40px auto', padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
+      <div style={contenedorEstilo}>
         {!mostrarRecuperar ? (
           <>
             <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Iniciar Sesión</h2>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-              <label style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>
+              <label style={labelEstilo}>
                 Correo electrónico:
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+                  style={inputEstilo}
                 />
               </label>
-              <label style={{ display: 'flex', flexDirection: 'column', fontWeight: 'bold' }}>
+              <label style={labelEstilo}>
                 Contraseña:
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+                  style={inputEstilo}
                 />
               </label>
-              <button
-                type="submit"
-                style={{
-                  padding: 10,
-                  borderRadius: 4,
-                  backgroundColor: '#b22222',
-                  color: 'white',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                Ingresar
-              </button>
+              <button type="submit" style={botonEstilo}>Ingresar</button>
             </form>
             <p style={{ marginTop: 10, textAlign: 'center' }}>
               <button
                 onClick={() => setMostrarRecuperar(true)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#007bff',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  padding: 0,
-                }}
+                style={linkEstilo}
               >
                 ¿Olvidaste tu contraseña?
               </button>
@@ -167,14 +146,7 @@ const IniciarSesion = () => {
             <p style={{ marginTop: 10, textAlign: 'center' }}>
               <button
                 onClick={() => setMostrarRecuperar(false)}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: '#007bff',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  padding: 0,
-                }}
+                style={linkEstilo}
               >
                 Volver al inicio de sesión
               </button>
@@ -184,6 +156,46 @@ const IniciarSesion = () => {
       </div>
     </>
   );
+};
+
+// 🎨 Estilos reutilizables
+const botonEstilo = {
+  backgroundColor: '#b22222',
+  color: 'white',
+  border: 'none',
+  borderRadius: 4,
+  padding: '8px 12px',
+  cursor: 'pointer'
+};
+
+const inputEstilo = {
+  padding: 8,
+  marginTop: 5,
+  borderRadius: 4,
+  border: '1px solid #ccc'
+};
+
+const labelEstilo = {
+  display: 'flex',
+  flexDirection: 'column',
+  fontWeight: 'bold'
+};
+
+const contenedorEstilo = {
+  maxWidth: 400,
+  margin: '40px auto',
+  padding: 20,
+  border: '1px solid #ccc',
+  borderRadius: 8
+};
+
+const linkEstilo = {
+  background: 'none',
+  border: 'none',
+  color: '#007bff',
+  cursor: 'pointer',
+  textDecoration: 'underline',
+  padding: 0
 };
 
 export default IniciarSesion;
