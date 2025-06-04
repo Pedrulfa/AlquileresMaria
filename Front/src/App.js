@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 
-import Home from './Pages/Home/Home.js'
+import Home from './Pages/Home/HomeNoAutenticado.js'
 import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
 import SeleccionarConductor from './Pages/RealizarReserva/SeleccionarConductor/SeleccionarConductor.js';
 import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/FlotaAutos/ConsultarDisponibilidad/ConsultarDisponibilidad.js';

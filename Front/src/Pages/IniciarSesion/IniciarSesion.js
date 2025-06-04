@@ -37,29 +37,28 @@ const IniciarSesion = () => {
 
         if (typeof token === 'string' && token.trim() !== '') {
           localStorage.setItem('token', token);
+          localStorage.setItem('clienteEmail', email);
 
           const decoded = jwtDecode(token);
           const rol = decoded.roles;
-          const userId = decoded.id;
 
           switch (rol) {
-            case 'ADMIN':
+            case 'ROLE_ADMIN':
               navigate('/autenticarse');
               break;
 
-            case 'CLIENT':
-              const excedenteResponse = await fetch(`http://localhost:8080/checkOut/notificacion/multa`, {
+            case 'ROLE_CLIENT':
+             const excedenteResponse = await fetch('http://localhost:8080/cliente/multa', {
+                method: 'GET',
                 headers: {
-                  Authorization: `Bearer ${token}`,
+                  'Authorization': `Bearer ${token}`,
                 },
               });
               if (excedenteResponse.ok) {
                 const tieneExcedente = await excedenteResponse.json();
-
                 if (tieneExcedente > 0) {
                   navigate('/pagarExcedente', { state: { excedente: tieneExcedente } });
                 } else {
-                  // Aquí podés agregar condiciones futuras
                   navigate('/cliente');
                 }
               } else {
@@ -71,11 +70,9 @@ const IniciarSesion = () => {
                 localStorage.removeItem("redirectAfterLogin");
                 navigate(destino);
               }
-              
-              navigate('/cliente');
               break;
 
-            case 'EMPLEADO':
+            case 'ROLE_EMPLEADO':
               navigate('/empleado');
               break;
 
@@ -92,7 +89,7 @@ const IniciarSesion = () => {
       }
     } catch (error) {
       console.error('Error en la conexión:', error);
-      alert('Error de conexión con el servidor');
+      alert('Error de conexión con el servidor', error);
     }
   };
 

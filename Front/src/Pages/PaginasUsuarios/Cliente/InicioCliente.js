@@ -59,7 +59,7 @@ function Inicio() {
       {/* CONTENIDO DINÁMICO */}
       <main style={{ padding: 10 }}>
         {vistaActual === 'perfil' && <p>Perfil</p>}
-        {vistaActual === 'reservas' && <p><Reservas/></p>}
+        {vistaActual === 'reservas' && <Reservas/>}
       </main>
     </div>
   );

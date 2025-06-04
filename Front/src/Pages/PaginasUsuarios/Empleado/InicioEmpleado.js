@@ -5,7 +5,7 @@ function Inicio() {
   const [vistaActual, setVistaActual] = useState('inicio');
 
   const cerrarSesion = () => {
-    localStorage.removeItem('rol');
+    localStorage.clear();
     window.location.href = '/'; 
   };
 

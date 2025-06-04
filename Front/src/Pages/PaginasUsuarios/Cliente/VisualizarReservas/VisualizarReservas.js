@@ -6,23 +6,28 @@ function HistorialReservas() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Suponemos que el id del cliente está guardado en localStorage
-  const clienteId = localStorage.getItem('clienteId');
+ const mail = localStorage.getItem('clienteEmail');
 
   useEffect(() => {
     const obtenerReservas = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/reservas/cliente/${clienteId}`);
+        const token = localStorage.getItem('token'); // recupera el token
+        const response = await axios.get(`http://localhost:8080/cliente/listar/alquileres`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // agrega el token en el header
+          },
+        });
         setReservas(response.data);
         setLoading(false);
       } catch (err) {
         setError('Error al cargar el historial.');
         setLoading(false);
+        console.error(err); // Para debug
       }
     };
 
     obtenerReservas();
-  }, [clienteId]);
+  }, [mail]);
 
   if (loading) return <p>Cargando reservas...</p>;
   if (error) return <p>{error}</p>;
