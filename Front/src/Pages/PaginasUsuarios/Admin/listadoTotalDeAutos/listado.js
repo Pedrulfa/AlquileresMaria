@@ -6,15 +6,41 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
   const [autoModal, setAutoModal] = useState(null);
   const [mostrarMenu, setMostrarMenu] = useState(null);
   const [vistaActual, setVistaActual] = useState('inicio');
+  
 
   const cambiarVista = (vista) => {
     setVistaActual(vista);
     setMostrarMenu(null);
   };
 
-  const eliminar = () => {
-    alert("Hay que acomodar esta funcion para hacer el pedido de eliminacion");
-  };
+  const eliminar = async (patente) => {
+      const confirmado = window.confirm(`¿Eliminar el vehículo con patente ${patente}?`);
+      if (!confirmado) return;
+
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch(`http://localhost:8080/auto/eliminar?patente=${encodeURIComponent(patente)}`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Error al eliminar: ${errorText}`);
+        }
+
+        alert("Vehículo eliminado correctamente.");
+
+        if (onSubmit) onSubmit(patente);  // Notifico al padre para que actualice la lista
+
+      } catch (error) {
+        console.error(error);
+        alert("Hubo un error al eliminar el vehículo.");
+      }
+    };
 
   return (
     <>
@@ -42,7 +68,7 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
             {mostrarMenu === auto.id && (
                 <div style={estilosMenu}>
                 <button onClick={() => cambiarVista('ActualizarVehiculo')} style={botonMenu}>➕ Actualizar datos</button>
-                <button onClick={eliminar} style={{ ...botonMenu, color: '#ff4d4d' }}>⛔ Eliminar</button>
+                <button onClick={() => eliminar(auto.patente)} style={{ ...botonMenu, color: '#ff4d4d' }}>⛔ Eliminar</button>
                 </div>
             )}
             </div>

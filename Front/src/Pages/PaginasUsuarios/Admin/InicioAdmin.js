@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CargarVehiculo from './CargarVehiculo/CargarVehiculo';
+import RegistrarEmpleado from './RegistrarEmpleado/RegistrarEmpleado.js';
 import ListadoVehiculos from './listadoTotalDeAutos/VisualizarAutos.js';
 import ListadoSucursales from './listadoSucursales/sucursales.js';
 
@@ -82,12 +83,12 @@ function Inicio() {
 
       <h2 style={{ padding: 20 }}>Bienvenida, Maria</h2>
        {vistaActual === 'vehiculos' && <p><ListadoVehiculos/></p>}
-         {vistaActual === 'inicio' && <p><ListadoSucursales/></p>}
+       {vistaActual === 'inicio' && <p><ListadoSucursales/></p>}
 
       {/* CONTENIDO DINÁMICO */}
       <main style={{ padding: 20 }}>
         {vistaActual === 'perfil' && <p>Vista del perfil del usuario.</p>}
-        {vistaActual === 'regEmpleado' && <p>Acá va el registro del empleado</p>}
+        {vistaActual === 'regEmpleado' && <p><RegistrarEmpleado/></p>}
         {vistaActual === 'carVehiculo' && <p><CargarVehiculo/></p>}
       </main>
     </div>

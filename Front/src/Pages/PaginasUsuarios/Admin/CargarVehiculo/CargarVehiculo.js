@@ -77,12 +77,13 @@ function CargarVehiculo() {
     formData.append('foto', foto); // archivo
 
     try {
+      const token = localStorage.getItem('token');
+
       const response = await fetch('http://localhost:8080/auto/crear', {
         method: 'POST',
         body: formData,
         headers: {
-          // No agregues Content-Type, fetch lo configura automáticamente para FormData
-          // 'Authorization': 'Bearer <tu_token>', // si usás auth
+          'Authorization': `Bearer ${token}`
         }
       });
 
