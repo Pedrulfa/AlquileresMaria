@@ -7,12 +7,6 @@ return (
     <>
         <div className="card card-datos light-dark p-3">
             <div className="d-flex flex-wrap  gap-4">
-                {datos?.sucursalEntrega === datos?.sucursalDevolucion ? (
-                <div className="pe-4 border-end-black">
-                    <p className="fw-bold mb-1">Sucursal de Entrega</p>
-                    <p>{datos?.sucursalEntrega}</p>
-                </div>
-                ) : (
                 <>
                     <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Entrega</p>
@@ -23,7 +17,6 @@ return (
                     <p>{datos?.sucursalDevolucion}</p>
                     </div>
                 </>
-                )}
                 <div className="pe-4 border-end-black">
                 <p className="fw-bold mb-1">Fecha de Entrega</p>
                 <p>{datos?.inicio}</p>

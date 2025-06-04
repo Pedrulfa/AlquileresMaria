@@ -11,6 +11,8 @@ function ConsultarDisponibilidad() {
   const location = useLocation();
   const navigate = useNavigate();
   const auto = location.state?.auto;
+  const sucursales = location.state?.sucursales;
+  console.log(sucursales)
   console.count("Render ConsultarDisponibilidad");
 
   if (!auto) {
@@ -101,7 +103,7 @@ function ConsultarDisponibilidad() {
 
       <div className="container mt-4">
         <h4>Ingrese los datos del alquiler:</h4>
-        <AlquilerForm onSubmit={handleAlquilerSubmit} />
+        <AlquilerForm onSubmit={handleAlquilerSubmit} sucursales={sucursales} />
 
         {cargando && <p>Consultando disponibilidad...</p>}
         {disponible === true && (

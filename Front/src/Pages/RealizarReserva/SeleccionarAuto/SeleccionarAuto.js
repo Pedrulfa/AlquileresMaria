@@ -90,6 +90,8 @@ useEffect(() => {
     console.log(auto)
   }
 
+  console.log('xd')
+  console.log(localStorage.getItem("alquiler"))
 
   return(
         <>

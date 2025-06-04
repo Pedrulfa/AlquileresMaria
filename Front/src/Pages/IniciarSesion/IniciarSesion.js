@@ -65,6 +65,12 @@ const IniciarSesion = () => {
               } else {
                 alert('Error al pedir el excedente');
               }
+
+              const destino = localStorage.getItem("redirectAfterLogin");
+              if (destino) {
+                localStorage.removeItem("redirectAfterLogin");
+                navigate(destino);
+              }
               
               navigate('/cliente');
               break;

@@ -4,6 +4,7 @@ import AlquilerForm from "./formulario";
 import autoImage from "./static/auto.jpg"; // Asegurate de tener una imagen aquí
 
 export default function HeroSection({sucursales, onSubmit }) {
+  console.log(sucursales)
   return (
     <div className="hero-section text-light position-relative"> {/* posición relativa para el contenedor */}
       <div className="container">

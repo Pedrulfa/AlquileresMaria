@@ -1,13 +1,17 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 import DatosAlquiler from "../SeleccionarAuto/datosAlquiler";
 import DatosAuto from "./DatosAuto";
 import FormularioConductor from "./formularioConductor";
 import "./SeleccionarConductor.css"
 import React, { useState } from "react";
+import { getUsuarioAutenticado } from "../../IniciarSesion/auth.js";
 
 export default function SeleccionarConductor() {
     const [emailValido, setEmailValido] = useState(null);
     const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
     const auto = alquilerActual?.auto;
+    const navigate = useNavigate();
 
     {/* llamada a la api para verificar si el conductor tiene algun alquiler en las fechas
     const verificarConductor = async (email) => {
@@ -24,6 +28,27 @@ export default function SeleccionarConductor() {
     */}
 
     console.log(alquilerActual)
+
+    //chekea si hay un usuario con sesion iniciada
+    useEffect(() => {
+      const usuario = getUsuarioAutenticado();
+
+      if (!usuario) {
+        localStorage.setItem("redirectAfterLogin", "/seleccionar-conductor");
+        navigate('/iniciar-sesion');
+      } else {
+        const alquilerStr = localStorage.getItem("alquiler");
+        if (alquilerStr) {
+          try {
+            const alquiler = JSON.parse(alquilerStr);
+            alquiler.usuario = usuario;
+            localStorage.setItem("alquiler", JSON.stringify(alquiler));
+          } catch (err) {
+            console.error("Error al parsear alquiler", err);
+          }
+        }
+      }
+    }, [navigate]);
 
     const calcularDias = () => {
         if (!alquilerActual?.inicio || !alquilerActual?.fin) return 0;

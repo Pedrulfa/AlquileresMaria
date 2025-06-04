@@ -9,15 +9,13 @@
   margin-top: -400px;  /* Antes tenía 50px */
 }
 
-
-
 .resaltado {
   color: #ff0000;
   font-weight: bold;
 }
 
 .auto-img {
-  width: 740px;  /* o el tamaño que prefieras */
+  width: 1000px;  /* o el tamaño que prefieras */
   height: auto;
   border-radius: 2rem;
 }

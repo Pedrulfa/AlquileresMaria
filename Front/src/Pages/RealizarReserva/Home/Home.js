@@ -16,8 +16,8 @@ export default function Home() {
     marca: '',
     capacidad: '',
     categoria: '',
-    precioMin: '10000',
-    precioMax: '25000'
+    precioMin: 10000,
+    precioMax: 25000
   });
 
 
@@ -28,7 +28,7 @@ export default function Home() {
       const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
       const coincideCapacidad = filtro.capacidad === '' || auto.capacidad === parseInt(filtro.capacidad);
       const coincideCategoria = filtro.categoria === '' || auto.categoria.toLowerCase().includes(filtro.categoria.toLowerCase());
-      const coincidePrecio = auto.precio >= filtro.precioMin && auto.precio <= filtro.precioMax;
+      const coincidePrecio = auto.precioPorDia >= filtro.precioMin && auto.precioPorDia <= filtro.precioMax;
       return coincideMarca && coincideCapacidad && coincideCategoria && coincidePrecio;
     });
     setAutosFiltrados(resultado);
@@ -48,13 +48,11 @@ export default function Home() {
   const sucursalesMap = new Map();
     autos.forEach(auto => {
       const sucursal = auto.sucursal;
-      sucursalesMap.set(sucursal.id, sucursal); // Usa el ID como clave para evitar duplicados
+      sucursalesMap.set(sucursal, sucursal); // clave y valor son el nombre
     });
 
 
   const sucursalesUnicas = Array.from(sucursalesMap.values());
-
-  console.log(sucursalesUnicas)
   
 // deberia listar los autos que estan disponibles nomas
   useEffect(() => {

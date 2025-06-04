@@ -27,10 +27,19 @@ function ListadoVehiculos({ vehiculos }) {
     setAutoSeleccionado(null);
   };
 
+  const sucursalesMap = new Map();
+    vehiculos.forEach(vehiculo => {
+      const sucursal = vehiculo.sucursal;
+      sucursalesMap.set(sucursal, sucursal); // clave y valor son el nombre
+    });
+
+
+  const sucursalesUnicas = Array.from(sucursalesMap.values());
+
   const consultarAuto = () => {
       if (autoSeleccionado) {
         // Redirige a /consultar-disponibilidad y pasa el auto seleccionado en state
-        navigate('/consultar-disponibilidad', { state: { auto: autoSeleccionado } });
+        navigate('/consultar-disponibilidad', { state: { auto: autoSeleccionado, sucursales : sucursalesUnicas } });
       }
   };
 

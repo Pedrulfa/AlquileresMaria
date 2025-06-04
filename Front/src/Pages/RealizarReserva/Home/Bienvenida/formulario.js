@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import './formInicio.css';
 
 const AlquilerForm = ({ sucursales, onSubmit }) => {
-  const [sucursalEntrega, setSucursalEntrega] = useState({ id: "", nombre: "" });
-  const [sucursalDevolucion, setSucursalDevolucion] = useState({ id: "", nombre: "" });
+  const [sucursalEntrega, setSucursalEntrega] = useState("");
+  const [sucursalDevolucion, setSucursalDevolucion] = useState("");
   const [mostrarCiudadDevolucion, setMostrarCiudadDevolucion] = useState(false);
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
@@ -38,18 +38,6 @@ const AlquilerForm = ({ sucursales, onSubmit }) => {
     });
     };
 
-  const handleSucursalEntregaChange = (e) => {
-    const id = e.target.value;
-    const nombre = e.target.options[e.target.selectedIndex].text;
-  setSucursalEntrega({ id, nombre });
-  };
-
-  const handleSucursalDevolucionChange = (e) => {
-    const id = e.target.value;
-    const nombre = e.target.options[e.target.selectedIndex].text;
-    setSucursalDevolucion({ id, nombre });
-  };
-
   return (
    <div className="d-flex justify-content-center form-center-inicio">
         <div className="container" style={{ maxWidth: "1600px" }}>
@@ -79,8 +67,8 @@ const AlquilerForm = ({ sucursales, onSubmit }) => {
                     <label className="form-label fw-bold text-light">Sucursal de Devolución</label>
                     <select
                         className="form-control input-compacto"
-                        value={sucursalEntrega}
-                        onChange={(e) => setSucursalEntrega(e.target.value)}
+                        value={sucursalDevolucion}
+                        onChange={(e) => setSucursalDevolucion(e.target.value)}
                         required
                         >
                         <option value="">Seleccione una ciudad</option>
