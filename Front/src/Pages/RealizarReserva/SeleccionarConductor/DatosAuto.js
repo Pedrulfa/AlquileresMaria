@@ -1,4 +1,4 @@
-export default function ResumenAutoAlquiler({ auto, alquiler }) {
+export default function ResumenAutoAlquiler({ auto, alquiler, dias, precioTotal }) {
 
   return (
     <div className="card shadow p-4" style={{ maxWidth: '600px', margin: '0 auto' }}>
@@ -34,7 +34,7 @@ export default function ResumenAutoAlquiler({ auto, alquiler }) {
 
       <h6>Detalle de pago</h6>
       <ul className="list-unstyled">
-        <li>🟢 Reserva por {alquiler?.dias} día(s) : ${alquiler?.precio}</li>
+        <li>🟢 Reserva por {dias} día(s) : ${precioTotal}</li>
       </ul>
 
       <hr />

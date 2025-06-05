@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
-import DatosAlquiler from "../SeleccionarAuto/datosAlquiler";
 import DatosAuto from "./DatosAuto";
 import FormularioConductor from "./formularioConductor";
 import "./SeleccionarConductor.css"
@@ -8,27 +7,20 @@ import React, { useState } from "react";
 import { getUsuarioAutenticado } from "../../IniciarSesion/auth.js";
 
 export default function SeleccionarConductor() {
-    const [mostrarBoton, setMostrarBoton] = useState(false);
-    const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
+    const [alquilerActual, setAlquilerActual] = useState(() => {
+    const stored = localStorage.getItem("alquiler");
+    return stored ? JSON.parse(stored) : null;
+    });
     const auto = alquilerActual?.auto;
     const navigate = useNavigate();
+    //console.log(alquilerActual)
+    const token = localStorage.getItem("token")
+    console.log(token)
 
-    {/* llamada a la api para verificar si el conductor tiene algun alquiler en las fechas
-    const verificarConductor = async (email) => {
-    try {
-        const Inicio = alquilerActual?.inicio
-        const final = alquilerActual?.fin
-        const response = await fetch(`http://localhost:8080/api/verificar-email?email=${email}&inicio=${Inicio}&final=${final}`);
-        const data = await response.json();
-        setEmailValido(data); // true o false
-    } catch (error) {
-        console.error("Error al verificar el email:", error);
-    }
-    };
-    */}
 
     //envia los datos del alquiler al backend y lo redirije a pagar a traves de mercado pago
-    const chekPaymment = async () => {
+    const chekPaymment = async (alquiler) => {
+      console.log("🚀 Enviando alquiler al backend:", alquiler);
       const payload = {
         datosPagoDTO: {
           titulo: "Reserva de Auto",
@@ -38,37 +30,33 @@ export default function SeleccionarConductor() {
         },
         alquilerDTO: {
           rangoFecha: {
-            fechaDesde: alquilerActual?.inicio,
-            fechaHasta: alquilerActual?.fin
+            fechaDesde: alquiler?.inicio,
+            fechaHasta: alquiler?.fin
           },
-          licenciaConductor: alquilerActual?.conductor,
-          clienteMail: alquilerActual?.usuario.mail,
-          patenteAuto: auto.patente,
-          sucursalEntrega: alquilerActual?.sucursalEntrega,
-          sucursalDevolucion: alquilerActual?.sucursalDevolucion
+          licenciaConductor: alquiler?.conductor,
+          patenteAuto: alquiler?.auto?.patente,
+          sucursalEntrega: alquiler?.sucursalEntrega,
+          sucursalDevolucion: alquiler?.sucursalDevolucion
         }
       };
+      console.log(payload)
+      try {
+        const response = await fetch("http://localhost:8080/checkOut/registrarAlquiler", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        });
 
-        try {
-          const response = await fetch("http://localhost:8080/api/checkOut/registrarAlquiler", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
-          });
+        const redirectUrl = await response.text();
+        window.location.href = redirectUrl;
+      } catch (error) {
+        console.error("Error al registrar el alquiler:", error);
+      }
+    };
 
-          const redirectUrl = await response.text(); // Devuelve la URL del checkout
-
-          // Redirige al usuario a Mercado Pago
-          window.location.href = redirectUrl;
-
-        } catch (error) {
-          console.error("Error al registrar el alquiler:", error);
-        }
-      };
-
-    console.log(alquilerActual)
 
     //chekea si hay un usuario con sesion iniciada sino lo manda a inicar sesion
     useEffect(() => {
@@ -83,8 +71,9 @@ export default function SeleccionarConductor() {
         if (alquilerStr) {
           try {
             const alquiler = JSON.parse(alquilerStr);
-            alquiler.usuario = usuario;
+            alquiler.usuario = usuario?.sub;
             localStorage.setItem("alquiler", JSON.stringify(alquiler));
+            setAlquilerActual(alquiler);
           } catch (err) {
             console.error("Error al parsear alquiler", err);
           }
@@ -93,49 +82,51 @@ export default function SeleccionarConductor() {
     }, [navigate]);
 
     const calcularDias = () => {
-        if (!alquilerActual?.inicio || !alquilerActual?.fin) return 0;
-        const inicio = new Date(alquilerActual.inicio);
-        const fin = new Date(alquilerActual.fin);
-        const diffMs = fin - inicio;
-        const diffDias = diffMs / (1000 * 60 * 60 * 24);
-        return diffDias;
-  };
+      if (!alquilerActual?.inicio || !alquilerActual?.fin) return 0;
+      const inicio = new Date(alquilerActual.inicio);
+      const fin = new Date(alquilerActual.fin);
+      const diffMs = fin - inicio;
+      return diffMs / (1000 * 60 * 60 * 24);
+    };
 
     const calcularPrecio = () => {
-        const dias = alquilerActual?.dias
-        const precio = dias * alquilerActual?.auto.precioPorDia
-        return precio;
-    }
+      const dias = calcularDias();
+      return dias * alquilerActual?.auto?.precioPorDia;
+    };
 
-    alquilerActual.dias = calcularDias();
-    alquilerActual.precio = calcularPrecio();
+    const dias = calcularDias();
+    const precioTotal = calcularPrecio();
 
-    const handleFormSubmit = (conductor) => {
-        //verificarConductor(conductor.email);
-        alquilerActual.conductor = conductor
-        console.log(alquilerActual)
-    }
+  const handleFormSubmit = (conductor) => {
+    console.log("🟢 handleFormSubmit ejecutado con:", conductor);
+    
+    const updatedAlquiler = {
+      ...alquilerActual,
+      conductor: conductor.dni,
+      dias: calcularDias(),
+      precio: calcularPrecio()
+    };
+
+    console.log("📦 Alquiler actualizado:", updatedAlquiler);
+
+    setAlquilerActual(updatedAlquiler);
+    localStorage.setItem("alquiler", JSON.stringify(updatedAlquiler));
+
+    chekPaymment(updatedAlquiler);
+  };
+
     return (
     <div className="contenedor-flex">
       {/* IZQUIERDA: datos del auto */}
       <div className="izquierda form-card">
         <h1>Datos del conductor</h1>
-        <FormularioConductor onSubmit={handleFormSubmit} />
-
-        {/* Mostrar botón o mensaje según validación */}
-        {emailValido === true && (
-          <button className="btn btn-primary mt-3" onClick={chekPaymment()}>Realizar Reseva</button>
-        )}
-
-        {emailValido === false && (
-          <p className="text-danger mt-2">El conductor ya tiene un alquiler en esas fechas.</p>
-        )}
+        <FormularioConductor onSubmit={handleFormSubmit} /> 
       </div>
       
 
       {/* DERECHA: formulario */}
       <div className="derecha">
-        <DatosAuto auto={auto} alquiler={alquilerActual} />
+        <DatosAuto auto={auto} alquiler={alquilerActual} dias={dias} precioTotal={precioTotal} />
       </div>
     </div>
   );
