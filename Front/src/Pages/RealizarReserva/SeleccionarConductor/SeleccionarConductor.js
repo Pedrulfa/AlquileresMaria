@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { getUsuarioAutenticado } from "../../IniciarSesion/auth.js";
 
 export default function SeleccionarConductor() {
-    const [emailValido, setEmailValido] = useState(null);
+    const [mostrarBoton, setMostrarBoton] = useState(false);
     const alquilerActual = JSON.parse(localStorage.getItem("alquiler"));
     const auto = alquilerActual?.auto;
     const navigate = useNavigate();
@@ -20,19 +20,61 @@ export default function SeleccionarConductor() {
         const final = alquilerActual?.fin
         const response = await fetch(`http://localhost:8080/api/verificar-email?email=${email}&inicio=${Inicio}&final=${final}`);
         const data = await response.json();
-        setEmailValido(data.existe); // true o false
+        setEmailValido(data); // true o false
     } catch (error) {
         console.error("Error al verificar el email:", error);
     }
     };
     */}
 
+    //envia los datos del alquiler al backend y lo redirije a pagar a traves de mercado pago
+    const chekPaymment = async () => {
+      const payload = {
+        datosPagoDTO: {
+          titulo: "Reserva de Auto",
+          successUrl: "http://localhost:3000/RealizarReserva/pago/resultadoPago",
+          failureUrl: "http://localhost:3000/RealizarReserva/pago/resultadoPago",
+          pendingUrl: "http://localhost:3000/RealizarReserva/pago/resultadoPago"
+        },
+        alquilerDTO: {
+          rangoFecha: {
+            fechaDesde: alquilerActual?.inicio,
+            fechaHasta: alquilerActual?.fin
+          },
+          licenciaConductor: alquilerActual?.conductor,
+          clienteMail: alquilerActual?.usuario.mail,
+          patenteAuto: auto.patente,
+          sucursalEntrega: alquilerActual?.sucursalEntrega,
+          sucursalDevolucion: alquilerActual?.sucursalDevolucion
+        }
+      };
+
+        try {
+          const response = await fetch("http://localhost:8080/api/checkOut/registrarAlquiler", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const redirectUrl = await response.text(); // Devuelve la URL del checkout
+
+          // Redirige al usuario a Mercado Pago
+          window.location.href = redirectUrl;
+
+        } catch (error) {
+          console.error("Error al registrar el alquiler:", error);
+        }
+      };
+
     console.log(alquilerActual)
 
-    //chekea si hay un usuario con sesion iniciada
+    //chekea si hay un usuario con sesion iniciada sino lo manda a inicar sesion
     useEffect(() => {
       const usuario = getUsuarioAutenticado();
 
+      //falta probar si cuando inicia sesion se lo redirije a "/seleccionar-conductor"
       if (!usuario) {
         localStorage.setItem("redirectAfterLogin", "/seleccionar-conductor");
         navigate('/iniciar-sesion');
@@ -79,7 +121,17 @@ export default function SeleccionarConductor() {
       <div className="izquierda form-card">
         <h1>Datos del conductor</h1>
         <FormularioConductor onSubmit={handleFormSubmit} />
+
+        {/* Mostrar botón o mensaje según validación */}
+        {emailValido === true && (
+          <button className="btn btn-primary mt-3" onClick={chekPaymment()}>Realizar Reseva</button>
+        )}
+
+        {emailValido === false && (
+          <p className="text-danger mt-2">El conductor ya tiene un alquiler en esas fechas.</p>
+        )}
       </div>
+      
 
       {/* DERECHA: formulario */}
       <div className="derecha">
