@@ -11,6 +11,7 @@ export default function SeleccionarConductor() {
     const stored = localStorage.getItem("alquiler");
     return stored ? JSON.parse(stored) : null;
     });
+    const [enviando,setEnviando] = useState(false);
     const auto = alquilerActual?.auto;
     const navigate = useNavigate();
     //console.log(alquilerActual)
@@ -20,6 +21,8 @@ export default function SeleccionarConductor() {
 
     //envia los datos del alquiler al backend y lo redirije a pagar a traves de mercado pago
     const chekPaymment = async (alquiler) => {
+        if (enviando) return; // ✋ evitar doble envío
+          setEnviando(true);
       console.log("🚀 Enviando alquiler al backend:", alquiler);
       const payload = {
         datosPagoDTO: {
@@ -35,13 +38,12 @@ export default function SeleccionarConductor() {
           },
           licenciaConductor: alquiler?.conductor,
           patenteAuto: alquiler?.auto?.patente,
-          sucursalEntrega: alquiler?.sucursalEntrega,
-          sucursalDevolucion: alquiler?.sucursalDevolucion
+          sucursal: alquiler?.sucursalEntrega,
         }
       };
       console.log(payload)
       try {
-        const response = await fetch("http://localhost:8080/checkOut/registrarAlquiler", {
+        const response = await fetch("http://localhost:8080/checkOut/cliente/registrarAlquiler", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
