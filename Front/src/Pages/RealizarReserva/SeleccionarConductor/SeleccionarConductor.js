@@ -50,12 +50,19 @@ export default function SeleccionarConductor() {
           body: JSON.stringify(payload)
         });
 
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Error del servidor:", errorText);
+          return; // ❌ no redirijas si hubo error
+        }
+
         const redirectUrl = await response.text();
         window.location.href = redirectUrl;
+
       } catch (error) {
-        console.error("Error al registrar el alquiler:", error);
+        console.error("Error de red/fetch:", error);
       }
-    };
+    }
 
 
     //chekea si hay un usuario con sesion iniciada sino lo manda a inicar sesion

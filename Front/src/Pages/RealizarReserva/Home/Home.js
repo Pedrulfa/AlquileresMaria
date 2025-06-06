@@ -53,8 +53,8 @@ export default function Home() {
 
 
   const sucursalesUnicas = Array.from(sucursalesMap.values());
-  
-// deberia listar los autos que estan disponibles nomas
+
+  // deberia listar los autos que estan disponibles nomas
   useEffect(() => {
     const obtenerAutos = async () => {
       try {
