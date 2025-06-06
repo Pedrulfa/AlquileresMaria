@@ -25,11 +25,16 @@ function ConsultarDisponibilidad() {
   }
 
   //esto debe devolver true si el auto esta disponible y false en caso contrario
-  const verificarDisponibilidad = async (autoId, sucursalId, inicio, fin) => {
+  const verificarDisponibilidad = async (auto, sucursal, inicio, fin) => {
+    console.log(auto)
+    console.log(sucursal)
+    console.log(inicio)
+    console.log(fin)
     setCargando(true);
     try {
+      //no sirve me devuelve una lista con todos los autos (el parametro auto no funciona) yo necesito que devuelva un booleano
       const response = await fetch(
-        `http://localhost:8080/api/disponibilidad?autoId=${autoId}&sucursalId=${sucursalId}&inicio=${inicio}&fin=${fin}`
+        `http://localhost:8080/auto/listar?autoId=${auto}&sucursalId=${sucursal}&inicio=${inicio}&fin=${fin}`
       );
 
       if (!response.ok) {
@@ -38,6 +43,7 @@ function ConsultarDisponibilidad() {
 
       const estaDisponible = await response.json();
       setDisponible(estaDisponible);
+      console.log(estaDisponible)
     } catch (error) {
       console.error("Error al consultar disponibilidad:", error);
 
@@ -59,8 +65,8 @@ function ConsultarDisponibilidad() {
     setDatosFormulario(adaptado);
 
     verificarDisponibilidad(
-      auto.id,
-      adaptado.sucursalEntrega.id,
+      auto.patente,
+      adaptado.sucursalEntrega,
       adaptado.inicio,
       adaptado.fin
     );
