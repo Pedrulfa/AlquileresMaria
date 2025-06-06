@@ -29,12 +29,6 @@ export default function VerAutos() {
 
       fetchAutos();
     }, []);
-  /*const autos = [
-    { id: 1, marca: "Toyota", patente: "ABC123", categoria: "Sedán", capacidad: 5, precio: 15000, imagen: null },
-    { id: 2, marca: "Ford", patente: "DEF456", categoria: "SUV", capacidad: 7, precio: 20000, imagen: null },
-  ];
-  setAutosDisponibles(autos);
-}, []);*/
 
   return (
     <div className="container-fluid bg-dark text-light py-4">
