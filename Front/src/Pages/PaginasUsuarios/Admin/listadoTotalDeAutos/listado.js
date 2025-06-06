@@ -1,13 +1,18 @@
 import './listado.css';
 import React, { useState } from 'react';
 import { Modal, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 function VehiculosDisponibles({ vehiculos, onSubmit }) {
   const [autoModal, setAutoModal] = useState(null);
   const [mostrarMenu, setMostrarMenu] = useState(null);
   const [vistaActual, setVistaActual] = useState('inicio');
-  
+  const navigate = useNavigate();
 
+  const handleVolver = () =>{
+    navigate("/admin");
+  }
   const cambiarVista = (vista) => {
     setVistaActual(vista);
     setMostrarMenu(null);
@@ -44,6 +49,7 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
 
   return (
     <>
+    <button onClick={handleVolver}> volver </button>  
       <div className="vehiculos-grid">
         {vehiculos.map((auto) => (
        <div key={auto.id} className="vehiculo-card">

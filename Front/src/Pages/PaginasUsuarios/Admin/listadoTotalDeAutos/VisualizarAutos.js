@@ -1,44 +1,43 @@
 import React, { useEffect, useState } from "react";
 import VehiculosDisponibles from "./listado.js";
+import { useLocation } from "react-router-dom";
 
 export default function VerAutos() {
   const [autosDisponibles, setAutosDisponibles] = useState([]);
+  const location = useLocation();
+  const sucursal = location.state?.sucursal;
+  console.log(sucursal)
 
-  useEffect(() => {
-        const fetchAutos = async () => {
-        const token = localStorage.getItem("token");
+    useEffect(() => {
 
+      if (!sucursal) return;
+
+      const fetchAutos = async () => {
         try {
-          const response = await fetch("http://localhost:8080/auto/listar", {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
+          const url = `http://localhost:8080/auto/listar?nombreSucursal=${encodeURIComponent(sucursal)}&estadoAuto=DISPONIBLE&estadoAuto=EN_MANTENIMIENTO&estadoAuto=ALQUILADO`;
+          const response = await fetch(url);
 
           if (!response.ok) {
-            throw new Error(`Error al obtener autos: ${response.statusText}`);
+            throw new Error("Error al obtener los autos");
           }
 
-          const data = await response.json(); 
+          const data = await response.json();
           setAutosDisponibles(data);
+          console.log(data);
         } catch (error) {
-          console.error("Error al cargar los autos:", error);
-          alert("Error al cargar los autos.");
+          console.error("Error al cargar autos:", error);
         }
       };
 
       fetchAutos();
-    }, []);
-  /*const autos = [
-    { id: 1, marca: "Toyota", patente: "ABC123", categoria: "Sedán", capacidad: 5, precio: 15000, imagen: null },
-    { id: 2, marca: "Ford", patente: "DEF456", categoria: "SUV", capacidad: 7, precio: 20000, imagen: null },
-  ];
-  setAutosDisponibles(autos);
-}, []);*/
+  }, []);
 
   return (
     <div className="container-fluid bg-dark text-light py-4">
-      <VehiculosDisponibles vehiculos={autosDisponibles} onSubmit={(auto) => console.log("Seleccionado:", auto)} />
+      <VehiculosDisponibles
+        vehiculos={autosDisponibles}
+        onSubmit={(auto) => console.log("Seleccionado:", auto)}
+      />
     </div>
   );
 }

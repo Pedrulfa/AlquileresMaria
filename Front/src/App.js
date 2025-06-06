@@ -6,13 +6,15 @@ import Home from './Pages/Home/HomeNoAutenticado.js'
 import SeleccionarAuto from './Pages/RealizarReserva/SeleccionarAuto/SeleccionarAuto.js';
 import SeleccionarConductor from './Pages/RealizarReserva/SeleccionarConductor/SeleccionarConductor.js';
 import ConsultarDisponibilidad from './Pages/RealizarReserva/Home/FlotaAutos/ConsultarDisponibilidad/ConsultarDisponibilidad.js';
-
+import resultadoPago from './Pages/RealizarReserva/Pago/resultadoPago.js';
 
 import IniciarSesion from './Pages/IniciarSesion/IniciarSesion.js';
 import Registrarse from './Pages/Registrarse/Registrarse.js';
 
 // COMPONENTES SEGÚN ROL 
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
+import VisualizarAutos from './Pages/PaginasUsuarios/Admin/listadoTotalDeAutos/VisualizarAutos.js';
+
 import Autenticarse from './Pages/PaginasUsuarios/Admin/Autenticarse/Autenticarse.js';
 import RegEmpleado from './Pages/PaginasUsuarios/Admin/RegistrarEmpleado/RegistrarEmpleado.js';
 
@@ -53,12 +55,16 @@ function App() {
         <Route path="/seleccionar-auto" element={<SeleccionarAuto />} />
         <Route path="/seleccionar-conductor" element={<SeleccionarConductor />} />
         <Route path="/consultar-disponibilidad" element={<ConsultarDisponibilidad />} />
+        <Route path="/resultadoPago" element={<resultadoPago />} />
 
         <Route path="/iniciar-sesion" element={<IniciarSesion />} />
         <Route path="/registrarse" element={<Registrarse />} />
 
         {/* Rutas protegidas por rol */}
         <Route path="/admin" element={<Admin />} />
+        <Route path="admin/listadoTotalDeAutos/VisualizarAuto.js" element={<VisualizarAutos/>} />
+
+
         <Route path="/regEmpleado" element={<RegEmpleado />} />*
         <Route path="/autenticarse" element={<Autenticarse />} />
         

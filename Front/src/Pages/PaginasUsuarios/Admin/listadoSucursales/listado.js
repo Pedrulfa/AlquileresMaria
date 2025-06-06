@@ -1,40 +1,49 @@
 import React, { useState } from 'react';
 import { Modal, Button } from "react-bootstrap";
 import './listado.css';  // Puedes crear estilos parecidos para sucursales
+import { useNavigate } from "react-router-dom";
 
 function SucursalesDisponibles({ sucursales, onSelect }) {
   const [sucursalModal, setSucursalModal] = useState(null);
+  const navigate = useNavigate();
+
+
+  const handleClick = (ruta , sucursal) => {
+    navigate(ruta, { state: { sucursal } });
+  };
 
   return (
     <>
       <div className="sucursales-grid">
         {sucursales.map((sucursal) => (
-          <div key={sucursal.id} className="sucursal-card">
+          <div key={sucursal} className="sucursal-card">
             {sucursal.imagen ? (
               <img src={sucursal.imagen} alt="Sucursal" className="sucursal-img" />
             ) : (
               <div className="sucursal-img sin-imagen">Sin imagen</div>
             )}
             <div className="sucursal-body">
-              <p>Localidad: {sucursal.localidad}</p>
-              <p>Dirección: {sucursal.direccion}</p>
-              <p>Teléfono: {sucursal.telefono}</p>
+              <p>Localidad: {sucursal}</p>
               <div className="boton-seleccionar-container">
                 <button
                   className="btn btn-seleccionar"
-                  onClick={() => onSelect(sucursal, "/vehiculos")}
+                  onClick={() =>
+                    handleClick(`/Admin/listadoTotalDeAutos/VisualizarAuto.js`, sucursal)
+                  }
                 >
                   Vehiculos
                 </button>
                 <button
                   className="btn btn-seleccionar"
-                  onClick={() => onSelect(sucursal, "/empleados")}
+                  //sin hacer no lo pide
+                  onClick={() => handleClick("/Admin/listadoTotalDeAutos/VisualizarEmpleado.js" , sucursal)}
                 >
                   Empleados
                 </button>
                 <button
                   className="btn btn-seleccionar"
-                  onClick={() => onSelect(sucursal, "/estadisticas")}
+                  //sin hacer
+                  onClick={() => handleClick("/Admin/listadoTotalDeAutos/VisualizarEstadistica.js" , sucursal)}
                 >
                   Estadisticas
                 </button>
