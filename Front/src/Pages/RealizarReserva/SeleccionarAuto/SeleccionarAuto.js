@@ -59,7 +59,7 @@ const FiltrarAutos = async () => {
 
     setFormData(storedData);
 
-    const url = `http://localhost:8080/auto/listar?nombreSucursal=${encodeURIComponent(sucursal)}&fechaDesde=${encodeURIComponent(inicio)}&fechaHasta=${encodeURIComponent(final)}&estadoAuto=DISPONIBLE&estadoAuto=EN_MANTENIMIENTO&estadoAuto=ALQUILADO`;
+    const url = `http://localhost:8080/auto/listar?nombreSucursal=${encodeURIComponent(sucursal)}&fechaDesde=${encodeURIComponent(inicio)}&fechaHasta=${encodeURIComponent(final)}&estadoAuto=DISPONIBLE`;
 
     console.log("URL generada:", url);
     const response = await fetch(url); // método GET
