@@ -10,6 +10,8 @@ function CargarVehiculo() {
   const [estado, setEstado] = useState('');
   const [tipoReembolso, setTipoReembolso] = useState('');
   const [foto, setFoto] = useState(null);
+  const [sucursales, setSucursales] = useState([]);
+  const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
 
   const validarPatente = (pat) => {
     const regex = /^[A-Za-z]{3}\d{3}$/;
@@ -64,6 +66,22 @@ function CargarVehiculo() {
       return;
     }
 
+    const fetchSucursales = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/sucursales');
+      if (response.ok) {
+        const data = await response.json();
+        setSucursales(data);
+      } else {
+        console.error('Error al obtener sucursales');
+      }
+    } catch (error) {
+      console.error('Error de red al obtener sucursales', error);
+    }
+  };
+
+  fetchSucursales();
+
     // Preparar datos con FormData
     const formData = new FormData();
     formData.append('patente', patente);
@@ -74,7 +92,8 @@ function CargarVehiculo() {
     formData.append('marca', marca);
     formData.append('estado', estado);
     formData.append('tipoReembolso', tipoReembolso);
-    formData.append('foto', foto); // archivo
+    formData.append('foto', foto); 
+    formData.append('sucursalId', sucursalSeleccionada);
 
     try {
       const token = localStorage.getItem('token');
@@ -187,26 +206,31 @@ function CargarVehiculo() {
 
         <label style={{ fontWeight: 'bold' }}>
           Estado:
-          <input
-            type="text"
+          <select
             value={estado}
             onChange={(e) => setEstado(e.target.value)}
             required
-            placeholder="Ej: Disponible, En mantenimiento"
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
+          >
+            <option value="">Seleccione estado</option>
+            <option value="DISPONIBLE">DISPONIBLE</option>
+            <option value="EN MANTENIMIENTO">EN MANTENIMIENTO</option>
+            <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+          </select>
         </label>
 
         <label style={{ fontWeight: 'bold' }}>
           Tipo de reembolso:
-          <input
-            type="text"
+          <select
             value={tipoReembolso}
             onChange={(e) => setTipoReembolso(e.target.value)}
             required
-            placeholder="Ej: Completo, Parcial"
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
+          >
+            <option value="">Seleccione tipo de reembolso</option>
+            <option value="COMPLETO">COMPLETO</option>
+            <option value="PARCIAL">PARCIAL</option>
+          </select>
         </label>
 
         <label style={{ fontWeight: 'bold' }}>
@@ -219,7 +243,22 @@ function CargarVehiculo() {
             required
           />
         </label>
-
+        <label style={{ fontWeight: 'bold' }}>
+          Sucursal:
+          <select
+            value={sucursalSeleccionada}
+            onChange={(e) => setSucursalSeleccionada(e.target.value)}
+            required
+            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+          >
+            <option value="">Seleccione una sucursal</option>
+            {sucursales.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.nombre} - {s.estado}
+              </option>
+            ))}
+          </select>
+        </label>
         <button
           type="submit"
           style={{ padding: 10, borderRadius: 4, backgroundColor: '#b22222', color: 'white', border: 'none', cursor: 'pointer' }}
