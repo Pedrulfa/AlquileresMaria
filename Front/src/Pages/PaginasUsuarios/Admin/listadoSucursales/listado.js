@@ -17,11 +17,6 @@ function SucursalesDisponibles({ sucursales, onSelect }) {
       <div className="sucursales-grid">
         {sucursales.map((sucursal) => (
           <div key={sucursal} className="sucursal-card">
-            {sucursal.imagen ? (
-              <img src={sucursal.imagen} alt="Sucursal" className="sucursal-img" />
-            ) : (
-              <div className="sucursal-img sin-imagen">Sin imagen</div>
-            )}
             <div className="sucursal-body">
               <p>Localidad: {sucursal}</p>
               <div className="boton-seleccionar-container">

@@ -42,9 +42,6 @@ function App() {
           <div className="nav-right">
                 <Link to="/iniciar-sesion" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Iniciar sesión</Link>
                 <Link to="/registrarse" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Registrarse</Link>
-                <Link to="/admin" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Admin</Link>  
-                <Link to="/pagarExcedente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Empleado</Link> 
-                <Link to="/cliente" style={{ backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4, padding: '8px 12px', cursor: 'pointer'}}>Cliente</Link> 
           </div>
         </nav>
       )}
