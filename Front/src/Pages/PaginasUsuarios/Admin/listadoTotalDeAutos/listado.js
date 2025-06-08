@@ -47,12 +47,16 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
       }
     };
 
+    const actualizar = async (auto) => {
+      navigate('/actualizarAuto')
+    };
+
   return (
     <>
     <button onClick={handleVolver}> volver </button>  
       <div className="vehiculos-grid">
         {vehiculos.map((auto) => (
-       <div key={auto.id} className="vehiculo-card">
+       <div key={auto.patente} className="vehiculo-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             {auto.imagen ? (
             <img src={auto.imagen} alt="Vehículo" className="vehiculo-img" />
@@ -65,17 +69,17 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
                 className="btn btn-seleccionar"
                 onClick={(e) => {
                 e.stopPropagation();
-                setMostrarMenu(auto.id === mostrarMenu ? null : auto.id);
+                setMostrarMenu(auto.patente === mostrarMenu ? null : auto.patente);
                 }}
             >
-                Seleccionar▾
+                Opciones▾
             </button>
 
-            {mostrarMenu === auto.id && (
-                <div style={estilosMenu}>
-                <button onClick={() => cambiarVista('ActualizarVehiculo')} style={botonMenu}>➕ Actualizar datos</button>
+            {mostrarMenu === auto.patente && (
+              <div style={estilosMenu}>
+                <button onClick={() => actualizar(auto)} style={botonMenu}>➕ Actualizar datos</button>
                 <button onClick={() => eliminar(auto.patente)} style={{ ...botonMenu, color: '#ff4d4d' }}>⛔ Eliminar</button>
-                </div>
+              </div>
             )}
             </div>
         </div>
