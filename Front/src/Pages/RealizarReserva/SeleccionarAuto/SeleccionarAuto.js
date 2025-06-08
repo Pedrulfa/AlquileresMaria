@@ -50,7 +50,7 @@ const FiltrarAutos = async () => {
       throw new Error("No hay datos en el localStorage");
     }
 
-    const sucursal = storedData?.sucursalEntrega
+    const sucursal = storedData?.sucursal
     const inicio = storedData?.inicio;
     const final = storedData?.fin;
 

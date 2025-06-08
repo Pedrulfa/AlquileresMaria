@@ -21,8 +21,6 @@ export default function SeleccionarConductor() {
 
     //envia los datos del alquiler al backend y lo redirije a pagar a traves de mercado pago
     const chekPaymment = async (alquiler) => {
-        if (enviando) return; // ✋ evitar doble envío
-          setEnviando(true);
       console.log("🚀 Enviando alquiler al backend:", alquiler);
       const payload = {
         datosPagoDTO: {
@@ -38,7 +36,7 @@ export default function SeleccionarConductor() {
           },
           licenciaConductor: alquiler?.conductor,
           patenteAuto: alquiler?.auto?.patente,
-          sucursal: alquiler?.sucursalEntrega,
+          sucursal: alquiler?.sucursal,
         }
       };
       try {

@@ -10,11 +10,11 @@ return (
                 <>
                     <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Entrega</p>
-                    <p>{datos?.sucursalEntrega}</p>
+                    <p>{datos?.sucursal}</p>
                     </div>
                     <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Devolución</p>
-                    <p>{datos?.sucursalEntrega}</p>
+                    <p>{datos?.sucursal}</p>
                     </div>
                 </>
                 <div className="pe-4 border-end-black">
