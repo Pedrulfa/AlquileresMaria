@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RecuperarContraseña from '../RecuperarContraseña/RecuperarContraeña.js';
+import RecuperarContraseña from '../RecuperarContraseña/RecuperarContraseña.js';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 
