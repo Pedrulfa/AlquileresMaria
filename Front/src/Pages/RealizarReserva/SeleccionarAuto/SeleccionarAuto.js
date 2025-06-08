@@ -11,6 +11,7 @@ export default function SeleccionarAuto() {
   const [formData, setFormData] = useState({});
   const [autosFiltrados, setAutosFiltrados] = useState([]);
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
+  const token = localStorage.getItem("token")
 
  const [filtro, setFiltro] = useState({
     marca: '',
@@ -112,7 +113,25 @@ useEffect(() => {
             )}
           </div>
           <div className="container-fluid bg-dark text-light py-4">
-            <VehiculosDisponibles vehiculos={autosFiltrados} onSubmit={handleSubmit}/>
+            {autosFiltrados.length === 0 ? (
+              <div className="text-center">
+                <h3>No hay autos disponibles 😞</h3>
+                <button
+                  className="btn btn-primary mt-3"
+                  onClick={() => {
+                    if (token) {
+                      window.location.href = "/cliente";
+                    } else {
+                      window.location.href = "/";
+                    }
+                  }}
+                >
+                  Volver al inicio
+                </button>
+              </div>
+            ) : (
+              <VehiculosDisponibles vehiculos={autosFiltrados} onSubmit={handleSubmit} />
+            )}
           </div>
         </>
   )

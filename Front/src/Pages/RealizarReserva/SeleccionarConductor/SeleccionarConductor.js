@@ -27,9 +27,9 @@ export default function SeleccionarConductor() {
       const payload = {
         datosPagoDTO: {
           titulo: "Reserva de Auto",
-          successUrl: "http://localhost:3000/RealizarReserva/pago/resultadoPago",
-          failureUrl: "http://localhost:3000/RealizarReserva/pago/resultadoPago",
-          pendingUrl: "http://localhost:3000/RealizarReserva/pago/resultadoPago"
+          successUrl: "https://localhost:3000/RealizarReserva/pago/resultadoPago",
+          failureUrl: "https://localhost:3000/RealizarReserva/pago/resultadoPago",
+          pendingUrl: "https://localhost:3000/RealizarReserva/pago/resultadoPago"
         },
         alquilerDTO: {
           rangoFecha: {
@@ -41,8 +41,8 @@ export default function SeleccionarConductor() {
           sucursal: alquiler?.sucursalEntrega,
         }
       };
-      console.log(payload)
       try {
+        console.log("Payload:", JSON.stringify(payload, null, 2));
         const response = await fetch("http://localhost:8080/checkOut/cliente/registrarAlquiler", {
           method: "POST",
           headers: {
