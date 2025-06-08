@@ -10,16 +10,10 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
   const [vistaActual, setVistaActual] = useState('inicio');
   const navigate = useNavigate();
 
-  const handleVolver = () =>{
-    navigate("/admin");
-  }
-  const cambiarVista = (vista) => {
-    setVistaActual(vista);
-    setMostrarMenu(null);
-  };
 
   const eliminar = async (patente) => {
       const confirmado = window.confirm(`¿Eliminar el vehículo con patente ${patente}?`);
+      console.log(patente)
       if (!confirmado) return;
 
       const token = localStorage.getItem("token");
@@ -47,13 +41,8 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
       }
     };
 
-    const actualizar = (auto) => {
-      navigate('/actualizarVehiculo', { state: { auto } });
-    };
-
   return (
     <>
-    <button onClick={handleVolver}> volver </button>  
       <div className="vehiculos-grid">
         {vehiculos.map((auto) => (
        <div key={auto.patente} className="vehiculo-card">
@@ -67,58 +56,31 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
             <div style={{ position: 'relative', marginLeft: '10px' }}>
             <button
                 className="btn btn-seleccionar"
-                onClick={(e) => {
-                e.stopPropagation();
-                setMostrarMenu(auto.patente === mostrarMenu ? null : auto.patente);
+                onClick={() => {
+                  navigate("ActualizarVehiculo", { state: {auto}} )
                 }}
             >
-                Opciones▾
+                Actualizar
             </button>
-
-            {mostrarMenu === auto.patente && (
-              <div style={estilosMenu}>
-                <button onClick={() => actualizar(auto)} style={botonMenu}>➕ Actualizar datos</button>
-                <button onClick={() => eliminar(auto.patente)} style={{ ...botonMenu, color: '#ff4d4d' }}>⛔ Eliminar</button>
-              </div>
-            )}
+            <button
+              type="button"
+              className="btn btn-seleccionar"
+              onClick={() => eliminar(auto.patente)}
+            >
+              Eliminar
+            </button>
             </div>
         </div>
 
         <div className="vehiculo-body">
-            <h5>{auto.marca}</h5>
+            <h5>{auto.marca} - {auto.patente}</h5>
             <p>Categoría: {auto.categoria}</p>
             <p>Capacidad: {auto.capacidad} personas</p>
-            <p className="card-text mb-0">Precio: ${auto.precio} / día</p>
+            <p className="card-text mb-0">Precio: ${auto.precioPorDia} / día</p>
         </div>
         </div>
         ))}
       </div>
-
-      {autoModal && (
-        <Modal show={true} onHide={() => setAutoModal(null)}>
-          <Modal.Header closeButton>
-            <Modal.Title>{autoModal.marca} - {autoModal.patente}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {autoModal.imagen && (
-              <img
-                src={autoModal.imagen}
-                alt="Imagen del auto"
-                style={{
-                  width: "100%",
-                  height: "200px",
-                  objectFit: "cover",
-                  marginBottom: "1rem"
-                }}
-              />
-            )}
-            <p><strong>Categoría:</strong> {autoModal.categoria}</p>
-            <p><strong>Capacidad:</strong> {autoModal.capacidad} personas</p>
-            <p><strong>Precio:</strong> ${autoModal.precio}</p>
-            <p><strong>Descripción:</strong> {autoModal.descripcion || "No disponible"}</p>
-          </Modal.Body>
-        </Modal>
-      )}
     </>
   );
 }

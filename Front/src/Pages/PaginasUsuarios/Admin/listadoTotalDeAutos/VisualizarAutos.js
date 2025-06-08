@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import VehiculosDisponibles from "./listado.js";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function VerAutos() {
   const [autosDisponibles, setAutosDisponibles] = useState([]);
   const location = useLocation();
   const sucursal = location.state?.sucursal;
+  const navigate = useNavigate()
   console.log(sucursal)
 
     useEffect(() => {
@@ -23,7 +25,6 @@ export default function VerAutos() {
 
           const data = await response.json();
           setAutosDisponibles(data);
-          console.log(data);
         } catch (error) {
           console.error("Error al cargar autos:", error);
         }
@@ -32,12 +33,27 @@ export default function VerAutos() {
       fetchAutos();
   }, []);
 
+  const handleVolver = () =>{
+    navigate("/admin");
+  }
+
+  const handleAgregar = () =>{
+    navigate("/Admin/CargarVehiculo/CargarVehiculo.js", {state : {sucursal}})
+  }
+
   return (
-    <div className="container-fluid bg-dark text-light py-4">
-      <VehiculosDisponibles
-        vehiculos={autosDisponibles}
-        onSubmit={(auto) => console.log("Seleccionado:", auto)}
-      />
-    </div>
+    <>
+      <button onClick={handleVolver}> volver </button> 
+      <button onClick={handleAgregar}> Agregar auto </button> 
+      <div className="container-fluid bg-dark text-light py-4">
+        <VehiculosDisponibles
+          vehiculos={autosDisponibles}
+          onSubmit={(auto) => console.log("Seleccionado:", auto)}
+        />
+        {autosDisponibles.length === 0 && (
+          <h1>No hay autos disponibles</h1>
+        )}
+      </div>
+    </>
   );
 }

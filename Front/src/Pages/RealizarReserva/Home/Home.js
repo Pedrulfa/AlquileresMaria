@@ -5,7 +5,6 @@ import HeroSection from "./Bienvenida/HeroSection";
 import Filtrado from "./FlotaAutos/filtrado";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
-import autoImage from "./Bienvenida/static/auto.jpg"; // Imagen temporal para todos los autos
 
 export default function Home() {
   const [formData, setFormData] = useState(null);
@@ -79,8 +78,7 @@ export default function Home() {
     const datosIniciales = {
       inicio: data.fechaInicio,
       fin: data.fechaFin,
-      sucursalEntrega: data.sucursalEntrega,
-      sucursalDevolucion: data.sucursalDevolucion,
+      sucursal: data.sucursalEntrega,
     };
     localStorage.setItem("alquiler", JSON.stringify(datosIniciales));
     window.location.href = "/seleccionar-auto";

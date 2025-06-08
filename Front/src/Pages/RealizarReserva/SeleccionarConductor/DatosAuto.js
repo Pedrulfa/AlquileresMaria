@@ -28,7 +28,7 @@ export default function ResumenAutoAlquiler({ auto, alquiler, dias, precioTotal 
       <p>{alquiler?.sucursalEntrega} - {alquiler?.inicio}</p>
 
       <h6 className="text-primary">Devolución</h6>
-      <p>{alquiler?.sucursalDevolucion} - {alquiler?.fin}</p>
+      <p>{alquiler?.sucursalEntrega} - {alquiler?.fin}</p>
 
       <hr />
 

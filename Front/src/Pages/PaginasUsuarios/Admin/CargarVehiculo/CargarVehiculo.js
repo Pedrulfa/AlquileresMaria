@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
+import { useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 function CargarVehiculo() {
   const [patente, setPatente] = useState('');
@@ -15,6 +17,9 @@ function CargarVehiculo() {
   const [estados, setEstados] = useState([]);
   const [tiposReembolso, setTiposReembolso] = useState([]);
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
+  const location = useLocation();
+  const sucursal = location.state?.sucursal;
+  const navigate = useNavigate()
 
 
   const validarPatente = (pat) => {
@@ -88,11 +93,6 @@ function CargarVehiculo() {
       return;
     }
 
-    if (!estado.trim()) {
-      alert('Debe ingresar el estado');
-      return;
-    }
-
     if (!tipoReembolso.trim()) {
       alert('Debe ingresar el tipo de reembolso');
       return;
@@ -136,10 +136,10 @@ function CargarVehiculo() {
         setPrecioPorDia('');
         setModelo('');
         setMarca('');
-        setEstado('');
+        setEstado("DISPONIBLE");
         setTipoReembolso('');
         setFoto(null);
-        setSucursalSeleccionada("");
+        setSucursalSeleccionada(sucursal);
         e.target.reset(); // limpia el input file
       } else {
         const errorData = await response.json();
@@ -151,155 +151,133 @@ function CargarVehiculo() {
     }
   };
 
+  const handleVolver = () =>{
+    navigate("/Admin/listadoTotalDeAutos/VisualizarAuto.js" , {state : {sucursal}})
+  }
+
   return (
-    <div style={{ maxWidth: 400, margin: '40px auto', padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
-      <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Cargar Vehículo</h2>
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <label style={{ fontWeight: 'bold' }}>
-          Patente:
-          <input
-            type="text"
-            value={patente}
-            onChange={(e) => setPatente(e.target.value.toUpperCase())}
-            maxLength={6}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc', textTransform: 'uppercase' }}
-            placeholder="ABC123"
-          />
-        </label>
+    <>
+      <button onClick={handleVolver}> Volver </button>
+      <div style={{ maxWidth: 400, margin: '40px auto', padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
+        <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Cargar Vehículo</h2>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <label style={{ fontWeight: 'bold' }}>
+            Patente:
+            <input
+              type="text"
+              value={patente}
+              onChange={(e) => setPatente(e.target.value.toUpperCase())}
+              maxLength={6}
+              required
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc', textTransform: 'uppercase' }}
+              placeholder="ABC123"
+            />
+          </label>
 
-         <label style={{ fontWeight: 'bold' }}>
-          Categoría:
-          <select
-            value={categoria}
-            onChange={(e) => setCategoria(e.target.value)}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+          <label style={{ fontWeight: 'bold' }}>
+            Categoría:
+            <select
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+              required
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            >
+              <option value="">Seleccione una categoría</option>
+              {categorias.map((c, idx) => (
+                <option key={c.id || idx} value={c.id || c}>
+                  {c.nombre || c}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Capacidad:
+            <input
+              type="number"
+              value={capacidad}
+              onChange={(e) => setCapacidad(e.target.value)}
+              required
+              min={1}
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            />
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Precio por día:
+            <input
+              type="number"
+              value={precioPorDia}
+              onChange={(e) => setPrecioPorDia(e.target.value)}
+              required
+              min={0}
+              step="0.01"
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            />
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Modelo:
+            <input
+              type="text"
+              value={modelo}
+              onChange={(e) => setModelo(e.target.value)}
+              required
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            />
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Marca:
+            <input
+              type="text"
+              value={marca}
+              onChange={(e) => setMarca(e.target.value)}
+              required
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            />
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Tipo de reembolso:
+            <select
+              value={tipoReembolso}
+              onChange={(e) => setTipoReembolso(e.target.value)}
+              required
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            >
+              <option value="">Seleccione tipo de reembolso</option>
+              {tiposReembolso.map((tipo, idx) => (
+                <option key={tipo.id || idx} value={tipo.id || tipo}>
+                  {tipo.nombre || tipo}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Foto del vehículo:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setFoto(e.target.files[0])}
+              style={{ marginTop: 5 }}
+              required
+            />
+          </label>
+          <div>
+            <p> Sucursal:</p>
+            <p> {sucursal} </p>
+          </div>
+          <button
+            type="submit"
+            style={{ padding: 10, borderRadius: 4, backgroundColor: '#b22222', color: 'white', border: 'none', cursor: 'pointer' }}
           >
-            <option value="">Seleccione una categoría</option>
-            {categorias.map((c, idx) => (
-              <option key={c.id || idx} value={c.id || c}>
-                {c.nombre || c}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label style={{ fontWeight: 'bold' }}>
-          Capacidad:
-          <input
-            type="number"
-            value={capacidad}
-            onChange={(e) => setCapacidad(e.target.value)}
-            required
-            min={1}
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
-        </label>
-
-        <label style={{ fontWeight: 'bold' }}>
-          Precio por día:
-          <input
-            type="number"
-            value={precioPorDia}
-            onChange={(e) => setPrecioPorDia(e.target.value)}
-            required
-            min={0}
-            step="0.01"
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
-        </label>
-
-        <label style={{ fontWeight: 'bold' }}>
-          Modelo:
-          <input
-            type="text"
-            value={modelo}
-            onChange={(e) => setModelo(e.target.value)}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
-        </label>
-
-        <label style={{ fontWeight: 'bold' }}>
-          Marca:
-          <input
-            type="text"
-            value={marca}
-            onChange={(e) => setMarca(e.target.value)}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
-        </label>
-
-        <label style={{ fontWeight: 'bold' }}>
-          Estado:
-          <select
-            value={estado}
-            onChange={(e) => setEstado(e.target.value)}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          >
-            <option value="">Seleccione estado</option>
-            {estados.map((est, idx) => (
-              <option key={est.id || idx} value={est.id || est}>
-                {est.nombre || est}
-              </option>
-            ))}
-          </select>
-        </label>
-
-         <label style={{ fontWeight: 'bold' }}>
-          Tipo de reembolso:
-          <select
-            value={tipoReembolso}
-            onChange={(e) => setTipoReembolso(e.target.value)}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          >
-            <option value="">Seleccione tipo de reembolso</option>
-            {tiposReembolso.map((tipo, idx) => (
-              <option key={tipo.id || idx} value={tipo.id || tipo}>
-                {tipo.nombre || tipo}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label style={{ fontWeight: 'bold' }}>
-          Foto del vehículo:
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setFoto(e.target.files[0])}
-            style={{ marginTop: 5 }}
-            required
-          />
-        </label>
-        <label style={{ fontWeight: 'bold' }}>
-          Sucursal:
-          <select
-            value={sucursalSeleccionada}
-            onChange={(e) => setSucursalSeleccionada(e.target.value)}
-            required
-            style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          >
-            <option value="">Seleccione una sucursal</option>
-            {sucursales.map((sucursal) => (
-            <option key={sucursal} value={sucursal}>
-              {sucursal}
-            </option>
-          ))}
-          </select>
-        </label>
-        <button
-          type="submit"
-          style={{ padding: 10, borderRadius: 4, backgroundColor: '#b22222', color: 'white', border: 'none', cursor: 'pointer' }}
-        >
-          Cargar
-        </button>
-      </form>
-    </div>
+            Cargar
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 

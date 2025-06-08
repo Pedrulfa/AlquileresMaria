@@ -15,6 +15,7 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
 import VisualizarAutos from './Pages/PaginasUsuarios/Admin/listadoTotalDeAutos/VisualizarAutos.js';
 import ActualizarVehiculo from './Pages/PaginasUsuarios/Admin/ActualizarVehiculo/ActualizarVehiculo.js';
+import CargarVehiculo from './Pages/PaginasUsuarios/Admin/CargarVehiculo/CargarVehiculo.js';
 import Autenticarse from './Pages/PaginasUsuarios/Admin/Autenticarse/Autenticarse.js';
 import RegEmpleado from './Pages/PaginasUsuarios/Admin/RegistrarEmpleado/RegistrarEmpleado.js';
 
@@ -23,6 +24,7 @@ import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
 import Perfil from './Pages/MiPerfil/MiPerfil.js';
 import PagarExcedente from './Pages/PaginasUsuarios/Cliente/PagarExcedente/PagarExcedente.js';
+
 
 
 
@@ -60,7 +62,8 @@ function App() {
         {/* Rutas protegidas por rol */}
         <Route path="/admin" element={<Admin />} />
         <Route path="admin/listadoTotalDeAutos/VisualizarAuto.js" element={<VisualizarAutos/>} />
-        <Route path="/actualizarVehiculo" element={<ActualizarVehiculo/>} />
+        <Route path="/Admin/listadoTotalDeAutos/VisualizarAuto.js/ActualizarVehiculo" element={<ActualizarVehiculo/>} />
+        <Route path="/Admin/CargarVehiculo/CargarVehiculo.js" element={<CargarVehiculo/>} />
 
         <Route path="/regEmpleado" element={<RegEmpleado />} />*
         <Route path="/autenticarse" element={<Autenticarse />} />

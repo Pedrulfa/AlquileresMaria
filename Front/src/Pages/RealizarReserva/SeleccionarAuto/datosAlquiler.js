@@ -14,7 +14,7 @@ return (
                     </div>
                     <div className="pe-4 border-end-black">
                     <p className="fw-bold mb-1">Sucursal de Devolución</p>
-                    <p>{datos?.sucursalDevolucion}</p>
+                    <p>{datos?.sucursalEntrega}</p>
                     </div>
                 </>
                 <div className="pe-4 border-end-black">
