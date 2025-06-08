@@ -111,14 +111,14 @@ function CargarVehiculo() {
     formData.append('precioPorDia', precioPorDia);
     formData.append('modelo', modelo);
     formData.append('marca', marca);
-    formData.append('estado', estado);
+    formData.append('estado', 'DISPONIBLE');
     formData.append('rembolso', tipoReembolso);
     formData.append('imagen', foto); 
-    formData.append('sucursal', sucursalSeleccionada);
+    formData.append('sucursal', sucursal);
 
     try {
       const token = localStorage.getItem('token');
-
+      console.log(formData)
       const response = await fetch('http://localhost:8080/auto/crear', {
         method: 'POST',
         body: formData,
