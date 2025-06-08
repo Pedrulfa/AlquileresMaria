@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function CargarVehiculo() {
   const [patente, setPatente] = useState('');
@@ -11,12 +11,49 @@ function CargarVehiculo() {
   const [tipoReembolso, setTipoReembolso] = useState('');
   const [foto, setFoto] = useState(null);
   const [sucursales, setSucursales] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [estados, setEstados] = useState([]);
+  const [tiposReembolso, setTiposReembolso] = useState([]);
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState('');
+
 
   const validarPatente = (pat) => {
     const regex = /^[A-Za-z]{3}\d{3}$/;
     return regex.test(pat);
   };
+  const token = localStorage.getItem('token');
+    useEffect(() => {
+      const fetchDatos = async () => {
+        try {
+          const [resSucursales, resCategorias, resEstados, resTipos] = await Promise.all([
+            fetch('http://localhost:8080/admin/sucursal/listar', { headers: { Authorization: `Bearer ${token}` } }),
+            fetch('http://localhost:8080/auto/get/categorias', { headers: { Authorization: `Bearer ${token}` } }),
+            fetch('http://localhost:8080/auto/get/estados', { headers: { Authorization: `Bearer ${token}` } }),
+            fetch('http://localhost:8080/auto/get/rembolsos', { headers: { Authorization: `Bearer ${token}` } }),
+          ]);
+
+          if (!resSucursales.ok) throw new Error('Error al obtener sucursales');
+          if (!resCategorias.ok) throw new Error('Error al obtener categorías');
+          if (!resEstados.ok) throw new Error('Error al obtener estados');
+          if (!resTipos.ok) throw new Error('Error al obtener tipos de reembolso');
+
+          const sucursalesData = await resSucursales.json();
+          const categoriasData = await resCategorias.json();
+          const estadosData = await resEstados.json();
+          const tiposReembolsoData = await resTipos.json();
+
+          setSucursales(sucursalesData);
+          setCategorias(categoriasData);
+          setEstados(estadosData);
+          setTiposReembolso(tiposReembolsoData);
+        } catch (error) {
+          console.error('Error cargando datos:', error);
+        }
+      };
+
+      fetchDatos();
+    }, [token]);
+
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
@@ -66,34 +103,18 @@ function CargarVehiculo() {
       return;
     }
 
-    const fetchSucursales = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/sucursales');
-      if (response.ok) {
-        const data = await response.json();
-        setSucursales(data);
-      } else {
-        console.error('Error al obtener sucursales');
-      }
-    } catch (error) {
-      console.error('Error de red al obtener sucursales', error);
-    }
-  };
-
-  fetchSucursales();
-
     // Preparar datos con FormData
     const formData = new FormData();
     formData.append('patente', patente);
-    formData.append('categoria', categoria);
-    formData.append('capacidad', capacidad);
-    formData.append('precioPorDia', precioPorDia);
-    formData.append('modelo', modelo);
-    formData.append('marca', marca);
-    formData.append('estado', estado);
-    formData.append('tipoReembolso', tipoReembolso);
-    formData.append('foto', foto); 
-    formData.append('sucursalId', sucursalSeleccionada);
+  formData.append('categoria', categoria);
+  formData.append('capacidad', capacidad);
+  formData.append('precioPorDia', precioPorDia);
+  formData.append('modelo', modelo);
+  formData.append('marca', marca);
+  formData.append('estado', estado);
+  formData.append('rembolso', tipoReembolso);
+  formData.append('imagen', foto); 
+  formData.append('sucursal', sucursalSeleccionada);
 
     try {
       const token = localStorage.getItem('token');
@@ -118,6 +139,7 @@ function CargarVehiculo() {
         setEstado('');
         setTipoReembolso('');
         setFoto(null);
+        setSucursalSeleccionada("");
         e.target.reset(); // limpia el input file
       } else {
         const errorData = await response.json();
@@ -146,15 +168,21 @@ function CargarVehiculo() {
           />
         </label>
 
-        <label style={{ fontWeight: 'bold' }}>
+         <label style={{ fontWeight: 'bold' }}>
           Categoría:
-          <input
-            type="text"
+          <select
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
             required
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-          />
+          >
+            <option value="">Seleccione una categoría</option>
+            {categorias.map((c, idx) => (
+              <option key={c.id || idx} value={c.id || c}>
+                {c.nombre || c}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label style={{ fontWeight: 'bold' }}>
@@ -213,13 +241,15 @@ function CargarVehiculo() {
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
           >
             <option value="">Seleccione estado</option>
-            <option value="DISPONIBLE">DISPONIBLE</option>
-            <option value="EN MANTENIMIENTO">EN MANTENIMIENTO</option>
-            <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+            {estados.map((est, idx) => (
+              <option key={est.id || idx} value={est.id || est}>
+                {est.nombre || est}
+              </option>
+            ))}
           </select>
         </label>
 
-        <label style={{ fontWeight: 'bold' }}>
+         <label style={{ fontWeight: 'bold' }}>
           Tipo de reembolso:
           <select
             value={tipoReembolso}
@@ -228,8 +258,11 @@ function CargarVehiculo() {
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
           >
             <option value="">Seleccione tipo de reembolso</option>
-            <option value="COMPLETO">COMPLETO</option>
-            <option value="PARCIAL">PARCIAL</option>
+            {tiposReembolso.map((tipo, idx) => (
+              <option key={tipo.id || idx} value={tipo.id || tipo}>
+                {tipo.nombre || tipo}
+              </option>
+            ))}
           </select>
         </label>
 
@@ -252,11 +285,11 @@ function CargarVehiculo() {
             style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
           >
             <option value="">Seleccione una sucursal</option>
-            {sucursales.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.nombre} - {s.estado}
-              </option>
-            ))}
+            {sucursales.map((sucursal) => (
+            <option key={sucursal} value={sucursal}>
+              {sucursal}
+            </option>
+          ))}
           </select>
         </label>
         <button

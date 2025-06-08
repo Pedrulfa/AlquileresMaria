@@ -14,7 +14,7 @@ import Registrarse from './Pages/Registrarse/Registrarse.js';
 // COMPONENTES SEGÚN ROL 
 import Admin from './Pages/PaginasUsuarios/Admin/InicioAdmin.js';
 import VisualizarAutos from './Pages/PaginasUsuarios/Admin/listadoTotalDeAutos/VisualizarAutos.js';
-
+import ActualizarVehiculo from './Pages/PaginasUsuarios/Admin/ActualizarVehiculo/ActualizarVehiculo.js';
 import Autenticarse from './Pages/PaginasUsuarios/Admin/Autenticarse/Autenticarse.js';
 import RegEmpleado from './Pages/PaginasUsuarios/Admin/RegistrarEmpleado/RegistrarEmpleado.js';
 
@@ -60,7 +60,7 @@ function App() {
         {/* Rutas protegidas por rol */}
         <Route path="/admin" element={<Admin />} />
         <Route path="admin/listadoTotalDeAutos/VisualizarAuto.js" element={<VisualizarAutos/>} />
-
+        <Route path="/actualizarVehiculo" element={<ActualizarVehiculo/>} />
 
         <Route path="/regEmpleado" element={<RegEmpleado />} />*
         <Route path="/autenticarse" element={<Autenticarse />} />

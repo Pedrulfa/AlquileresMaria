@@ -47,8 +47,8 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
       }
     };
 
-    const actualizar = async (auto) => {
-      navigate('/actualizarAuto')
+    const actualizar = (auto) => {
+      navigate('/actualizarVehiculo', { state: { auto } });
     };
 
   return (

@@ -88,8 +88,8 @@ function Inicio() {
       {/* CONTENIDO DINÁMICO */}
       <main style={{ padding: 20 }}>
         {vistaActual === 'perfil' && <p>Vista del perfil del usuario.</p>}
-        {vistaActual === 'regEmpleado' && <p><RegistrarEmpleado/></p>}
-        {vistaActual === 'carVehiculo' && <p><CargarVehiculo/></p>}
+        {vistaActual === 'regEmpleado' && <RegistrarEmpleado/>}
+        {vistaActual === 'carVehiculo' && <CargarVehiculo/>}
       </main>
     </div>
   );
