@@ -106,15 +106,15 @@ function CargarVehiculo() {
     // Preparar datos con FormData
     const formData = new FormData();
     formData.append('patente', patente);
-  formData.append('categoria', categoria);
-  formData.append('capacidad', capacidad);
-  formData.append('precioPorDia', precioPorDia);
-  formData.append('modelo', modelo);
-  formData.append('marca', marca);
-  formData.append('estado', estado);
-  formData.append('rembolso', tipoReembolso);
-  formData.append('imagen', foto); 
-  formData.append('sucursal', sucursalSeleccionada);
+    formData.append('categoria', categoria);
+    formData.append('capacidad', capacidad);
+    formData.append('precioPorDia', precioPorDia);
+    formData.append('modelo', modelo);
+    formData.append('marca', marca);
+    formData.append('estado', estado);
+    formData.append('rembolso', tipoReembolso);
+    formData.append('imagen', foto); 
+    formData.append('sucursal', sucursalSeleccionada);
 
     try {
       const token = localStorage.getItem('token');

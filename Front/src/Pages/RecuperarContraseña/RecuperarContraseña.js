@@ -3,9 +3,19 @@ import React, { useState } from 'react';
 const RecuperarContrasena = () => {
   const [email, setEmail] = useState('');
 
-  const handleConfirmar = (e) => {
+  const handleConfirmar = async (e) => {
     e.preventDefault();
-    alert(`Se envió una nueva contraseña al correo: ${email}`);
+    try{
+       const response = await fetch(`http://localhost:8080/usuario/recuperarPassword?mail=${email}`, {
+        method: 'POST',
+      });
+       if (response.ok) {
+        const data = await response.text();
+        alert(data);
+      }
+    }catch (error) {
+          console.log('Error cargando datos:', error);
+    }
   };
 
   return (
