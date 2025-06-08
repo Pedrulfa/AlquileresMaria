@@ -3,15 +3,17 @@ import { useSearchParams } from "react-router-dom";
 
 const ResultadoPago = () => {
   const [searchParams] = useSearchParams();
-  const [estado, setEstado] = useState("");
   const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
     const status = searchParams.get("status");
     const paymentId = searchParams.get("payment_id");
 
-    setEstado(status);
-
+    if (!status || status === "null" || !paymentId || paymentId === "null") {
+      const status = "pending"
+      setMensaje("⏳ Tu pago está pendiente. Tendras una semana para completar el pago.");
+      return;
+    }
     switch (status) {
       case "approved":
         setMensaje("✅ ¡Tu pago fue aprobado con éxito!");
@@ -28,18 +30,28 @@ const ResultadoPago = () => {
   }, [searchParams]);
 
   return (
-    <div className="container mt-5">
-      <h2>Resultado del Pago</h2>
-      <p>{mensaje}</p>
-
-      {/* Info extra del pago (opcional) */}
-      {estado && (
-        <div className="alert alert-info mt-4">
-          <p><strong>Estado del pago:</strong> {estado}</p>
-          <p><strong>ID del pago:</strong> {searchParams.get("payment_id")}</p>
-        </div>
-      )}
-    </div>
+    <>
+      <div className="container mt-5">
+        <h2>Resultado del Pago</h2>
+        <p>{mensaje}</p>
+        <button
+          className="btn btn-primary mt-3"
+          onClick={() => {
+            window.location.href = "/cliente";
+            }}
+            >
+            Volver al inicio
+        </button>
+        <button
+          className="btn btn-primary mt-3"
+          onClick={() => {
+            window.location.href = "/cliente";
+            }}
+            >
+            Ver reservas
+        </button>
+      </div>
+    </>
   );
 };
 
