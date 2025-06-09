@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { data } from 'react-router-dom';
+import VerReserva from "./VerReserva.js"
 
 function HistorialReservas() {
   const [reservas, setReservas] = useState([]);
@@ -18,6 +20,7 @@ function HistorialReservas() {
           },
         });
         setReservas(response.data);
+        console.log(response.data)
         setLoading(false);
       } catch (err) {
         setError('Error al cargar el historial.');
@@ -34,30 +37,15 @@ function HistorialReservas() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Historial de Reservas</h2>
+      <h1 className='text-center'>Reservas</h1>
       {reservas.length === 0 ? (
         <p>No hay reservas registradas.</p>
       ) : (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <th style={thStyle}>Vehículo</th>
-              <th style={thStyle}>Fecha Inicio</th>
-              <th style={thStyle}>Fecha Fin</th>
-              <th style={thStyle}>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reservas.map((reserva) => (
-              <tr key={reserva.id}>
-                <td style={tdStyle}>{reserva.vehiculo}</td>
-                <td style={tdStyle}>{reserva.fechaInicio}</td>
-                <td style={tdStyle}>{reserva.fechaFin}</td>
-                <td style={tdStyle}>{reserva.estado}</td>
-              </tr>
+        <div>
+            {reservas.map((reserva, index) => (
+              <VerReserva key={index} reserva={reserva} />
             ))}
-          </tbody>
-        </table>
+        </div>
       )}
     </div>
   );
