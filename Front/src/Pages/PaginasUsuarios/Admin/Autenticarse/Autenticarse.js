@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
-
 const Autenticarse = () => {
   const [codigo, setCodigo] = useState('');
   const [error, setError] = useState('');
@@ -21,20 +18,19 @@ const Autenticarse = () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:8080/admin/autenticarse', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:8080/auth/dobleAutenticacion?cod=${codigo}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ codigo }),
       });
 
       if (response.ok) {
         navigate('/admin');
       } else {
         const errorText = await response.text();
-        setError('Código inválido: ' + errorText);
+        alert('Código Incorrecto: ' + errorText);
       }
     } catch (err) {
       console.error('Error:', err);

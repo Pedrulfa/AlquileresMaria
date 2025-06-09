@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const ResultadoPago = () => {
   const [searchParams] = useSearchParams();
@@ -10,8 +10,7 @@ const ResultadoPago = () => {
     const paymentId = searchParams.get("payment_id");
 
     if (!status || status === "null" || !paymentId || paymentId === "null") {
-      const status = "pending"
-      setMensaje("⏳ Tu pago está pendiente. Tendras una semana para completar el pago.");
+      setMensaje("⏳ Tu pago está pendiente. Tienes 15 minutos para completar el pago.");
       return;
     }
     switch (status) {
@@ -37,18 +36,10 @@ const ResultadoPago = () => {
         <button
           className="btn btn-primary mt-3"
           onClick={() => {
-            window.location.href = "/cliente";
+            window.location.href = "http://localhost:3000/cliente?collection_id=null&collection_status=null&payment_id=null&status=null&external_reference=13&payment_type=null&merchant_order_id=null&preference_id=2454892997-c15682fb-b006-4118-bf59-e96c185cb7ac&site_id=MLA&processing_mode=aggregator&merchant_account_id=null";
             }}
             >
             Volver al inicio
-        </button>
-        <button
-          className="btn btn-primary mt-3"
-          onClick={() => {
-            window.location.href = "/cliente";
-            }}
-            >
-            Ver reservas
         </button>
       </div>
     </>

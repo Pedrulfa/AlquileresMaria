@@ -18,7 +18,7 @@ export default function VerReserva( {reserva}) {
           <strong>Total:</strong> ${reserva.monto} <br />
           <strong>Estado del pago:</strong> {reserva.estadoPago}
           {reserva.estadoPago === "PENDIENTE" && (
-            <button onClick={() => window.open(reserva.urlPago, '_blank')}>
+            <button onClick={() => window.location.href = reserva.urlPago}>
             Pagar
             </button>
           )}

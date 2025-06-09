@@ -7,10 +7,39 @@ const PagarExcedente = () => {
 
   // Extraemos el excedente del state que se envió con navigate
   const excedente = location.state?.excedente ?? 0; // por si no viene, default 0
+  const token = localStorage.getItem("token");
 
-  const Pagar = (e) => {
-    e.preventDefault();
-    console.log('Pago realizado');
+  const Pagar = async () => {
+    const payload = {
+      titulo: "Pago de excedente",
+      successUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago",
+      failureUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago",
+      pendingUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago"
+    };
+
+    try {
+      console.log("Payload:", JSON.stringify(payload));
+      const response = await fetch("http://localhost:8080/checkOut/cliente/pagarMulta", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error del servidor:", errorText);
+        return;
+      }
+
+      const redirectUrl = await response.text();
+      window.location.href = redirectUrl;
+
+    } catch (error) {
+      console.error("Error de red/fetch:", error);
+    }
   };
 
   const CerrarSesion = (e) => {

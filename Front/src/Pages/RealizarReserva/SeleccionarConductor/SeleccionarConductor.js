@@ -25,9 +25,9 @@ export default function SeleccionarConductor() {
       const payload = {
         datosPagoDTO: {
           titulo: "Reserva de Auto",
-          successUrl: "https://localhost:3000/RealizarReserva/pago/resultadoPago",
-          failureUrl: "https://localhost:3000/RealizarReserva/pago/resultadoPago",
-          pendingUrl: "https://localhost:3000/RealizarReserva/pago/resultadoPago"
+          successUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago",
+          failureUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago",
+          pendingUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago"
         },
         alquilerDTO: {
           rangoFecha: {

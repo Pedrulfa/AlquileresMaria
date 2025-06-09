@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CargarVehiculo from './CargarVehiculo/CargarVehiculo';
 import RegistrarEmpleado from './RegistrarEmpleado/RegistrarEmpleado.js';
-import ListadoVehiculos from './listadoTotalDeAutos/VisualizarAutos.js';
 import ListadoSucursales from './listadoSucursales/sucursales.js';
 
 
@@ -72,9 +70,7 @@ function Inicio() {
               minWidth: 200
             }}>
               <button onClick={() => cambiarVista('perfil')} style={botonMenu}>👤 Mi Perfil</button>
-              <button onClick={() => cambiarVista('vehiculos')} style={botonMenu}>🚗 Visualizar Vehículos</button>
               <button onClick={() => cambiarVista('regEmpleado')} style={botonMenu}>➕ Registrar Empleado</button>
-              <button onClick={() => cambiarVista('carVehiculo')} style={botonMenu}>➕ Cargar Vehículo</button>
               <button onClick={cerrarSesion} style={{ ...botonMenu, color: '#ff4d4d' }}>⛔ Cerrar sesión</button>
             </div>
           )}
@@ -82,14 +78,12 @@ function Inicio() {
       </nav>
 
       <h2 style={{ padding: 20 }}>Bienvenida, Maria</h2>
-       {vistaActual === 'vehiculos' && <p><ListadoVehiculos/></p>}
        {vistaActual === 'inicio' && <p><ListadoSucursales/></p>}
 
       {/* CONTENIDO DINÁMICO */}
       <main style={{ padding: 20 }}>
         {vistaActual === 'perfil' && <p>Vista del perfil del usuario.</p>}
         {vistaActual === 'regEmpleado' && <RegistrarEmpleado/>}
-        {vistaActual === 'carVehiculo' && <CargarVehiculo/>}
       </main>
     </div>
   );
