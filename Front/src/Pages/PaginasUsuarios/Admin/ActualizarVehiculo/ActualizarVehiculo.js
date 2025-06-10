@@ -11,9 +11,13 @@ function ActualizarVehiculo() {
   const [precioPorDia, setPrecioPorDia] = useState(auto?.precioPorDia || '');
   const [estado, setEstado] = useState(auto?.estado || '');
   const [tipoReembolso, setTipoReembolso] = useState(auto?.rembolso || '');
-  const [foto, setFoto] = useState(null);
+  const [tipoCategoria , setTipoCategoria] = useState(auto?.categoria || '')
+  const [foto, setFoto] = useState(auto?.endpointImagen || null);
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState(auto?.sucursal || '');
   const [sucursales, setSucursales] = useState([]);
+  const [categorias, setCategorias] = useState([])
+  const [rembolso, setRembolso] = useState([])
+  const [estados, setEstados] = useState([])
   const token = localStorage.getItem("token")
 
   const handleVolver = () =>{
@@ -41,6 +45,69 @@ function ActualizarVehiculo() {
       }
     };
 
+    const fetchCategoria = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/auto/get/categorias',{
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+        }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setCategorias(data);
+        } else {
+          console.error('Error al obtener categorias');
+        }
+      } catch (error) {
+        console.error('Error de red al obtener las categorias', error);
+      }
+    };
+
+    const fetchRembolso = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/auto/get/rembolsos',{
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+        }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setRembolso(data);
+        } else {
+          console.error('Error al obtener rembolso');
+        }
+      } catch (error) {
+        console.error('Error de red al obtener los rembolsos', error);
+      }
+    };
+
+    const fetchEstados = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/auto/get/estados',{
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+        }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setEstados(data);
+        } else {
+          console.error('Error al obtener rembolso');
+        }
+      } catch (error) {
+        console.error('Error de red al obtener los rembolsos', error);
+      }
+    };
+
+    fetchEstados();
+    fetchRembolso();
+    fetchCategoria();
     fetchSucursales();
   }, []);
 
@@ -75,18 +142,23 @@ function ActualizarVehiculo() {
     const formData = new FormData();
     formData.append('patente', auto.patente); // identificador del vehículo
     formData.append('precioPorDia', precioPorDia);
+    formData.append('categoria', tipoCategoria);
+    formData.append('rembolso', tipoReembolso);
     formData.append('estado', estado);
-    formData.append('tipoReembolso', tipoReembolso);
     if (foto) formData.append('foto', foto);
-    formData.append('sucursalId', sucursalSeleccionada);
+    formData.append('sucursal', sucursalSeleccionada);
+    for (let pair of formData.entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
 
     try {
       const token = localStorage.getItem('token');
+      console.log(formData)
       const response = await fetch('http://localhost:8080/auto/actualizar', {
         method: 'PUT',
-        body: formData,
+        body: formData,  // enviar directamente el FormData
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}` // solo el token, no Content-Type
         }
       });
 
@@ -129,10 +201,29 @@ function ActualizarVehiculo() {
               required
               style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
             >
-              <option value="">Seleccione estado</option>
-              <option value="DISPONIBLE">DISPONIBLE</option>
-              <option value="EN MANTENIMIENTO">EN MANTENIMIENTO</option>
-              <option value="NO DISPONIBLE">NO DISPONIBLE</option>
+              <option value="">Seleccione un estado</option>
+              {estados.map((e) => (
+                <option key={e}>
+                  {e}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label style={{ fontWeight: 'bold' }}>
+            Categoria:
+            <select
+              value={tipoCategoria}
+              onChange={(e) => setTipoCategoria(e.target.value)}
+              required
+              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
+            >
+              <option value="">Seleccione una categoria</option>
+              {categorias.map((c) => (
+                <option key={c}>
+                  {c}
+                </option>
+              ))}
             </select>
           </label>
 

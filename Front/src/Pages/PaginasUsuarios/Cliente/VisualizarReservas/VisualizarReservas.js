@@ -30,7 +30,12 @@ function HistorialReservas() {
     };
 
     obtenerReservas();
+    console.log(reservas)
   }, [mail]);
+
+  const eliminarReserva = (Reserva) => {
+    setReservas(prev => prev.filter(reserva => reserva !== Reserva));
+  };
 
   if (loading) return <p>Cargando reservas...</p>;
   if (error) return <p>{error}</p>;
@@ -43,7 +48,7 @@ function HistorialReservas() {
       ) : (
         <div>
             {reservas.map((reserva, index) => (
-              <VerReserva key={index} reserva={reserva} />
+              <VerReserva key={index} reserva={reserva} eliminarReserva={eliminarReserva}/>
             ))}
         </div>
       )}

@@ -14,6 +14,7 @@ function ConsultarDisponibilidad() {
   const sucursales = location.state?.sucursales;
   console.log(sucursales)
   console.count("Render ConsultarDisponibilidad");
+  console.log(auto)
 
   if (!auto) {
     return (
