@@ -25,16 +25,15 @@ const Autenticarse = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      
       if (response.ok) {
-        navigate('/admin');
+          navigate('/admin');
       } else {
         const errorText = await response.text();
-        alert('Código Incorrecto: ' + errorText);
+        alert(errorText);
       }
     } catch (err) {
-      console.error('Error:', err);
-      setError('Error de conexión con el servidor');
+      alert('Error de conexión con el servidor');
     }
   };
 
