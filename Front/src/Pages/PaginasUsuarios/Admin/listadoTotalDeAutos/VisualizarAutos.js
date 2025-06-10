@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import VehiculosDisponibles from "./listado.js";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Filtrado from "../../../RealizarReserva/FlotaAutos/filtrado"
+import Filtrado from "../../../RealizarReserva/Home/FlotaAutos/filtrado"
 
 export default function VerAutos() {
   const [autosDisponibles, setAutosDisponibles] = useState([]);
+  const [autosFiltrados, setAutosFiltrados] = useState([]);
   const location = useLocation();
   const sucursal = location.state?.sucursal;
   const navigate = useNavigate()
@@ -18,7 +19,6 @@ export default function VerAutos() {
       precioMin: 0,
       precioMax: 10000
     });
-  
   
     const aplicarFiltro = () => {
       const resultado = autosDisponibles.filter(auto => {
@@ -39,7 +39,7 @@ export default function VerAutos() {
       precioMin: 0,
       precioMax: 10000
       });
-      setAutosFiltrados(autos); // muestra todos los autos
+      setAutosFiltrados(setAutosDisponibles); // muestra todos los autos
     };
 
     useEffect(() => {
@@ -57,6 +57,7 @@ export default function VerAutos() {
 
           const data = await response.json();
           setAutosDisponibles(data);
+          setAutosFiltrados(data);
         } catch (error) {
           console.error("Error al cargar autos:", error);
         }
@@ -82,7 +83,7 @@ export default function VerAutos() {
       </div>
       <div className="container-fluid bg-dark text-light py-4">
         <VehiculosDisponibles
-          vehiculos={autosDisponibles}
+          vehiculos={autosFiltrados}
           onSubmit={(auto) => console.log("Seleccionado:", auto)}
         />
         {autosDisponibles.length === 0 && (
