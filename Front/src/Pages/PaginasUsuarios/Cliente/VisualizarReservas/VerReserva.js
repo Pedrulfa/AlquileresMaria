@@ -2,7 +2,7 @@ import React from "react"
 import DatosAuto from "./DatosAuto.js"
 import { Navigate, useNavigate } from "react-router-dom"
 
-export default function VerReserva( {reserva}) {
+export default function VerReserva( {reserva,eliminarReserva}) {
     const auto = reserva.auto
     const fechas = reserva.rangoFecha
     const navigate = useNavigate()
@@ -33,16 +33,9 @@ export default function VerReserva( {reserva}) {
         if (!response.ok) {
           throw new Error("Error al cancelar la reserva");
         }
-
-        const result = await response.json();
-        console.log("Resultado de cancelación:", result); // debería ser true o false
-
-        if (result === true) {
-          alert("Reserva cancelada con éxito.");
-        } else {
-          alert("No se pudo cancelar la reserva.");
-        }
-
+        else
+          alert("Reserva cancelada")
+          eliminarReserva(reserva)
       } catch (error) {
         console.error("Error al cancelar la reserva:", error);
         alert("Error al cancelar la reserva");
