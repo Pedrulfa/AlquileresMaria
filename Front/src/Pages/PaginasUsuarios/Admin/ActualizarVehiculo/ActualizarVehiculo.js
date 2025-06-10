@@ -1,115 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function ActualizarVehiculo() {
   const { state } = useLocation();
   const auto = state?.auto;
-  const sucursal = auto?.sucursal
-  const navigate = useNavigate()
-  console.log(auto)
+  const sucursal = auto?.sucursal;
+  const navigate = useNavigate();
 
   const [precioPorDia, setPrecioPorDia] = useState(auto?.precioPorDia || '');
   const [estado, setEstado] = useState(auto?.estado || '');
   const [tipoReembolso, setTipoReembolso] = useState(auto?.rembolso || '');
-  const [tipoCategoria , setTipoCategoria] = useState(auto?.categoria || '')
-  const [foto, setFoto] = useState(auto?.endpointImagen || null);
+  const [tipoCategoria, setTipoCategoria] = useState(auto?.categoria || '');
+  const [fotoUrl, setFotoUrl] = useState(
+  auto?.endpointImagen ? `http://localhost:8080${auto.endpointImagen}` : null
+);
+  const [fotoFile, setFotoFile] = useState(null); // para enviar si se reemplaza
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState(auto?.sucursal || '');
   const [sucursales, setSucursales] = useState([]);
-  const [categorias, setCategorias] = useState([])
-  const [rembolso, setRembolso] = useState([])
-  const [estados, setEstados] = useState([])
-  const token = localStorage.getItem("token")
+  const [categorias, setCategorias] = useState([]);
+  const [rembolso, setRembolso] = useState([]);
+  const [estados, setEstados] = useState([]);
+  const token = localStorage.getItem("token");
 
-  const handleVolver = () =>{
-    navigate("/Admin/listadoTotalDeAutos/VisualizarAuto.js", { state: {sucursal}} )
-  }
+  const handleVolver = () => {
+    navigate("/Admin/listadoTotalDeAutos/VisualizarAuto.js", { state: { sucursal } });
+  };
 
   useEffect(() => {
-    const fetchSucursales = async () => {
+    const fetchData = async () => {
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      };
       try {
-        const response = await fetch('http://localhost:8080/admin/sucursal/listar',{
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-        }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setSucursales(data);
-        } else {
-          console.error('Error al obtener sucursales');
-        }
+        const [resSuc, resCat, resRem, resEst] = await Promise.all([
+          fetch('http://localhost:8080/admin/sucursal/listar', { headers }),
+          fetch('http://localhost:8080/auto/get/categorias', { headers }),
+          fetch('http://localhost:8080/auto/get/rembolsos', { headers }),
+          fetch('http://localhost:8080/auto/get/estados', { headers }),
+        ]);
+
+        if (resSuc.ok) setSucursales(await resSuc.json());
+        if (resCat.ok) setCategorias(await resCat.json());
+        if (resRem.ok) setRembolso(await resRem.json());
+        if (resEst.ok) setEstados(await resEst.json());
+
       } catch (error) {
-        console.error('Error de red al obtener sucursales', error);
+        console.error("Error al obtener datos:", error);
       }
     };
 
-    const fetchCategoria = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/auto/get/categorias',{
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-        }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setCategorias(data);
-        } else {
-          console.error('Error al obtener categorias');
-        }
-      } catch (error) {
-        console.error('Error de red al obtener las categorias', error);
-      }
-    };
-
-    const fetchRembolso = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/auto/get/rembolsos',{
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-        }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setRembolso(data);
-        } else {
-          console.error('Error al obtener rembolso');
-        }
-      } catch (error) {
-        console.error('Error de red al obtener los rembolsos', error);
-      }
-    };
-
-    const fetchEstados = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/auto/get/estados',{
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          },
-        }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setEstados(data);
-        } else {
-          console.error('Error al obtener rembolso');
-        }
-      } catch (error) {
-        console.error('Error de red al obtener los rembolsos', error);
-      }
-    };
-
-    fetchEstados();
-    fetchRembolso();
-    fetchCategoria();
-    fetchSucursales();
-  }, []);
+    fetchData();
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -140,25 +82,22 @@ function ActualizarVehiculo() {
     }
 
     const formData = new FormData();
-    formData.append('patente', auto.patente); // identificador del vehículo
+    formData.append('patente', auto.patente);
     formData.append('precioPorDia', precioPorDia);
     formData.append('categoria', tipoCategoria);
     formData.append('rembolso', tipoReembolso);
     formData.append('estado', estado);
-    if (foto) formData.append('foto', foto);
     formData.append('sucursal', sucursalSeleccionada);
-    for (let pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
+    if (fotoFile) {
+      formData.append('imagen', fotoFile);
     }
 
     try {
-      const token = localStorage.getItem('token');
-      console.log(formData)
       const response = await fetch('http://localhost:8080/auto/actualizar', {
         method: 'PUT',
-        body: formData,  // enviar directamente el FormData
+        body: formData,
         headers: {
-          'Authorization': `Bearer ${token}` // solo el token, no Content-Type
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -176,105 +115,67 @@ function ActualizarVehiculo() {
 
   return (
     <>
-      <button onClick={handleVolver}> volver </button>  
+      <button onClick={handleVolver}>Volver</button>
       <div style={{ maxWidth: 400, margin: '40px auto', padding: 20, border: '1px solid #ccc', borderRadius: 8 }}>
         <h2 style={{ textAlign: 'center', marginBottom: 20 }}>Actualizar Vehículo</h2>
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <label style={{ fontWeight: 'bold' }}>
+
+          <label>
             Precio por día:
-            <input
-              type="number"
-              value={precioPorDia}
-              onChange={(e) => setPrecioPorDia(e.target.value)}
-              required
-              min={0}
-              step="0.01"
-              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-            />
+            <input type="number" value={precioPorDia} onChange={(e) => setPrecioPorDia(e.target.value)} required min={0} step="0.01" />
           </label>
 
-          <label style={{ fontWeight: 'bold' }}>
+          <label>
             Estado:
-            <select
-              value={estado}
-              onChange={(e) => setEstado(e.target.value)}
-              required
-              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-            >
+            <select value={estado} onChange={(e) => setEstado(e.target.value)} required>
               <option value="">Seleccione un estado</option>
-              {estados.map((e) => (
-                <option key={e}>
-                  {e}
-                </option>
-              ))}
+              {estados.map(e => <option key={e}>{e}</option>)}
             </select>
           </label>
 
-          <label style={{ fontWeight: 'bold' }}>
-            Categoria:
-            <select
-              value={tipoCategoria}
-              onChange={(e) => setTipoCategoria(e.target.value)}
-              required
-              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-            >
-              <option value="">Seleccione una categoria</option>
-              {categorias.map((c) => (
-                <option key={c}>
-                  {c}
-                </option>
-              ))}
+          <label>
+            Categoría:
+            <select value={tipoCategoria} onChange={(e) => setTipoCategoria(e.target.value)} required>
+              <option value="">Seleccione una categoría</option>
+              {categorias.map(c => <option key={c}>{c}</option>)}
             </select>
           </label>
 
-          <label style={{ fontWeight: 'bold' }}>
+          <label>
             Tipo de reembolso:
-            <select
-              value={tipoReembolso}
-              onChange={(e) => setTipoReembolso(e.target.value)}
-              required
-              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-            >
+            <select value={tipoReembolso} onChange={(e) => setTipoReembolso(e.target.value)} required>
               <option value="">Seleccione tipo de reembolso</option>
-              <option value="COMPLETO">COMPLETO</option>
-              <option value="PARCIAL">PARCIAL</option>
-              <option value="SIN_REMBOLSO">SIN_REMBOLSO</option>
+              {rembolso.map(r => <option key={r}>{r}</option>)}
             </select>
           </label>
 
-          <label style={{ fontWeight: 'bold' }}>
+          <label>
             Foto del vehículo (opcional):
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => setFoto(e.target.files[0])}
-              style={{ marginTop: 5 }}
-            />
+            <div>
+              {fotoUrl && (
+                <>
+                  <img src={fotoUrl} alt="Vista previa" style={{ maxWidth: '100%', maxHeight: 200 }} />
+                </>
+              )}
+            </div>
+            <input type="file" accept="image/*" onChange={(e) => {
+              const file = e.target.files[0];
+              if (file) {
+                setFotoFile(file);
+                setFotoUrl(URL.createObjectURL(file));
+              }
+            }} />
           </label>
 
-          <label style={{ fontWeight: 'bold' }}>
+          <label>
             Sucursal:
-            <select
-              value={sucursalSeleccionada}
-              onChange={(e) => setSucursalSeleccionada(e.target.value)}
-              required
-              style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-            >
+            <select value={sucursalSeleccionada} onChange={(e) => setSucursalSeleccionada(e.target.value)} required>
               <option value="">Seleccione una sucursal</option>
-              {sucursales.map((s) => (
-                <option key={s}>
-                  {s}
-                </option>
-              ))}
+              {sucursales.map(s => <option key={s}>{s}</option>)}
             </select>
           </label>
 
-          <button
-            type="submit"
-            style={{ padding: 10, borderRadius: 4, backgroundColor: '#b22222', color: 'white', border: 'none', cursor: 'pointer' }}
-          >
-            Confirmar Actualización
-          </button>
+          <button type="submit" style={{ padding: 10, backgroundColor: '#b22222', color: 'white', border: 'none', borderRadius: 4 }}>Confirmar Actualización</button>
         </form>
       </div>
     </>

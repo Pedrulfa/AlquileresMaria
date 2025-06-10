@@ -10,15 +10,14 @@ export default function SeleccionarAuto() {
   const [autosDisponibles, setAutosDisponibles] = useState([]);
   const [formData, setFormData] = useState({});
   const [autosFiltrados, setAutosFiltrados] = useState([]);
-  const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const token = localStorage.getItem("token")
 
  const [filtro, setFiltro] = useState({
     marca: '',
     capacidad: '',
     categoria: '',
-    precioMin: 10000,
-    precioMax: 25000
+    precioMin: 0,
+    precioMax: 10000
   });
 
   const quitarFiltro = () =>{
@@ -26,18 +25,18 @@ export default function SeleccionarAuto() {
     marca: '',
     capacidad: '',
     categoria: '',
-    precioMin: 10000,
-    precioMax: 25000
+    precioMin: 0,
+    precioMax: 10000
     });
     setAutosFiltrados(autosDisponibles); // muestra todos los autos
   };
 
-  const aplicarFiltro = () => {
+    const aplicarFiltro = () => {
     const resultado = autosDisponibles.filter(auto => {
       const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
       const coincideCapacidad = filtro.capacidad === '' || auto.capacidad === parseInt(filtro.capacidad);
       const coincideCategoria = filtro.categoria === '' || auto.categoria.toLowerCase().includes(filtro.categoria.toLowerCase());
-      const coincidePrecio = auto.precio >= filtro.precioMin && auto.precio <= filtro.precioMax;
+      const coincidePrecio = auto.precioPorDia >= filtro.precioMin && auto.precioPorDia <= filtro.precioMax;
       return coincideMarca && coincideCapacidad && coincideCategoria && coincidePrecio;
     });
     setAutosFiltrados(resultado);
@@ -72,6 +71,7 @@ const FiltrarAutos = async () => {
     const autos = await response.json();
     setAutosDisponibles(autos);
     setAutosFiltrados(autos);
+    console.log(autosDisponibles)
   } catch (error) {
     console.error("Error al enviar:", error);
     alert("Ocurrió un error al buscar autos disponibles ❌");
@@ -91,26 +91,13 @@ useEffect(() => {
     console.log(auto)
   }
 
-  console.log('xd')
-  console.log(localStorage.getItem("alquiler"))
-
   return(
         <>
           <div>  
               <DatosAlquiler datos={JSON.parse(localStorage.getItem("alquiler"))} />
           </div>
-          <div className="text-center my-4">
-            <button
-              className="btn btn-outline-light"
-              onClick={() => setMostrarFiltros(!mostrarFiltros)}
-            >
-              {mostrarFiltros ? 'Ocultar filtros' : 'Filtrar 🔍'}
-            </button>
-          </div>
           <div>
-            {mostrarFiltros && (
-            <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro}/>
-            )}
+            <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro} auto={autosDisponibles}/>
           </div>
           <div className="container-fluid bg-dark text-light py-4">
             {autosFiltrados.length === 0 ? (

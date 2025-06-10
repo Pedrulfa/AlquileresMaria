@@ -14,8 +14,8 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
                 className="vehiculo-card"
                 onClick={() => setAutoModal(auto)}
                 style={{ cursor: 'pointer' }}>
-                {auto.imagen ? (
-                <img src={auto.imagen} alt="Vehículo" className="vehiculo-img" />
+                {auto.endpointImagen ? (
+                <img src={`http://localhost:8080/auto/get/imagen?patente=${auto.patente}`} alt="Vehículo" className="vehiculo-img" />
                 ) : (
                 <div className="vehiculo-img sin-imagen">Sin imagen</div>
                 )}
@@ -45,9 +45,9 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
                 <Modal.Title>{autoModal.marca} - {autoModal.patente}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                {autoModal.imagen && (
+                {autoModal.endpointImagen && (
                     <img
-                    src={autoModal.imagen}
+                    src={`http://localhost:8080/auto/get/imagen?patente=${autoModal.patente}`}
                     alt="Imagen del auto"
                     style={{
                         width: "100%",

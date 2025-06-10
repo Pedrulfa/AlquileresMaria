@@ -53,6 +53,7 @@ export default function SeleccionarConductor() {
         if (!response.ok) {
           const errorText = await response.text();
           console.error("Error del servidor:", errorText);
+          window.alert(errorText)
           return; // ❌ no redirijas si hubo error
         }
 

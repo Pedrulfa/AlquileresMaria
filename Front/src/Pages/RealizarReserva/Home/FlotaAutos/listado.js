@@ -8,6 +8,7 @@ function ListadoVehiculos({ vehiculos }) {
   const navigate = useNavigate();  // Hook para navegar
   if (!vehiculos || vehiculos.length === 0) return <p>No hay vehículos disponibles.</p>;
 
+  console.log(vehiculos)
   // Función para dividir el array en grupos de 3
   const chunkArray = (array, chunkSize) => {
     const chunks = [];
@@ -16,6 +17,7 @@ function ListadoVehiculos({ vehiculos }) {
     }
     return chunks;
   };
+
 
   const grupos = chunkArray(vehiculos, 3);
 
@@ -53,7 +55,7 @@ function ListadoVehiculos({ vehiculos }) {
               <div className="d-flex justify-content-around ">
                 {grupo.map((auto) => (
                   <div
-                    key={auto.id}
+                    key={auto.patente} 
                     className="card"
                       style={{
                             width: "30%",     // Más ancha que antes (de 19% a 22%)
@@ -63,9 +65,9 @@ function ListadoVehiculos({ vehiculos }) {
                             cursor: 'pointer',
                           }}onClick={() => handleCardClick(auto)}
                   >
-                    {auto.imagen ? (
+                    {auto.endpointImagen ? (
                       <img
-                        src={auto.imagen}
+                        src={`http://localhost:8080/auto/get/imagen?patente=${auto.patente}`}
                         className="card-img-top"
                         alt={`Imagen de ${auto.marca}`}
                         style={{
@@ -137,9 +139,9 @@ function ListadoVehiculos({ vehiculos }) {
           <Modal.Title>{autoSeleccionado.marca} - {autoSeleccionado.patente}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {autoSeleccionado.imagen && (
+          {autoSeleccionado.endpointImagen && (
             <img
-              src={autoSeleccionado.imagen}
+              src={`http://localhost:8080/auto/get/imagen?patente=${autoSeleccionado.patente}`}
               alt="Imagen del auto"
               style={{ width: "100%", height: "200px", objectFit: "cover", marginBottom: "1rem" }}
             />
@@ -149,8 +151,8 @@ function ListadoVehiculos({ vehiculos }) {
           <p><strong>Precio:</strong> ${autoSeleccionado.precioPorDia}</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={consultarAuto}>
-            Consultar Disponibilidad
+          <Button variant="secondary" onClick={cerrarModal}>
+            Cerrar
           </Button>
         </Modal.Footer>
       </Modal>

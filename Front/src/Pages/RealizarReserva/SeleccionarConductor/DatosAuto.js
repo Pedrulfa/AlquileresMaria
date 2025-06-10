@@ -6,11 +6,11 @@ export default function ResumenAutoAlquiler({ auto, alquiler, dias, precioTotal 
       <p className="text-muted">
         Categoría {auto?.categoria}
       </p>
-      <p className="text-danger">🔒 Garantía (agregar el reembolso)</p>
+      <p className="text-danger">🔒 Garantía {auto?.rembolso}</p>
 
-      {auto?.imagen && (
+      {auto?.endpointImagen && (
         <img
-          src={auto.imagen}
+          src={`http://localhost:8080/auto/get/imagen?patente=${auto.patente}`}
           className="img-fluid my-3"
           style={{ maxHeight: "180px", objectFit: "contain" }}
           alt="Imagen del auto"

@@ -10,13 +10,12 @@ export default function Home() {
   const [formData, setFormData] = useState(null);
   const [autos, setAutos] = useState([]);
   const [autosFiltrados, setAutosFiltrados] = useState([]);
-  const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [filtro, setFiltro] = useState({
     marca: '',
     capacidad: '',
     categoria: '',
-    precioMin: 10000,
-    precioMax: 25000
+    precioMin: 0,
+    precioMax: 10000
   });
 
 
@@ -38,8 +37,8 @@ export default function Home() {
     marca: '',
     capacidad: '',
     categoria: '',
-    precioMin: 10000,
-    precioMax: 25000
+    precioMin: 0,
+    precioMax: 10000
     });
     setAutosFiltrados(autos); // muestra todos los autos
   };
@@ -91,18 +90,8 @@ export default function Home() {
       <div>
         <h1 className="mi-titulo text-center mt-5">Nuestra flota</h1>
       </div>
-      <div className="text-center my-4">
-        <button
-          className="btn btn-outline-light"
-          onClick={() => setMostrarFiltros(!mostrarFiltros)}
-        >
-          {mostrarFiltros ? 'Ocultar filtros' : 'Filtrar 🔍'}
-        </button>
-      </div>
       <div>
-        {mostrarFiltros && (
-        <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro}/>
-        )}
+        <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro} auto={autos}/>
       </div>
       {/* 🔽 Listado filtrado */}
       <div className="container mt-5">

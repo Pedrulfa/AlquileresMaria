@@ -48,12 +48,18 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
         {vehiculos.map((auto) => (
        <div key={auto.patente} className="vehiculo-card">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            {auto.imagen ? (
-            <img src={auto.imagen} alt="Vehículo" className="vehiculo-img" />
+            {auto.endpointImagen ? (
+            <img src={`http://localhost:8080/auto/get/imagen?patente=${auto.patente}`} alt="Vehículo" className="vehiculo-img" />
             ) : (
             <div className="vehiculo-img sin-imagen">Sin imagen</div>
             )}
+        </div>
 
+        <div className="vehiculo-body">
+            <h5>{auto.marca} - {auto.patente}</h5>
+            <p>Categoría: {auto.categoria}</p>
+            <p>Capacidad: {auto.capacidad} personas</p>
+            <p className="card-text mb-0">Precio: ${auto.precioPorDia} / día</p>
             <div style={{ position: 'relative', marginLeft: '10px' }}>
             <button
                 className="btn btn-seleccionar"
@@ -71,13 +77,6 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
               Eliminar
             </button>
             </div>
-        </div>
-
-        <div className="vehiculo-body">
-            <h5>{auto.marca} - {auto.patente}</h5>
-            <p>Categoría: {auto.categoria}</p>
-            <p>Capacidad: {auto.capacidad} personas</p>
-            <p className="card-text mb-0">Precio: ${auto.precioPorDia} / día</p>
         </div>
         </div>
         ))}
