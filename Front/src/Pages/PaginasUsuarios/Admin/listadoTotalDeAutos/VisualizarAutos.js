@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import VehiculosDisponibles from "./listado.js";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Filtrado from "../../../RealizarReserva/FlotaAutos/filtrado"
 
 export default function VerAutos() {
   const [autosDisponibles, setAutosDisponibles] = useState([]);
@@ -9,6 +10,37 @@ export default function VerAutos() {
   const sucursal = location.state?.sucursal;
   const navigate = useNavigate()
   console.log(sucursal)
+
+    const [filtro, setFiltro] = useState({
+      marca: '',
+      capacidad: '',
+      categoria: '',
+      precioMin: 0,
+      precioMax: 10000
+    });
+  
+  
+    const aplicarFiltro = () => {
+      const resultado = autosDisponibles.filter(auto => {
+        const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
+        const coincideCapacidad = filtro.capacidad === '' || auto.capacidad === parseInt(filtro.capacidad);
+        const coincideCategoria = filtro.categoria === '' || auto.categoria.toLowerCase().includes(filtro.categoria.toLowerCase());
+        const coincidePrecio = auto.precioPorDia >= filtro.precioMin && auto.precioPorDia <= filtro.precioMax;
+        return coincideMarca && coincideCapacidad && coincideCategoria && coincidePrecio;
+      });
+      setAutosFiltrados(resultado);
+    };
+  
+    const quitarFiltro = () =>{
+      setFiltro({
+      marca: '',
+      capacidad: '',
+      categoria: '',
+      precioMin: 0,
+      precioMax: 10000
+      });
+      setAutosFiltrados(autos); // muestra todos los autos
+    };
 
     useEffect(() => {
 
@@ -44,7 +76,10 @@ export default function VerAutos() {
   return (
     <>
       <button onClick={handleVolver}> volver </button> 
-      <button onClick={handleAgregar}> Agregar auto </button> 
+      <button onClick={handleAgregar}> Agregar auto </button>
+      <div>
+        <Filtrado filtro={filtro} setFiltro={setFiltro} onFiltrar={aplicarFiltro} onDesfiltrar={quitarFiltro} auto={autosDisponibles}/>
+      </div>
       <div className="container-fluid bg-dark text-light py-4">
         <VehiculosDisponibles
           vehiculos={autosDisponibles}
