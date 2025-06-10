@@ -146,8 +146,7 @@ function ListadoVehiculos({ vehiculos }) {
           )}
           <p><strong>Categoría:</strong> {autoSeleccionado.categoria}</p>
           <p><strong>Capacidad:</strong> {autoSeleccionado.capacidad} personas</p>
-          <p><strong>Precio:</strong> ${autoSeleccionado.precio}</p>
-          <p><strong>Descripción:</strong> {autoSeleccionado.descripcion || "No disponible"}</p>
+          <p><strong>Precio:</strong> ${autoSeleccionado.precioPorDia}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={consultarAuto}>
