@@ -18,7 +18,7 @@ export default function Home() {
     precioMax: 10000
   });
 
-
+  
   localStorage.removeItem("alquiler");
 
   const aplicarFiltro = () => {
