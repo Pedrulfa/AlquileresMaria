@@ -32,6 +32,7 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
         }
 
         alert("Vehículo eliminado correctamente.");
+        window.location.reload();
 
         if (onSubmit) onSubmit(patente);  // Notifico al padre para que actualice la lista
 
