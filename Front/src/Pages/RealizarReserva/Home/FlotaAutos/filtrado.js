@@ -4,7 +4,7 @@ import "./filtrado.css"
 function Filtrado({ filtro, setFiltro, onFiltrar, onDesfiltrar, auto}) {
 
   const minPrecio = 0;
-  const maxPrecio = 10000;
+  const maxPrecio = 20000;
 
   const precioMin = filtro.precioMin ?? minPrecio;
   const precioMax = filtro.precioMax ?? maxPrecio;
@@ -106,7 +106,7 @@ function Filtrado({ filtro, setFiltro, onFiltrar, onDesfiltrar, auto}) {
               type="range"
               min={minPrecio}
               max={maxPrecio}
-              step={500}
+              step={100}
               value={precioMax}
               onChange={handleMaxChange}
               className="slider slider-max"
