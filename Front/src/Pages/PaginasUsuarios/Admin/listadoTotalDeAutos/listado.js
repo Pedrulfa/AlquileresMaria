@@ -28,17 +28,16 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
 
         if (!response.ok) {
           const errorText = await response.text();
-          throw new Error(`Error al eliminar: ${errorText}`);
+          throw new Error(errorText);
         }
 
         alert("Vehículo eliminado correctamente.");
         window.location.reload();
 
-        if (onSubmit) onSubmit(patente);  // Notifico al padre para que actualice la lista
+        if (onSubmit) onSubmit(patente);  
 
       } catch (error) {
-        console.error(error);
-        alert("Hubo un error al eliminar el vehículo.");
+        alert(error);
       }
     };
 
@@ -84,32 +83,5 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
     </>
   );
 }
-
-// Estilos
-const botonMenu = {
-  padding: '12px 20px',
-  width: '100%',
-  background: 'transparent',
-  border: 'none',
-  textAlign: 'left',
-  cursor: 'pointer',
-  color: 'white',
-  fontWeight: 'bold',
-  borderBottom: '1px solid #333',
-  fontSize: '14px',
-};
-
-const estilosMenu = {
-  position: 'absolute',
-  top: '100%',
-  right: 0,
-  marginTop: 5,
-  backgroundColor: '#1c1c1c',
-  border: '1px solid #b22222',
-  borderRadius: 6,
-  boxShadow: '0 4px 8px rgba(0,0,0,0.3)',
-  zIndex: 9999,
-  minWidth: 200
-};
 
 export default VehiculosDisponibles;

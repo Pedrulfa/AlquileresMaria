@@ -40,11 +40,11 @@ const Registrarse = () => {
       });
 
       if (response.ok) {
-        alert('Cliente registrado con éxito');
+        alert('Registrado con exito');
         navigate('/iniciar-sesion');
       } else {
         const errorText = await response.text();
-        alert('Error al registrar: ' + errorText);
+        alert(errorText);
       }
     } catch (error) {
       console.error('Error en la conexión:', error);
@@ -123,7 +123,6 @@ const Registrarse = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               style={{ padding: 8, marginTop: 5, borderRadius: 4, border: '1px solid #ccc' }}
-              minLength={6}
             />
           </label>
           <button

@@ -10,7 +10,7 @@ const ResultadoPago = () => {
     const paymentId = searchParams.get("payment_id");
 
     if (!status || status === "null" || !paymentId || paymentId === "null") {
-      setMensaje("⏳ Tu pago está pendiente. Tienes 15 minutos para completar el pago.");
+      setMensaje("⏳ Tu pago está pendiente");
       return;
     }
     switch (status) {
