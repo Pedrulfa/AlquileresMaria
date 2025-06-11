@@ -8,6 +8,16 @@ export default function VerReserva( {reserva,eliminarReserva}) {
     const navigate = useNavigate()
     console.log(reserva)
 
+    const futura = () => {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0); // normalizamos hora
+
+      const desde = new Date(fechas.fechaDesde); // aseguramos que es un Date
+      desde.setHours(0, 0, 0, 0);
+
+      return desde > hoy;
+    };
+
     const handleCancelarReserva = async () => {
       const token = localStorage.getItem("token");
       console.log(token)
@@ -61,9 +71,11 @@ export default function VerReserva( {reserva,eliminarReserva}) {
         <h3> AUTO </h3>
         < DatosAuto auto={auto} />
       </div>
-      <button onClick={handleCancelarReserva}>
+      {futura() && (
+        <button onClick={handleCancelarReserva}>
           Cancelar reserva
-      </button>
+        </button>
+      )}
     </div>
   );
 }

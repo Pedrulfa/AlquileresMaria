@@ -9,7 +9,7 @@ function VehiculosDisponibles({ vehiculos, onSubmit }) {
   const [mostrarMenu, setMostrarMenu] = useState(null);
   const [vistaActual, setVistaActual] = useState('inicio');
   const navigate = useNavigate();
-
+  if (!vehiculos || vehiculos.length === 0) return <p>No hay vehículos disponibles.</p>;
 
   const eliminar = async (patente) => {
       const confirmado = window.confirm(`¿Eliminar el vehículo con patente ${patente}?`);

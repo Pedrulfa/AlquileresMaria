@@ -19,7 +19,7 @@ export default function VerAutos() {
       precioMin: 0,
       precioMax: 10000
     });
-  
+
     const aplicarFiltro = () => {
       const resultado = autosDisponibles.filter(auto => {
         const coincideMarca = filtro.marca === '' || auto.marca.toLowerCase().includes(filtro.marca.toLowerCase());
@@ -39,7 +39,7 @@ export default function VerAutos() {
       precioMin: 0,
       precioMax: 10000
       });
-      setAutosFiltrados(setAutosDisponibles); // muestra todos los autos
+      setAutosFiltrados(autosDisponibles); // muestra todos los autos
     };
 
     useEffect(() => {
