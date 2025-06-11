@@ -107,6 +107,11 @@ export default function SeleccionarConductor() {
 
   const handleFormSubmit = (conductor) => {
     console.log("🟢 handleFormSubmit ejecutado con:", conductor);
+
+    if (conductor.dni.length < 8 || conductor.dni.length > 9) {
+      alert('El DNI debe tener entre 8 y 9 caracteres');
+      return;
+    }
     
     const updatedAlquiler = {
       ...alquilerActual,
