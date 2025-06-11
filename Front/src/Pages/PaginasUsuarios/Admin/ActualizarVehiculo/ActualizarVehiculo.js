@@ -122,7 +122,19 @@ function ActualizarVehiculo() {
 
           <label>
             Precio por día:
-            <input type="number" value={precioPorDia} onChange={(e) => setPrecioPorDia(e.target.value)} required min={0} step="0.01" />
+            <input
+                  type="number"
+                  value={precioPorDia}
+                  onChange={(e) => {
+                    const value = Number(e.target.value);
+                    if (value < 0) {
+                      alert("El precio no puede ser negativo");
+                      return; // no actualiza el estado si es negativo
+                    }
+                    setPrecioPorDia(value);
+                  }}
+                  step="1"
+                />
           </label>
 
           <label>

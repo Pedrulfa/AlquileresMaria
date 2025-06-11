@@ -12,6 +12,9 @@ const RecuperarContrasena = () => {
        if (response.ok) {
         const data = await response.text();
         alert(data);
+      }else {
+        const errorText = await response.text();
+        alert(errorText);
       }
     }catch (error) {
           console.log('Error cargando datos:', error);

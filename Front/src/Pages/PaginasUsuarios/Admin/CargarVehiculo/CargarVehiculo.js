@@ -142,8 +142,8 @@ function CargarVehiculo() {
         setSucursalSeleccionada(sucursal);
         e.target.reset(); // limpia el input file
       } else {
-        const errorData = await response.json();
-        alert(`Error al cargar: ${errorData.message || 'Error desconocido'}`);
+        const errorText = await response.text();
+        alert(errorText);
       }
     } catch (error) {
       alert('Error al conectar con el servidor');
