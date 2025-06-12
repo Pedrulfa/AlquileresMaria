@@ -59,16 +59,17 @@ const IniciarSesion = () => {
                 if (tieneExcedente > 0) {
                   navigate('/pagarExcedente', { state: { excedente: tieneExcedente } });
                 } else {
-                  navigate('/cliente');
+                  const destino = localStorage.getItem("redirectAfterLogin");
+                  if (destino) {
+                    localStorage.removeItem("redirectAfterLogin");
+                    navigate(destino);
+                  }
+                  else{
+                    navigate('/cliente');
+                  }
                 }
               } else {
                 alert('Error al pedir el excedente');
-              }
-
-              const destino = localStorage.getItem("redirectAfterLogin");
-              if (destino) {
-                localStorage.removeItem("redirectAfterLogin");
-                navigate(destino);
               }
               break;
 

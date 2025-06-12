@@ -24,7 +24,7 @@ import Empleado from './Pages/PaginasUsuarios/Empleado/InicioEmpleado.js';
 import Cliente from './Pages/PaginasUsuarios/Cliente/InicioCliente.js';
 import Perfil from './Pages/MiPerfil/MiPerfil.js';
 import PagarExcedente from './Pages/PaginasUsuarios/Cliente/PagarExcedente/PagarExcedente.js';
-
+import ResultadoPagoMulta from './Pages/PaginasUsuarios/Cliente/Pago/resultadoPago.js';
 
 
 
@@ -73,6 +73,7 @@ function App() {
 
         <Route path="/cliente" element={<Cliente />} />
         <Route path="/pagarExcedente" element={<PagarExcedente />} />
+        <Route path="/resultadoPagoMulta" element={<ResultadoPagoMulta/>} />
 
         {/*Pongo todas las rutas acá porque sino no me funciona el navigate*/}
         <Route path="/perfil" element={<Perfil />} />

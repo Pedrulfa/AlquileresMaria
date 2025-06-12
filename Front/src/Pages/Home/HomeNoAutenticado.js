@@ -1,9 +1,12 @@
-import React from "react";
+import { useEffect } from "react";
 import RealizarReserva from '../RealizarReserva/Home/Home.js';
 
-function Home(){
+function Home() {
+  useEffect(() => {
+    localStorage.clear();
+  }, []); 
 
-    return (<RealizarReserva/>);
+  return <RealizarReserva />;
 }
 
 export default Home;

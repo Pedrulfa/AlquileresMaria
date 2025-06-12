@@ -12,9 +12,9 @@ const PagarExcedente = () => {
   const Pagar = async () => {
     const payload = {
       titulo: "Pago de excedente",
-      successUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago",
-      failureUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago",
-      pendingUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/RealizarReserva/pago/resultadoPago"
+      successUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/resultadoPagoMulta",
+      failureUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/resultadoPagoMulta",
+      pendingUrl: "https://fvx4qwgh-3000.brs.devtunnels.ms/resultadoPagoMulta"
     };
 
     try {
@@ -43,7 +43,7 @@ const PagarExcedente = () => {
   };
 
   const CerrarSesion = (e) => {
-    e.preventDefault();
+    localStorage.clear();
     navigate('/');
   };
 

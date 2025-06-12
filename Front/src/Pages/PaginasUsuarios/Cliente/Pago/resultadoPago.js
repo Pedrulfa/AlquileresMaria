@@ -30,7 +30,8 @@ const ResultadoPago = () => {
         <button
           className="btn btn-primary mt-3"
           onClick={() => {
-            window.location.href = "http://localhost:3000/cliente?collection_id=null&collection_status=null&payment_id=null&status=null&external_reference=13&payment_type=null&merchant_order_id=null&preference_id=2454892997-c15682fb-b006-4118-bf59-e96c185cb7ac&site_id=MLA&processing_mode=aggregator&merchant_account_id=null";
+            localStorage.clear();
+            window.location.href = "http://localhost:3000/";
             }}
             >
             Volver al inicio
